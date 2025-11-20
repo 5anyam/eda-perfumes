@@ -322,7 +322,7 @@ export default function Checkout(): React.ReactElement {
   const handlePaymentSuccess = async (wooOrder: WooCommerceOrder, response: RazorpayHandlerResponse): Promise<void> => {
     try {
       await updateWooCommerceOrderStatus(wooOrder.id, 'processing', response);
-
+  
       const orderItems: CartItem[] = items.map(item => ({
         id: item.id, 
         name: item.name, 
@@ -330,64 +330,96 @@ export default function Checkout(): React.ReactElement {
         quantity: item.quantity
       }));
       trackPurchase(orderItems, finalTotal, response.razorpay_payment_id);
-
+  
       clear();
-
+  
       toast({
         title: "Payment Successful",
-        description: `Order #${wooOrder.id} confirmed. You'll receive updates via WhatsApp.`,
+        description: `Order #${wooOrder.id} confirmed. Redirecting...`,
       });
-
-      router.push(`/order-confirmation?orderId=${response.razorpay_payment_id}&wcOrderId=${wooOrder.id}`);
-
-    } catch {
+  
+      // Redirect to order confirmation page
+      setTimeout(() => {
+        router.push(`/order-confirmation?orderId=${response.razorpay_payment_id}&wcOrderId=${wooOrder.id}`);
+      }, 1000);
+  
+    } catch (error) {
+      console.error('Error updating order:', error);
       toast({
         title: "Payment Completed",
         description: "Your payment was successful. We'll contact you soon.",
       });
+      
+      // Still redirect even if update fails
+      setTimeout(() => {
+        router.push(`/order-confirmation?orderId=${response.razorpay_payment_id}&wcOrderId=${wooOrder.id}`);
+      }, 2000);
     } finally {
       setLoading(false);
       setStep("form");
     }
   };
 
+
   const handlePaymentFailure = async (wooOrder: WooCommerceOrder | null, response: RazorpayFailureResponse): Promise<void> => {
-    if (wooOrder?.id) {
-      try {
-        await updateWooCommerceOrderStatus(wooOrder.id, 'failed');
-      } catch {
-        // Silently handle error
-      }
+  if (wooOrder?.id) {
+    try {
+      await updateWooCommerceOrderStatus(wooOrder.id, 'failed');
+    } catch {
+      // Silently handle error
     }
+  }
 
-    toast({
-      title: "Payment Failed",
-      description: response?.error?.description || "Payment was not successful. Please try again.",
-      variant: "destructive",
+  const errorMessage = response?.error?.description || "Payment was not successful";
+  
+  toast({
+    title: "Payment Failed",
+    description: errorMessage,
+    variant: "destructive",
+  });
+
+  setLoading(false);
+  setStep("form");
+
+  // Redirect to payment failed page with details
+  setTimeout(() => {
+    const params = new URLSearchParams({
+      error: errorMessage,
+      ...(wooOrder?.id && { wcOrderId: wooOrder.id.toString() }),
+      amount: finalTotal.toFixed(2)
     });
+    router.push(`/payment-failed?${params.toString()}`);
+  }, 1500);
+};
 
-    setLoading(false);
-    setStep("form");
-  };
-
-  const handlePaymentDismiss = async (wooOrder: WooCommerceOrder | null): Promise<void> => {
-    if (wooOrder?.id) {
-      try {
-        await updateWooCommerceOrderStatus(wooOrder.id, 'cancelled');
-      } catch {
-        // Silently handle error
-      }
+const handlePaymentDismiss = async (wooOrder: WooCommerceOrder | null): Promise<void> => {
+  if (wooOrder?.id) {
+    try {
+      await updateWooCommerceOrderStatus(wooOrder.id, 'cancelled');
+    } catch {
+      // Silently handle error
     }
+  }
 
-    toast({
-      title: "Payment Cancelled",
-      description: "You cancelled the payment process",
-      variant: "destructive",
+  toast({
+    title: "Payment Cancelled",
+    description: "You cancelled the payment process",
+    variant: "destructive",
+  });
+
+  setLoading(false);
+  setStep("form");
+
+  // Redirect to payment failed page
+  setTimeout(() => {
+    const params = new URLSearchParams({
+      error: "Payment was cancelled by user",
+      ...(wooOrder?.id && { wcOrderId: wooOrder.id.toString() }),
+      amount: finalTotal.toFixed(2)
     });
-
-    setLoading(false);
-    setStep("form");
-  };
+    router.push(`/payment-failed?${params.toString()}`);
+  }, 1500);
+};
 
   async function handleCheckout(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
