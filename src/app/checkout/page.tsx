@@ -201,11 +201,11 @@ export default function Checkout(): React.ReactElement {
 
   const validateCoupon = (code: string): { valid: boolean; discount: number; message: string } => {
     const upperCode = code.toUpperCase().trim();
-    if (upperCode === "FIRST30") {
-      if (total >= 1000) {
-        return { valid: true, discount: Math.round(total * 0.3), message: "30% discount applied" };
+    if (upperCode === "FIRST10") {
+      if (total >= 499) {
+        return { valid: true, discount: Math.round(total * 0.3), message: "10% discount applied" };
       } else {
-        return { valid: false, discount: 0, message: "Minimum order ₹1000 required for FIRST30" };
+        return { valid: false, discount: 0, message: "Minimum order ₹499 required for FIRST10" };
       }
     }
     if (upperCode === "WELCOME100") {
