@@ -20,6 +20,12 @@ const RAZORPAY_CONFIG = {
   THEME_COLOR: "#000000"
 };
 
+// Bulk pricing configuration
+const BULK_PRICING = {
+  QUANTITY: 4,
+  PRICE: 1000,
+};
+
 interface FormData {
   name: string;
   email: string;
@@ -166,7 +172,42 @@ export default function Checkout(): React.ReactElement {
 
   const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
 
-  const total = items.reduce((sum, i) => sum + parseFloat(i.price) * i.quantity, 0);
+  // Calculate bulk pricing
+  const calculatePricing = () => {
+    let subtotal = 0;
+    let bulkDiscount = 0;
+    const itemsWithBulk: Array<{ item: typeof items[0]; hasBulk: boolean; originalPrice: number; discountedPrice: number }> = [];
+
+    items.forEach((item) => {
+      const itemTotal = parseFloat(item.price) * item.quantity;
+      const isBulkEligible = item.quantity >= BULK_PRICING.QUANTITY;
+      
+      if (isBulkEligible) {
+        // Apply bulk pricing
+        const discountedPrice = BULK_PRICING.PRICE;
+        bulkDiscount += itemTotal - discountedPrice;
+        itemsWithBulk.push({
+          item,
+          hasBulk: true,
+          originalPrice: itemTotal,
+          discountedPrice
+        });
+        subtotal += discountedPrice;
+      } else {
+        itemsWithBulk.push({
+          item,
+          hasBulk: false,
+          originalPrice: itemTotal,
+          discountedPrice: itemTotal
+        });
+        subtotal += itemTotal;
+      }
+    });
+
+    return { subtotal, bulkDiscount, itemsWithBulk };
+  };
+
+  const { subtotal: total, bulkDiscount, itemsWithBulk } = calculatePricing();
   const deliveryCharges = total >= 500 ? 0 : 50;
 
   const [couponCode, setCouponCode] = useState<string>("");
@@ -205,7 +246,7 @@ export default function Checkout(): React.ReactElement {
       if (total >= 499) {
         return { 
           valid: true, 
-          discount: Math.round(total * 0.1),  // ✅ 10% = 0.1 (fixed from 0.3)
+          discount: Math.round(total * 0.1),
           message: "10% discount applied" 
         };
       } else {
@@ -356,10 +397,19 @@ export default function Checkout(): React.ReactElement {
           postcode: form.pincode,
           country: 'IN',
         },
-        line_items: items.map((item) => ({
-          product_id: parseInt(String(item.id), 10),
-          quantity: item.quantity,
-        })),
+        line_items: items.map((item) => {
+          const bulkItem = itemsWithBulk.find(b => b.item.id === item.id);
+          const pricePerUnit = bulkItem?.hasBulk 
+            ? (BULK_PRICING.PRICE / item.quantity) 
+            : parseFloat(item.price);
+          
+          return {
+            product_id: parseInt(String(item.id), 10),
+            quantity: item.quantity,
+            subtotal: (pricePerUnit * item.quantity).toString(),
+            total: (pricePerUnit * item.quantity).toString(),
+          };
+        }),
         shipping_lines: deliveryCharges > 0 ? [{
           method_id: 'flat_rate',
           method_title: 'Premium Delivery',
@@ -372,11 +422,13 @@ export default function Checkout(): React.ReactElement {
         customer_note: form.notes + (form.notes ? '\n\n' : '') + 
           `WhatsApp: ${form.whatsapp}\n` +
           `Full Address: ${fullAddress}` +
+          (bulkDiscount > 0 ? `\nBulk Discount Applied: ₹${bulkDiscount.toFixed(2)}` : '') +
           (appliedCoupon ? `\nCoupon Applied: ${appliedCoupon} (₹${couponDiscount} discount)` : ''),
         meta_data: [
           { key: 'whatsapp_number', value: form.whatsapp },
           { key: 'full_address', value: fullAddress },
-          { key: 'original_subtotal', value: total.toString() },
+          { key: 'original_subtotal', value: (total + bulkDiscount).toFixed(2) },
+          { key: 'bulk_discount', value: bulkDiscount.toFixed(2) },
           { key: 'delivery_charges', value: deliveryCharges.toString() },
           { key: 'final_total', value: finalTotal.toString() },
           { key: 'payment_method', value: 'cod' },
@@ -577,10 +629,19 @@ export default function Checkout(): React.ReactElement {
           postcode: form.pincode,
           country: 'IN',
         },
-        line_items: items.map((item) => ({
-          product_id: parseInt(String(item.id), 10),
-          quantity: item.quantity,
-        })),
+        line_items: items.map((item) => {
+          const bulkItem = itemsWithBulk.find(b => b.item.id === item.id);
+          const pricePerUnit = bulkItem?.hasBulk 
+            ? (BULK_PRICING.PRICE / item.quantity) 
+            : parseFloat(item.price);
+          
+          return {
+            product_id: parseInt(String(item.id), 10),
+            quantity: item.quantity,
+            subtotal: (pricePerUnit * item.quantity).toString(),
+            total: (pricePerUnit * item.quantity).toString(),
+          };
+        }),
         shipping_lines: deliveryCharges > 0 ? [{
           method_id: 'flat_rate',
           method_title: 'Premium Delivery',
@@ -593,11 +654,13 @@ export default function Checkout(): React.ReactElement {
         customer_note: form.notes + (form.notes ? '\n\n' : '') + 
           `WhatsApp: ${form.whatsapp}\n` +
           `Full Address: ${fullAddress}` +
+          (bulkDiscount > 0 ? `\nBulk Discount Applied: ₹${bulkDiscount.toFixed(2)}` : '') +
           (appliedCoupon ? `\nCoupon Applied: ${appliedCoupon} (₹${couponDiscount} discount)` : ''),
         meta_data: [
           { key: 'whatsapp_number', value: form.whatsapp },
           { key: 'full_address', value: fullAddress },
-          { key: 'original_subtotal', value: total.toString() },
+          { key: 'original_subtotal', value: (total + bulkDiscount).toFixed(2) },
+          { key: 'bulk_discount', value: bulkDiscount.toFixed(2) },
           { key: 'delivery_charges', value: deliveryCharges.toString() },
           { key: 'final_total', value: finalTotal.toString() },
           ...(appliedCoupon ? [
@@ -711,19 +774,48 @@ export default function Checkout(): React.ReactElement {
           <div className="border border-gray-200 p-6 mb-6">
             <h2 className="text-base font-light text-gray-900 mb-6 uppercase tracking-widest text-xs">Order Summary</h2>
             <div className="space-y-3">
-              {items.map((item) => (
-                <div key={item.id} className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <div>
-                    <span className="font-light text-sm text-gray-900">{item.name}</span>
-                    <span className="text-gray-500 text-xs ml-2">×{item.quantity}</span>
+              {itemsWithBulk.map(({ item, hasBulk, originalPrice, discountedPrice }) => (
+                <div key={item.id}>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <div>
+                      <span className="font-light text-sm text-gray-900">{item.name}</span>
+                      <span className="text-gray-500 text-xs ml-2">×{item.quantity}</span>
+                      {hasBulk && (
+                        <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded font-medium">
+                          Bulk Deal
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-right">
+                      {hasBulk && (
+                        <div className="text-xs text-gray-400 line-through mb-1">
+                          ₹{originalPrice.toFixed(2)}
+                        </div>
+                      )}
+                      <span className="font-light text-sm text-gray-900">
+                        ₹{discountedPrice.toFixed(2)}
+                      </span>
+                    </div>
                   </div>
-                  <span className="font-light text-sm text-gray-900">₹{(parseFloat(item.price) * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
+              
               <div className="flex justify-between text-sm text-gray-900 items-center py-2 font-light">
                 <span>Subtotal</span>
                 <span>₹{total.toFixed(2)}</span>
               </div>
+
+              {bulkDiscount > 0 && (
+                <div className="flex justify-between text-sm items-center py-2 font-light">
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">Bulk Discount</span>
+                    <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded">
+                      Buy 4 @ ₹1000
+                    </span>
+                  </div>
+                  <span className="text-green-600">-₹{bulkDiscount.toFixed(2)}</span>
+                </div>
+              )}
 
               {appliedCoupon && (
                 <div className="flex justify-between text-sm text-gray-600 items-center py-2 font-light">
@@ -747,9 +839,17 @@ export default function Checkout(): React.ReactElement {
                 </div>
                 <span>{deliveryCharges === 0 ? 'Free' : `₹${deliveryCharges}`}</span>
               </div>
+              
               <div className="flex justify-between items-center py-3 border-t border-gray-200">
                 <span className="text-sm text-gray-900 font-light uppercase tracking-widest">Total</span>
-                <span className="text-lg font-light text-gray-900">₹{finalTotal.toFixed(2)}</span>
+                <div className="text-right">
+                  <span className="text-lg font-light text-gray-900">₹{finalTotal.toFixed(2)}</span>
+                  {(bulkDiscount > 0 || couponDiscount > 0) && (
+                    <div className="text-xs text-green-600 mt-1">
+                      You saved ₹{(bulkDiscount + couponDiscount).toFixed(2)}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -1023,8 +1123,10 @@ export default function Checkout(): React.ReactElement {
                   <span className="text-xl font-light text-gray-900">
                     ₹{finalTotal.toFixed(2)}
                   </span>
-                  {appliedCoupon && (
-                    <p className="text-xs text-gray-600 mt-1 font-light">Saved ₹{couponDiscount}</p>
+                  {(bulkDiscount > 0 || appliedCoupon) && (
+                    <p className="text-xs text-gray-600 mt-1 font-light">
+                      Total savings: ₹{(bulkDiscount + couponDiscount).toFixed(2)}
+                    </p>
                   )}
                 </div>
               </div>
