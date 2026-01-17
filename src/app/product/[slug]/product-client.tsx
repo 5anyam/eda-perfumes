@@ -12,7 +12,7 @@ import { Tab } from '@headlessui/react'
 import ProductFAQ from '../../../../components/ProductFaq'
 import RelatedProducts from '../../../../components/RelatedProducts'
 import ProductReviews from '../../../../components/ProductReviews'
-import { Heart, Star, Shield, Truck, Award, CreditCard, Plus, Minus, Tag } from 'lucide-react'
+import { Heart, Star, Shield, Truck, Award, CreditCard, Plus, Minus, Gift } from 'lucide-react'
 
 export interface ImageData { src: string }
 export interface Attribute { option: string }
@@ -98,17 +98,14 @@ export default function ProductClient({
 
   const salePrice = parseFloat(product.price || '0')
   const regularPrice = parseFloat(product.regular_price || product.price || '0')
+  const hasSale = salePrice < regularPrice
   
-  // Bulk pricing logic - Buy 4 at ₹1000
-  const BULK_QUANTITY = 4
-  const BULK_PRICE = 1000
-  const isBulkEligible = quantity >= BULK_QUANTITY
-  
-  const totalPrice = isBulkEligible ? BULK_PRICE : salePrice * quantity
+  const totalPrice = salePrice * quantity
   const totalRegularPrice = regularPrice * quantity
-  const perBottlePrice = isBulkEligible ? BULK_PRICE / quantity : salePrice
-  const totalSaving = totalRegularPrice - totalPrice
-  const hasSale = salePrice < regularPrice || isBulkEligible
+  const totalSaving = hasSale ? totalRegularPrice - totalPrice : 0
+  
+  // Free gift calculation - 1 x 10ml perfume per bottle purchased
+  const freeGiftsCount = quantity
 
   const handleQuantityChange = (delta: number) => {
     setQuantity(Math.max(1, quantity + delta))
@@ -121,14 +118,14 @@ export default function ProductClient({
         addToCart({
           ...product,
           name: product.name,
-          price: perBottlePrice.toString(),
+          price: salePrice.toString(),
           images: product.images || [],
         })
       }
-      trackAddToCart({ id: product.id, name: product.name, price: perBottlePrice }, quantity)
+      trackAddToCart({ id: product.id, name: product.name, price: salePrice }, quantity)
       toast({
         title: 'Added to Cart',
-        description: `${quantity} x ${product.name} added to your cart.`,
+        description: `${quantity} x ${product.name} + ${freeGiftsCount} FREE 10ml perfume${freeGiftsCount > 1 ? 's' : ''}`,
       })
     } catch (error) {
       console.error('Add to cart failed:', error)
@@ -145,12 +142,12 @@ export default function ProductClient({
         addToCart({
           ...product,
           name: product.name,
-          price: perBottlePrice.toString(),
+          price: salePrice.toString(),
           images: product.images || [],
         })
       }
-      trackAddToCart({ id: product.id, name: product.name, price: perBottlePrice }, quantity)
-      const cartItems = [{ id: product.id, name: product.name, price: perBottlePrice, quantity }]
+      trackAddToCart({ id: product.id, name: product.name, price: salePrice }, quantity)
+      const cartItems = [{ id: product.id, name: product.name, price: salePrice, quantity }]
       const total = totalPrice
       trackInitiateCheckout(cartItems, total)
       setTimeout(() => {
@@ -226,64 +223,52 @@ export default function ProductClient({
               />
             )}
 
-            {/* Bulk Offer Badge */}
-            {!isBulkEligible && (
-              <div className="bg-gradient-to-r from-black to-gray-800 text-white p-4 rounded-sm">
-                <div className="flex items-center gap-2 mb-1">
-                  <Tag className="w-4 h-4" />
-                  <span className="text-sm font-medium tracking-wide">Special Bulk Offer</span>
-                </div>
-                <p className="text-xs font-light">
-                  Buy {BULK_QUANTITY} bottles for only ₹{BULK_PRICE.toLocaleString()} 
-                  <span className="ml-2 text-white/80">
-                    (₹{(BULK_PRICE / BULK_QUANTITY).toFixed(0)} per bottle)
-                  </span>
-                </p>
+            {/* Free Gift Offer Badge */}
+            <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-4 rounded-sm">
+              <div className="flex items-center gap-2 mb-1">
+                <Gift className="w-4 h-4" />
+                <span className="text-sm font-medium tracking-wide">Special Gift Offer</span>
               </div>
-            )}
+              <p className="text-xs font-light">
+                Get a <span className="font-semibold">FREE 10ml perfume</span> with every 100ml bottle purchase
+              </p>
+            </div>
 
-            {/* Price Section */}
+            {/* Price Section - Minimal */}
             <div className="py-6 border-y border-gray-200">
-              <div className="flex items-baseline gap-3 mb-2">
+              <div className="flex items-baseline gap-3">
                 <span className="text-2xl font-light text-gray-900">
                   ₹{totalPrice.toLocaleString()}
                 </span>
-                {hasSale && totalSaving > 0 && (
+                {hasSale && (
                   <>
                     <span className="line-through text-gray-400 font-light">
                       ₹{totalRegularPrice.toLocaleString()}
                     </span>
-                    <span className="text-xs text-green-600 font-medium bg-green-50 px-2 py-1 rounded">
+                    <span className="text-xs text-gray-600 font-light">
                       Save ₹{totalSaving.toLocaleString()}
                     </span>
                   </>
                 )}
               </div>
-              
-              {/* Per bottle price */}
-              <div className="text-xs text-gray-500 font-light">
-                ₹{perBottlePrice.toLocaleString()} per bottle
-                {isBulkEligible && (
-                  <span className="ml-2 text-green-600 font-medium">
-                    • Bulk discount applied!
-                  </span>
-                )}
-              </div>
-
-              {/* Savings breakdown for bulk */}
-              {isBulkEligible && (
-                <div className="mt-3 p-3 bg-green-50 border border-green-100 rounded-sm">
-                  <div className="flex items-center gap-2 text-green-800">
-                    <Tag className="w-3.5 h-3.5" />
-                    <span className="text-xs font-medium">
-                      You are saving ₹{(totalRegularPrice - BULK_PRICE).toLocaleString()} with bulk pricing!
-                    </span>
-                  </div>
+              {quantity > 1 && (
+                <div className="text-xs text-gray-500 mt-2 font-light">
+                  ₹{salePrice.toLocaleString()} per bottle
                 </div>
               )}
+              
+              {/* Free gifts indicator */}
+              <div className="mt-3 p-3 bg-emerald-50 border border-emerald-100 rounded-sm">
+                <div className="flex items-center gap-2 text-emerald-800">
+                  <Gift className="w-3.5 h-3.5" />
+                  <span className="text-xs font-medium">
+                    You will receive {freeGiftsCount} FREE 10ml perfume{freeGiftsCount > 1 ? 's' : ''} with this order!
+                  </span>
+                </div>
+              </div>
             </div>
 
-            {/* Quantity Selector */}
+            {/* Quantity Selector - Minimal */}
             <div>
               <label className="block text-xs font-light text-gray-600 mb-3 uppercase tracking-widest">
                 Quantity
@@ -307,16 +292,10 @@ export default function ProductClient({
                     <Plus className="w-3.5 h-3.5 text-gray-600" />
                   </button>
                 </div>
-                
-                {/* Quick select for bulk offer */}
-                {quantity < BULK_QUANTITY && (
-                  <button
-                    onClick={() => setQuantity(BULK_QUANTITY)}
-                    className="text-xs px-4 py-2 bg-black text-white hover:bg-gray-800 transition-colors rounded-sm font-light tracking-wide"
-                  >
-                    Buy {BULK_QUANTITY} & Save
-                  </button>
-                )}
+                <div className="text-xs text-gray-600 font-light">
+                  <Gift className="w-3.5 h-3.5 inline mr-1" />
+                  +{freeGiftsCount} free 10ml
+                </div>
               </div>
             </div>
 
@@ -362,15 +341,13 @@ export default function ProductClient({
       {/* Mobile Fixed Bottom - Minimal */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 p-4">
         <div className="max-w-md mx-auto">
-          {/* Bulk offer indicator for mobile */}
-          {isBulkEligible && (
-            <div className="mb-3 p-2 bg-green-50 border border-green-200 rounded-sm">
-              <div className="flex items-center justify-center gap-1 text-green-800">
-                <Tag className="w-3 h-3" />
-                <span className="text-xs font-medium">Bulk discount applied!</span>
-              </div>
+          {/* Free gift indicator for mobile */}
+          <div className="mb-3 p-2 bg-emerald-50 border border-emerald-200 rounded-sm">
+            <div className="flex items-center justify-center gap-1 text-emerald-800">
+              <Gift className="w-3 h-3" />
+              <span className="text-xs font-medium">+{freeGiftsCount} FREE 10ml perfume{freeGiftsCount > 1 ? 's' : ''}</span>
             </div>
-          )}
+          </div>
           
           <div className="flex items-center gap-3 mb-4">
             <div className="flex-1">
@@ -379,7 +356,7 @@ export default function ProductClient({
                 <span className="text-xl font-light text-gray-900">
                   ₹{totalPrice.toLocaleString()}
                 </span>
-                {hasSale && totalSaving > 0 && (
+                {hasSale && (
                   <span className="line-through text-gray-400 text-sm font-light">
                     ₹{totalRegularPrice.toLocaleString()}
                   </span>

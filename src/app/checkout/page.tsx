@@ -7,6 +7,7 @@ import { toast } from "../../../hooks/use-toast";
 import { useFacebookPixel } from "../../../hooks/useFacebookPixel";
 import type { CartItem } from "../../../lib/facebook-pixel";
 import Script from "next/script";
+import { Gift } from "lucide-react";
 
 const WOOCOMMERCE_CONFIG = {
   BASE_URL: 'https://cms.edaperfumes.com',
@@ -18,12 +19,6 @@ const RAZORPAY_CONFIG = {
   KEY_ID: "rzp_live_ROhFH4ehWnRMKy",
   COMPANY_NAME: "EDA Perfumes",
   THEME_COLOR: "#000000"
-};
-
-// Bulk pricing configuration
-const BULK_PRICING = {
-  QUANTITY: 4,
-  PRICE: 1000,
 };
 
 interface FormData {
@@ -172,43 +167,12 @@ export default function Checkout(): React.ReactElement {
 
   const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
 
-  // Calculate bulk pricing
-  const calculatePricing = () => {
-    let subtotal = 0;
-    let bulkDiscount = 0;
-    const itemsWithBulk: Array<{ item: typeof items[0]; hasBulk: boolean; originalPrice: number; discountedPrice: number }> = [];
-
-    items.forEach((item) => {
-      const itemTotal = parseFloat(item.price) * item.quantity;
-      const isBulkEligible = item.quantity >= BULK_PRICING.QUANTITY;
-      
-      if (isBulkEligible) {
-        // Apply bulk pricing
-        const discountedPrice = BULK_PRICING.PRICE;
-        bulkDiscount += itemTotal - discountedPrice;
-        itemsWithBulk.push({
-          item,
-          hasBulk: true,
-          originalPrice: itemTotal,
-          discountedPrice
-        });
-        subtotal += discountedPrice;
-      } else {
-        itemsWithBulk.push({
-          item,
-          hasBulk: false,
-          originalPrice: itemTotal,
-          discountedPrice: itemTotal
-        });
-        subtotal += itemTotal;
-      }
-    });
-
-    return { subtotal, bulkDiscount, itemsWithBulk };
-  };
-
-  const { subtotal: total, bulkDiscount, itemsWithBulk } = calculatePricing();
+  // Simple pricing calculation - no bulk discounts
+  const total = items.reduce((sum, item) => sum + parseFloat(item.price) * item.quantity, 0);
   const deliveryCharges = total >= 500 ? 0 : 50;
+
+  // Calculate total free gifts (1 x 10ml perfume per bottle)
+  const totalFreeGifts = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const [couponCode, setCouponCode] = useState<string>("");
   const [appliedCoupon, setAppliedCoupon] = useState<string>("");
@@ -397,19 +361,10 @@ export default function Checkout(): React.ReactElement {
           postcode: form.pincode,
           country: 'IN',
         },
-        line_items: items.map((item) => {
-          const bulkItem = itemsWithBulk.find(b => b.item.id === item.id);
-          const pricePerUnit = bulkItem?.hasBulk 
-            ? (BULK_PRICING.PRICE / item.quantity) 
-            : parseFloat(item.price);
-          
-          return {
-            product_id: parseInt(String(item.id), 10),
-            quantity: item.quantity,
-            subtotal: (pricePerUnit * item.quantity).toString(),
-            total: (pricePerUnit * item.quantity).toString(),
-          };
-        }),
+        line_items: items.map((item) => ({
+          product_id: parseInt(String(item.id), 10),
+          quantity: item.quantity,
+        })),
         shipping_lines: deliveryCharges > 0 ? [{
           method_id: 'flat_rate',
           method_title: 'Premium Delivery',
@@ -421,16 +376,16 @@ export default function Checkout(): React.ReactElement {
         }] : [],
         customer_note: form.notes + (form.notes ? '\n\n' : '') + 
           `WhatsApp: ${form.whatsapp}\n` +
-          `Full Address: ${fullAddress}` +
-          (bulkDiscount > 0 ? `\nBulk Discount Applied: ₹${bulkDiscount.toFixed(2)}` : '') +
+          `Full Address: ${fullAddress}\n` +
+          `FREE GIFT: ${totalFreeGifts} x 10ml perfume${totalFreeGifts > 1 ? 's' : ''}` +
           (appliedCoupon ? `\nCoupon Applied: ${appliedCoupon} (₹${couponDiscount} discount)` : ''),
         meta_data: [
           { key: 'whatsapp_number', value: form.whatsapp },
           { key: 'full_address', value: fullAddress },
-          { key: 'original_subtotal', value: (total + bulkDiscount).toFixed(2) },
-          { key: 'bulk_discount', value: bulkDiscount.toFixed(2) },
+          { key: 'subtotal', value: total.toString() },
           { key: 'delivery_charges', value: deliveryCharges.toString() },
           { key: 'final_total', value: finalTotal.toString() },
+          { key: 'free_gifts', value: `${totalFreeGifts} x 10ml perfume` },
           { key: 'payment_method', value: 'cod' },
           ...(appliedCoupon ? [
             { key: 'coupon_code', value: appliedCoupon },
@@ -629,19 +584,10 @@ export default function Checkout(): React.ReactElement {
           postcode: form.pincode,
           country: 'IN',
         },
-        line_items: items.map((item) => {
-          const bulkItem = itemsWithBulk.find(b => b.item.id === item.id);
-          const pricePerUnit = bulkItem?.hasBulk 
-            ? (BULK_PRICING.PRICE / item.quantity) 
-            : parseFloat(item.price);
-          
-          return {
-            product_id: parseInt(String(item.id), 10),
-            quantity: item.quantity,
-            subtotal: (pricePerUnit * item.quantity).toString(),
-            total: (pricePerUnit * item.quantity).toString(),
-          };
-        }),
+        line_items: items.map((item) => ({
+          product_id: parseInt(String(item.id), 10),
+          quantity: item.quantity,
+        })),
         shipping_lines: deliveryCharges > 0 ? [{
           method_id: 'flat_rate',
           method_title: 'Premium Delivery',
@@ -653,16 +599,16 @@ export default function Checkout(): React.ReactElement {
         }] : [],
         customer_note: form.notes + (form.notes ? '\n\n' : '') + 
           `WhatsApp: ${form.whatsapp}\n` +
-          `Full Address: ${fullAddress}` +
-          (bulkDiscount > 0 ? `\nBulk Discount Applied: ₹${bulkDiscount.toFixed(2)}` : '') +
+          `Full Address: ${fullAddress}\n` +
+          `FREE GIFT: ${totalFreeGifts} x 10ml perfume${totalFreeGifts > 1 ? 's' : ''}` +
           (appliedCoupon ? `\nCoupon Applied: ${appliedCoupon} (₹${couponDiscount} discount)` : ''),
         meta_data: [
           { key: 'whatsapp_number', value: form.whatsapp },
           { key: 'full_address', value: fullAddress },
-          { key: 'original_subtotal', value: (total + bulkDiscount).toFixed(2) },
-          { key: 'bulk_discount', value: bulkDiscount.toFixed(2) },
+          { key: 'subtotal', value: total.toString() },
           { key: 'delivery_charges', value: deliveryCharges.toString() },
           { key: 'final_total', value: finalTotal.toString() },
+          { key: 'free_gifts', value: `${totalFreeGifts} x 10ml perfume` },
           ...(appliedCoupon ? [
             { key: 'coupon_code', value: appliedCoupon },
             { key: 'coupon_discount', value: couponDiscount.toString() }
@@ -774,28 +720,20 @@ export default function Checkout(): React.ReactElement {
           <div className="border border-gray-200 p-6 mb-6">
             <h2 className="text-base font-light text-gray-900 mb-6 uppercase tracking-widest text-xs">Order Summary</h2>
             <div className="space-y-3">
-              {itemsWithBulk.map(({ item, hasBulk, originalPrice, discountedPrice }) => (
+              {items.map((item) => (
                 <div key={item.id}>
                   <div className="flex justify-between items-center py-2 border-b border-gray-100">
                     <div>
                       <span className="font-light text-sm text-gray-900">{item.name}</span>
                       <span className="text-gray-500 text-xs ml-2">×{item.quantity}</span>
-                      {hasBulk && (
-                        <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded font-medium">
-                          Bulk Deal
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-right">
-                      {hasBulk && (
-                        <div className="text-xs text-gray-400 line-through mb-1">
-                          ₹{originalPrice.toFixed(2)}
-                        </div>
-                      )}
-                      <span className="font-light text-sm text-gray-900">
-                        ₹{discountedPrice.toFixed(2)}
+                      <span className="ml-2 text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-medium inline-flex items-center gap-1">
+                        <Gift className="w-3 h-3" />
+                        +{item.quantity} FREE 10ml
                       </span>
                     </div>
+                    <span className="font-light text-sm text-gray-900">
+                      ₹{(parseFloat(item.price) * item.quantity).toFixed(2)}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -804,18 +742,6 @@ export default function Checkout(): React.ReactElement {
                 <span>Subtotal</span>
                 <span>₹{total.toFixed(2)}</span>
               </div>
-
-              {bulkDiscount > 0 && (
-                <div className="flex justify-between text-sm items-center py-2 font-light">
-                  <div className="flex items-center gap-2">
-                    <span className="text-green-600">Bulk Discount</span>
-                    <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded">
-                      Buy 4 @ ₹1000
-                    </span>
-                  </div>
-                  <span className="text-green-600">-₹{bulkDiscount.toFixed(2)}</span>
-                </div>
-              )}
 
               {appliedCoupon && (
                 <div className="flex justify-between text-sm text-gray-600 items-center py-2 font-light">
@@ -839,14 +765,24 @@ export default function Checkout(): React.ReactElement {
                 </div>
                 <span>{deliveryCharges === 0 ? 'Free' : `₹${deliveryCharges}`}</span>
               </div>
+
+              {/* Free gifts summary */}
+              <div className="p-3 bg-emerald-50 border border-emerald-100 rounded-sm">
+                <div className="flex items-center gap-2 text-emerald-800">
+                  <Gift className="w-4 h-4" />
+                  <span className="text-xs font-medium">
+                    You will receive {totalFreeGifts} FREE 10ml perfume{totalFreeGifts > 1 ? 's' : ''} with this order!
+                  </span>
+                </div>
+              </div>
               
               <div className="flex justify-between items-center py-3 border-t border-gray-200">
                 <span className="text-sm text-gray-900 font-light uppercase tracking-widest">Total</span>
                 <div className="text-right">
                   <span className="text-lg font-light text-gray-900">₹{finalTotal.toFixed(2)}</span>
-                  {(bulkDiscount > 0 || couponDiscount > 0) && (
+                  {couponDiscount > 0 && (
                     <div className="text-xs text-green-600 mt-1">
-                      You saved ₹{(bulkDiscount + couponDiscount).toFixed(2)}
+                      You saved ₹{couponDiscount.toFixed(2)}
                     </div>
                   )}
                 </div>
@@ -1123,9 +1059,9 @@ export default function Checkout(): React.ReactElement {
                   <span className="text-xl font-light text-gray-900">
                     ₹{finalTotal.toFixed(2)}
                   </span>
-                  {(bulkDiscount > 0 || appliedCoupon) && (
+                  {couponDiscount > 0 && (
                     <p className="text-xs text-gray-600 mt-1 font-light">
-                      Total savings: ₹{(bulkDiscount + couponDiscount).toFixed(2)}
+                      Saved ₹{couponDiscount.toFixed(2)}
                     </p>
                   )}
                 </div>
@@ -1154,7 +1090,7 @@ export default function Checkout(): React.ReactElement {
               ) : paymentMethod === 'cod' ? (
                 `Place Order (COD ₹${finalTotal.toFixed(2)})`
               ) : (
-                `Pay ₹${finalTotal.toFixed(2)}`
+                `Pay ₹{finalTotal.toFixed(2)}`
               )}
             </button>
 
