@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, createContext, useReducer, useEffect } from "react";
+import React, { useContext, createContext, useReducer, useEffect, useState, useCallback } from "react";
 
 export type Product = {
   id: number;
@@ -26,6 +26,10 @@ const CartContext = createContext<
     increment: (id: number) => void;
     decrement: (id: number) => void;
     clear: () => void;
+    isDrawerOpen: boolean;
+    openDrawer: () => void;
+    closeDrawer: () => void;
+    isCartLoaded: boolean;
   }) | undefined
 >(undefined);
 
@@ -69,6 +73,8 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, { items: [] });
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isCartLoaded, setIsCartLoaded] = useState(false);
 
   // Load from localStorage
   useEffect(() => {
@@ -76,6 +82,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (stored) {
       dispatch({ type: "load", items: JSON.parse(stored) });
     }
+    setIsCartLoaded(true);
   }, []);
 
   // Save to localStorage
@@ -88,6 +95,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const increment = (id: number) => dispatch({ type: "increment", id });
   const decrement = (id: number) => dispatch({ type: "decrement", id });
   const clear = () => dispatch({ type: "clear" });
+  const openDrawer = useCallback(() => setIsDrawerOpen(true), []);
+  const closeDrawer = useCallback(() => setIsDrawerOpen(false), []);
 
   return (
     <CartContext.Provider
@@ -98,6 +107,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         increment,
         decrement,
         clear,
+        isDrawerOpen,
+        openDrawer,
+        closeDrawer,
+        isCartLoaded,
       }}
     >
       {children}
