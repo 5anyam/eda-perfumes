@@ -15,7 +15,7 @@ interface ExtendedProduct extends Product {
 
 export default function ValentineGiftPackClient() {
   const { addToCart, openDrawer } = useCart();
-  const [selectedMain, setSelectedMain] = useState<ExtendedProduct | null>(null);
+  const [selectedMains, setSelectedMains] = useState<ExtendedProduct[]>([]);
   const [selectedMinis, setSelectedMinis] = useState<ExtendedProduct[]>([]);
   const [addedToCart, setAddedToCart] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -32,9 +32,9 @@ export default function ValentineGiftPackClient() {
 
   const allProducts = Array.isArray(data) ? data : [];
 
-  // Filter 100ml/200ml products (main perfumes) - exclude combos and packs
+  // Filter 100ml products (main perfumes) - exclude combos, packs, and 200ml
   const mainPerfumes = allProducts.filter((p) =>
-    /100\s*ml|200\s*ml/i.test(p.name) && !/combo|duo|set|bundle|pack|\+|2\s*x/i.test(p.name)
+    /100\s*ml/i.test(p.name) && !/200\s*ml/i.test(p.name) && !/combo|duo|set|bundle|pack|\+|2\s*x/i.test(p.name)
   );
 
   // Get unique categories from main perfumes
@@ -71,7 +71,11 @@ export default function ValentineGiftPackClient() {
   };
 
   const handleSelectMain = (product: ExtendedProduct) => {
-    setSelectedMain(product);
+    if (selectedMains.find((p) => p.id === product.id)) {
+      setSelectedMains(selectedMains.filter((p) => p.id !== product.id));
+    } else if (selectedMains.length < 2) {
+      setSelectedMains([...selectedMains, product]);
+    }
     setAddedToCart(false);
   };
 
@@ -84,18 +88,19 @@ export default function ValentineGiftPackClient() {
     setAddedToCart(false);
   };
 
-  const isComplete = selectedMain && selectedMinis.length === 4;
+  const isComplete = selectedMains.length === 2 && selectedMinis.length === 4;
 
   const handleAddToCart = () => {
     if (!isComplete) return;
 
     // Create a special gift pack product
+    const mainNames = selectedMains.map(p => p.name).join(' + ');
     const giftPackProduct = {
       id: Date.now(), // Unique ID for the gift pack
-      name: `Valentine's Gift Pack: ${selectedMain?.name} + 4 Travel Sizes`,
+      name: `Valentine's Gift Pack: ${mainNames} + 4 Travel Sizes`,
       price: '1099',
       regular_price: '2499',
-      images: selectedMain?.images?.map(img => ({ src: img.src })) || [],
+      images: selectedMains[0]?.images?.map(img => ({ src: img.src })) || [],
     };
 
     addToCart(giftPackProduct);
@@ -105,7 +110,7 @@ export default function ValentineGiftPackClient() {
 
   const totalOriginalPrice = () => {
     let total = 0;
-    if (selectedMain) total += Number(selectedMain.price) || 0;
+    selectedMains.forEach((p) => (total += Number(p.price) || 0));
     selectedMinis.forEach((p) => (total += Number(p.price) || 0));
     return total;
   };
@@ -151,7 +156,7 @@ export default function ValentineGiftPackClient() {
               </div>
 
               <p className="text-white/90 text-lg md:text-xl font-medium mb-4">
-                200ml Perfume + 4×10ml Travel Sizes FREE
+                2 × 100ml Perfumes + 4 × 10ml Travel Sizes FREE
               </p>
 
               <div className="flex flex-wrap justify-center md:justify-start gap-3">
@@ -189,11 +194,12 @@ export default function ValentineGiftPackClient() {
           {/* Step 1: Select Main Perfume */}
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-8">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedMain ? 'bg-green-500' : 'bg-rose-500'}`}>
-                {selectedMain ? <Check className="w-5 h-5" /> : '1'}
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedMains.length === 2 ? 'bg-green-500' : 'bg-rose-500'}`}>
+                {selectedMains.length === 2 ? <Check className="w-5 h-5" /> : '1'}
               </div>
               <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Choose Your Signature Perfume (200ml)
+                Choose 2 Signature Perfumes (100ml each)
+                <span className="text-rose-500 ml-2">({selectedMains.length}/2 selected)</span>
               </h2>
             </div>
 
@@ -228,13 +234,19 @@ export default function ValentineGiftPackClient() {
               </div>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredMainPerfumes.map((product) => (
+                {filteredMainPerfumes.map((product) => {
+                  const isSelected = selectedMains.find((p) => p.id === product.id);
+                  const isDisabled = selectedMains.length >= 2 && !isSelected;
+
+                  return (
                   <div
                     key={product.id}
-                    onClick={() => handleSelectMain(product)}
+                    onClick={() => !isDisabled && handleSelectMain(product)}
                     className={`cursor-pointer bg-white rounded-xl overflow-hidden transition-all duration-300 ${
-                      selectedMain?.id === product.id
+                      isSelected
                         ? 'ring-2 ring-rose-500 shadow-lg scale-[1.02]'
+                        : isDisabled
+                        ? 'opacity-50 cursor-not-allowed'
                         : 'hover:shadow-md border border-gray-100'
                     }`}
                   >
@@ -244,7 +256,7 @@ export default function ValentineGiftPackClient() {
                         alt={product.name}
                         className="w-full h-full object-cover"
                       />
-                      {selectedMain?.id === product.id && (
+                      {isSelected && (
                         <div className="absolute top-3 right-3 bg-rose-500 text-white p-1.5 rounded-full">
                           <Check className="w-4 h-4" />
                         </div>
@@ -281,7 +293,8 @@ export default function ValentineGiftPackClient() {
                       </div>
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 
@@ -389,26 +402,28 @@ export default function ValentineGiftPackClient() {
 
             <div className="space-y-4 mb-6">
               <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
-                <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
-                  {selectedMain ? (
-                    <img
-                      src={selectedMain.images?.[0]?.src || '/placeholder.png'}
-                      alt={selectedMain.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-400">
-                      <Gift className="w-6 h-6" />
+                <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-2 gap-0.5 p-1">
+                  {[0, 1].map((i) => (
+                    <div key={i} className="bg-gray-300 rounded overflow-hidden">
+                      {selectedMains[i] && (
+                        <img
+                          src={selectedMains[i].images?.[0]?.src || '/placeholder.png'}
+                          alt=""
+                          className="w-full h-full object-cover"
+                        />
+                      )}
                     </div>
-                  )}
+                  ))}
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-900">
-                    {selectedMain ? selectedMain.name : 'Select your signature perfume'}
+                    {selectedMains.length > 0
+                      ? `${selectedMains.length} Signature Perfume${selectedMains.length > 1 ? 's' : ''} Selected`
+                      : 'Select 2 signature perfumes'}
                   </p>
-                  <p className="text-xs text-gray-500">200ml / 100ml Bottle</p>
+                  <p className="text-xs text-gray-500">2 × 100ml Bottles</p>
                 </div>
-                {selectedMain && <Check className="w-5 h-5 text-green-500" />}
+                {selectedMains.length === 2 && <Check className="w-5 h-5 text-green-500" />}
               </div>
 
               <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
@@ -483,10 +498,12 @@ export default function ValentineGiftPackClient() {
 
             {!isComplete && (
               <p className="text-center text-sm text-gray-500 mt-4">
-                {!selectedMain && !selectedMinis.length
-                  ? 'Select 1 signature perfume and 4 travel sizes to continue'
-                  : !selectedMain
-                  ? 'Select your signature perfume'
+                {selectedMains.length === 0 && selectedMinis.length === 0
+                  ? 'Select 2 signature perfumes and 4 travel sizes to continue'
+                  : selectedMains.length < 2 && selectedMinis.length < 4
+                  ? `Select ${2 - selectedMains.length} more perfume${2 - selectedMains.length > 1 ? 's' : ''} and ${4 - selectedMinis.length} more travel size${4 - selectedMinis.length > 1 ? 's' : ''}`
+                  : selectedMains.length < 2
+                  ? `Select ${2 - selectedMains.length} more signature perfume${2 - selectedMains.length > 1 ? 's' : ''}`
                   : `Select ${4 - selectedMinis.length} more travel size${4 - selectedMinis.length > 1 ? 's' : ''}`}
               </p>
             )}
