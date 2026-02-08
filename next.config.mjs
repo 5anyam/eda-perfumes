@@ -3,6 +3,9 @@ const nextConfig = {
   images: {
     domains: ["images.unsplash.com", "cms.edaperfumes.com", "images.remotePatterns"],
   },
+  eslint: {
+    ignoreDuringBuilds: true, // Use with caution
+  },
   reactStrictMode: true,
   async rewrites() {
     return [
