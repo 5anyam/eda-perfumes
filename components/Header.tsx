@@ -23,7 +23,17 @@ const navItems = [
       { name: "Guilty Midnight", to: "https://www.edaperfumes.com/product/guilty-premium-eau-de-parfum-100ml", price: "599" }
     ]
   },
-  { 
+  {
+    name: "Special Offers",
+    to: "/valentine-gift-pack",
+    submenu: [
+      { name: "💝 Valentine Gift Pack", to: "/valentine-gift-pack", price: "Limited" },
+      { name: "Buy 1 at ₹799", to: "/buy1-at-799", price: "799" },
+      { name: "Buy 2 Get Free", to: "/buy2-get-free", price: "Offer" },
+      { name: "Buy 3 Get Gifts", to: "/buy3-get-gifts", price: "Offer" },
+    ]
+  },
+  {
     name: "Combos", to: "/combos"
   },
   { name: "Shop All", to: "/shop" },
