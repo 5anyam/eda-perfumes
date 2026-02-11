@@ -49,8 +49,13 @@ export default function ValentineGiftPackClient() {
     ? mainPerfumes
     : mainPerfumes.filter(p => p.categories?.some(c => c.name === selectedCategory));
 
-  // Filter 10ml products
-  const miniPerfumes = allProducts.filter((p) => /10\s*ml/i.test(p.name));
+  // Filter 10ml products (exclude pocket combos - they have "+" or "2 x 10ml" in name)
+  const miniPerfumes = allProducts.filter((p) =>
+    /10\s*ml/i.test(p.name) &&
+    !/\+/.test(p.name) &&
+    !/2\s*[x×]\s*10\s*ml/i.test(p.name) &&
+    !/combo|pack|bundle|duo|set/i.test(p.name)
+  );
 
   const handleQuickAddToCart = (e: React.MouseEvent, product: ExtendedProduct) => {
     e.stopPropagation();
@@ -84,13 +89,13 @@ export default function ValentineGiftPackClient() {
   const handleSelectMini = (product: ExtendedProduct) => {
     if (selectedMinis.find((p) => p.id === product.id)) {
       setSelectedMinis(selectedMinis.filter((p) => p.id !== product.id));
-    } else if (selectedMinis.length < 4) {
+    } else if (selectedMinis.length < 2) {
       setSelectedMinis([...selectedMinis, product]);
     }
     setAddedToCart(false);
   };
 
-  const isComplete = selectedMains.length === 2 && selectedMinis.length === 4;
+  const isComplete = selectedMains.length === 2 && selectedMinis.length === 2;
 
   const handleAddToCart = () => {
     if (!isComplete) return;
@@ -99,8 +104,8 @@ export default function ValentineGiftPackClient() {
     const mainNames = selectedMains.map(p => p.name).join(' + ');
     const giftPackProduct = {
       id: Date.now(), // Unique ID for the gift pack
-      name: `Valentine's Gift Pack: ${mainNames} + 4 Travel Sizes`,
-      price: '1099',
+      name: `Valentine's Gift Pack: ${mainNames} + 2 Travel Sizes`,
+      price: '999',
       regular_price: '2499',
       images: selectedMains[0]?.images?.map(img => ({ src: img.src })) || [],
     };
@@ -117,80 +122,24 @@ export default function ValentineGiftPackClient() {
     return total;
   };
 
-  const savings = totalOriginalPrice() - 1099;
+  const savings = totalOriginalPrice() - 999;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-rose-50">
       {/* Hero Banner */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-rose-400 via-pink-500 to-red-400 py-8 md:py-12">
-        {/* Background decorations */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-10 -right-10 w-60 h-60 bg-red-300/20 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/4 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-          {/* Floating hearts */}
-          <div className="absolute top-10 left-10 text-white/20 animate-pulse">
-            <Heart className="w-16 h-16 fill-current" />
-          </div>
-          <div className="absolute bottom-10 right-20 text-white/20 animate-pulse delay-300">
-            <Heart className="w-12 h-12 fill-current" />
-          </div>
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Left side - Offer details */}
-            <div className="text-center md:text-left">
-              <div className="inline-block bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2 mb-4">
-                <span className="text-white font-bold text-sm md:text-base tracking-wider flex items-center gap-2">
-                  <Heart className="w-4 h-4 fill-current" /> VALENTINE SPECIAL
-                </span>
-              </div>
-
-              <h1 className="text-white mb-2">
-                <span className="block text-3xl md:text-5xl font-black tracking-tight">VALENTINE'S</span>
-                <span className="block text-4xl md:text-6xl font-black tracking-tight">GIFT PACK</span>
-              </h1>
-
-              <div className="flex items-center justify-center md:justify-start gap-2 my-4">
-                <span className="text-white/80 text-xl md:text-2xl font-medium">@</span>
-                <span className="text-5xl md:text-7xl font-black text-yellow-300 drop-shadow-lg" style={{textShadow: '3px 3px 6px rgba(0,0,0,0.3)'}}>₹1099</span>
-              </div>
-
-              <p className="text-white/90 text-lg md:text-xl font-medium mb-4">
-                2 × 100ml Perfumes + 4 × 10ml Travel Sizes FREE
-              </p>
-
-              <div className="flex flex-wrap justify-center md:justify-start gap-3">
-                <div className="bg-white rounded-full px-4 py-2 flex items-center gap-2 shadow-lg">
-                  <Gift className="w-5 h-5 text-rose-600" />
-                  <span className="text-rose-700 font-bold text-sm">4 FREE GIFTS</span>
-                </div>
-                <div className="bg-red-600 rounded-full px-4 py-2 shadow-lg flex items-center gap-1">
-                  <Heart className="w-4 h-4 text-white fill-current" />
-                  <span className="text-white font-bold text-sm">PERFECT GIFT</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right side - Visual element */}
-            <div className="relative">
-              <div className="w-48 h-48 md:w-64 md:h-64 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white/30">
-                <div className="text-center">
-                  <div className="text-6xl md:text-8xl">💝</div>
-                  <p className="text-white font-bold text-sm md:text-base mt-2">GIFT OF LOVE</p>
-                </div>
-              </div>
-              <div className="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 rounded-full w-16 h-16 md:w-20 md:h-20 flex items-center justify-center font-black text-xs md:text-sm shadow-lg animate-pulse">
-                56%<br/>OFF
-              </div>
-            </div>
-          </div>
-        </div>
+      <section className="w-full">
+        <a href="#selection-section" className="block cursor-pointer">
+          <img
+            src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/valentinebanner.jpeg"
+            alt="Crafted for Valentine's - Buy 2 @999 & Get 2 10ml FREE"
+            className="w-full h-auto object-cover"
+            loading="eager"
+          />
+        </a>
       </section>
 
       {/* Selection Section */}
-      <section className="py-12 px-4">
+      <section id="selection-section" className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
 
           {/* Step 1: Select Main Perfume */}
@@ -307,15 +256,15 @@ export default function ValentineGiftPackClient() {
             )}
           </div>
 
-          {/* Step 2: Select 4 Travel Sizes */}
+          {/* Step 2: Select 2 Travel Sizes */}
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-8">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedMinis.length === 4 ? 'bg-green-500' : 'bg-rose-500'}`}>
-                {selectedMinis.length === 4 ? <Check className="w-5 h-5" /> : '2'}
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedMinis.length === 2 ? 'bg-green-500' : 'bg-rose-500'}`}>
+                {selectedMinis.length === 2 ? <Check className="w-5 h-5" /> : '2'}
               </div>
               <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Choose 4 Travel Sizes (10ml each)
-                <span className="text-rose-500 ml-2">({selectedMinis.length}/4 selected)</span>
+                Choose 2 Travel Sizes (10ml each)
+                <span className="text-rose-500 ml-2">({selectedMinis.length}/2 selected)</span>
               </h2>
             </div>
 
@@ -333,7 +282,7 @@ export default function ValentineGiftPackClient() {
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {miniPerfumes.map((product) => {
                   const isSelected = selectedMinis.find((p) => p.id === product.id);
-                  const isDisabled = selectedMinis.length >= 4 && !isSelected;
+                  const isDisabled = selectedMinis.length >= 2 && !isSelected;
 
                   return (
                     <div
@@ -430,7 +379,7 @@ export default function ValentineGiftPackClient() {
 
               <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
                 <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-2 gap-0.5 p-1">
-                  {[0, 1, 2, 3].map((i) => (
+                  {[0, 1].map((i) => (
                     <div key={i} className="bg-gray-300 rounded overflow-hidden">
                       {selectedMinis[i] && (
                         <img
@@ -446,11 +395,11 @@ export default function ValentineGiftPackClient() {
                   <p className="text-sm font-medium text-gray-900">
                     {selectedMinis.length > 0
                       ? `${selectedMinis.length} Travel Sizes Selected`
-                      : 'Select 4 travel size perfumes'}
+                      : 'Select 2 travel size perfumes'}
                   </p>
-                  <p className="text-xs text-gray-500">4 × 10ml Bottles</p>
+                  <p className="text-xs text-gray-500">2 × 10ml Bottles</p>
                 </div>
-                {selectedMinis.length === 4 && <Check className="w-5 h-5 text-green-500" />}
+                {selectedMinis.length === 2 && <Check className="w-5 h-5 text-green-500" />}
               </div>
             </div>
 
@@ -461,11 +410,11 @@ export default function ValentineGiftPackClient() {
               </div>
               <div className="flex justify-between text-sm text-green-600 mb-2">
                 <span>You Save:</span>
-                <span>₹{savings > 0 ? savings.toLocaleString() : '1,400'}</span>
+                <span>₹{savings > 0 ? savings.toLocaleString() : '1,500'}</span>
               </div>
               <div className="flex justify-between text-xl font-medium text-gray-900">
                 <span>Gift Pack Price:</span>
-                <span className="text-rose-500">₹1,099</span>
+                <span className="text-rose-500">₹999</span>
               </div>
             </div>
 
@@ -501,12 +450,12 @@ export default function ValentineGiftPackClient() {
             {!isComplete && (
               <p className="text-center text-sm text-gray-500 mt-4">
                 {selectedMains.length === 0 && selectedMinis.length === 0
-                  ? 'Select 2 signature perfumes and 4 travel sizes to continue'
-                  : selectedMains.length < 2 && selectedMinis.length < 4
-                  ? `Select ${2 - selectedMains.length} more perfume${2 - selectedMains.length > 1 ? 's' : ''} and ${4 - selectedMinis.length} more travel size${4 - selectedMinis.length > 1 ? 's' : ''}`
+                  ? 'Select 2 signature perfumes and 2 travel sizes to continue'
+                  : selectedMains.length < 2 && selectedMinis.length < 2
+                  ? `Select ${2 - selectedMains.length} more perfume${2 - selectedMains.length > 1 ? 's' : ''} and ${2 - selectedMinis.length} more travel size${2 - selectedMinis.length > 1 ? 's' : ''}`
                   : selectedMains.length < 2
                   ? `Select ${2 - selectedMains.length} more signature perfume${2 - selectedMains.length > 1 ? 's' : ''}`
-                  : `Select ${4 - selectedMinis.length} more travel size${4 - selectedMinis.length > 1 ? 's' : ''}`}
+                  : `Select ${2 - selectedMinis.length} more travel size${2 - selectedMinis.length > 1 ? 's' : ''}`}
               </p>
             )}
           </div>
