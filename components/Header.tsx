@@ -24,10 +24,10 @@ const navItems = [
     ]
   },
   {
-    name: "Special Offers",
+    name: "Valentine Offers",
     to: "/valentine-gift-pack",
     submenu: [
-      { name: "💝 Valentine Gift Pack", to: "/valentine-gift-pack", price: "Limited" },
+      { name: "Valentine Gift Pack", to: "/valentine-gift-pack", price: "Limited" },
       { name: "Buy 1 at ₹799", to: "/buy-one-get-one-free", price: "799" },
       { name: "Buy 2 Get Free", to: "/buy-two-get-free", price: "Offer" },
       { name: "Buy 3 Get Gifts", to: "/buy-three-get-gifts", price: "Offer" },
@@ -37,7 +37,6 @@ const navItems = [
     name: "Combos", to: "/combos"
   },
   { name: "Shop All", to: "/shop" },
-  { name: "About", to: "/about" },
 ];
 
 export default function Header() {
@@ -147,11 +146,12 @@ export default function Header() {
                     >
                       <button
                         className={`text-sm tracking-wide font-light transition-all duration-200 py-2 flex items-center gap-1 ${
-                          location.startsWith(item.to) 
-                            ? "text-black" 
+                          location.startsWith(item.to)
+                            ? "text-black"
                             : "text-gray-600 hover:text-black"
-                        }`}
+                        } ${item.name === "Valentine Offers" ? "text-red-600 hover:text-red-700 animate-pulse font-medium" : ""}`}
                       >
+                        {item.name === "Valentine Offers" && <span className="text-red-500">❤</span>}
                         {item.name}
                         <BiChevronDown className={`text-xs transition-transform duration-200 ${activeSubmenu === item.name ? 'rotate-180' : ''}`} />
                       </button>
@@ -166,9 +166,11 @@ export default function Header() {
                               key={subItem.name}
                               href={subItem.to}
                               className={`block px-6 py-3 text-sm transition-colors duration-200 ${
-                                location === subItem.to 
-                                  ? 'text-black bg-gray-50' 
-                                  : 'text-gray-600 hover:text-black hover:bg-gray-50'
+                                location === subItem.to
+                                  ? 'text-black bg-gray-50'
+                                  : item.name === "Valentine Offers"
+                                    ? 'text-gray-600 hover:text-pink-500 hover:bg-pink-50'
+                                    : 'text-gray-600 hover:text-black hover:bg-gray-50'
                               } ${idx !== 0 ? 'border-t border-gray-100' : ''}`}
                             >
                               <div className="flex items-center justify-between">
@@ -178,14 +180,16 @@ export default function Header() {
                             </Link>
                           ))}
                         </div>
-                        <div className="border-t border-gray-200 px-6 py-3">
-                          <Link 
-                            href={item.to}
-                            className="text-xs text-gray-500 hover:text-black transition-colors tracking-wide"
-                          >
-                            View All →
-                          </Link>
-                        </div>
+                        {item.name !== "Valentine Offers" && (
+                          <div className="border-t border-gray-200 px-6 py-3">
+                            <Link
+                              href={item.to}
+                              className="text-xs text-gray-500 hover:text-black transition-colors tracking-wide"
+                            >
+                              View All →
+                            </Link>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ) : (

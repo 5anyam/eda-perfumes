@@ -98,6 +98,21 @@ export default function HomeClient() {
       <HeroCarousel />
       <MarqueeBanner />
 
+      {/* Valentine Badge - Mobile Only */}
+      <Link href="/valentine-gift-pack" className="block lg:hidden">
+        <div className="mx-4 mt-4 bg-gradient-to-r from-red-700 via-rose-600 to-pink-600 rounded-lg px-4 py-3 text-center shadow-md relative overflow-hidden">
+          {/* SVG Heart decorations */}
+          <svg className="absolute top-1 left-3 w-5 h-5 text-white/15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <svg className="absolute top-2 right-4 w-4 h-4 text-white/10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <svg className="absolute bottom-1 left-1/4 w-3 h-3 text-white/10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <svg className="absolute bottom-2 right-1/4 w-6 h-6 text-white/10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <svg className="absolute top-0 left-1/2 w-4 h-4 text-white/8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          {/* Content */}
+          <p className="text-white text-sm font-bold tracking-wide relative z-10">Valentine Special – Limited Time Only</p>
+          <span className="inline-block mt-2 text-white/90 text-xs font-medium tracking-widest uppercase border border-white/30 rounded-full px-4 py-1 relative z-10">Shop Now →</span>
+        </div>
+      </Link>
+
       {/* Signature Collection */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
