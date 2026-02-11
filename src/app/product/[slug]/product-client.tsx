@@ -188,7 +188,7 @@ export default function ProductClient({
         <div className="lg:w-1/2">
           <div className="space-y-6">
             {/* Category */}
-            {product.attributes?.length && (
+            {product.attributes && product.attributes.length > 0 && (
               <div className="text-xs text-gray-500 uppercase tracking-widest font-light">
                 {product.attributes[0]?.option || 'Collection'}
               </div>

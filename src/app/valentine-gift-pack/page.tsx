@@ -5,12 +5,12 @@ import ValentineGiftPackClient from './ValentineGiftPackClient';
 
 
 export const metadata: Metadata = {
-  title: "Valentine's Gift Pack - Buy 2 @₹999 & Get 2 10ml FREE | Eda Perfumes",
-  description: "Exclusive Valentine's Day gift pack - Buy 2 signature 100ml perfumes at just ₹999 and get 2 travel size 10ml perfumes FREE. Perfect romantic gift for your loved ones.",
-  keywords: "valentine gift, perfume gift pack, romantic gift, eda perfumes, fragrance gift set",
+  title: "Perfume Love Deal - Buy 2 @₹1099 & Get 4 Mini Testers FREE | Eda Perfumes",
+  description: "Exclusive Perfume Love Deal - Buy any 2 signature 100ml perfumes at just ₹1099 and get 4 mini testers (10ml) absolutely FREE. Perfect romantic gift for your loved ones.",
+  keywords: "perfume love deal, valentine gift, perfume gift pack, romantic gift, eda perfumes, fragrance gift set, mini testers free",
   openGraph: {
-    title: "Valentine's Gift Pack - Eda Perfumes",
-    description: "Buy 2 @₹999 & Get 2 10ml FREE - Limited Time Offer",
+    title: "Perfume Love Deal - Eda Perfumes",
+    description: "Buy 2 @₹1099 & Get 4 Mini Testers FREE - Limited Time Offer",
     type: "website",
   },
 };

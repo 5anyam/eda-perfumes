@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import Buy3GetGiftsClient from './Buy3GetGiftsClient';
+import BuyThreeGetGiftsClient from './BuyThreeGetGiftsClient';
 
 ///
 export const metadata: Metadata = {
@@ -13,6 +13,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Buy3GetGiftsPage() {
-  return <Buy3GetGiftsClient />;
+export default function BuyThreeGetGiftsPage() {
+  return <BuyThreeGetGiftsClient />;
 }

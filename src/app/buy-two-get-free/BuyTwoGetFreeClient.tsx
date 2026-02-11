@@ -1,12 +1,12 @@
 'use client';
 
-//
+/////
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProducts, Product } from '../../../lib/woocommerceApi';
 import { useCart } from '../../../lib/cart';
 import Link from 'next/link';
-import { Crown, Gift, Sparkles, Check, ShoppingBag, Star, Package, Award, ShoppingCart } from 'lucide-react';
+import { Tag, Gift, Zap, Check, ShoppingBag, Star, Package, ShoppingCart } from 'lucide-react';
 
 interface ExtendedProduct extends Product {
   slug?: string;
@@ -14,16 +14,16 @@ interface ExtendedProduct extends Product {
   categories?: { id: number; name: string; slug?: string }[];
 }
 
-export default function Buy3GetGiftsClient() {
+export default function BuyTwoGetFreeClient() {
   const { addToCart, openDrawer } = useCart();
   const [selectedMain, setSelectedMain] = useState<ExtendedProduct[]>([]);
-  const [selectedGifts, setSelectedGifts] = useState<ExtendedProduct[]>([]);
+  const [selectedFree, setSelectedFree] = useState<ExtendedProduct[]>([]);
   const [addedToCart, setAddedToCart] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [addedProducts, setAddedProducts] = useState<Set<number>>(new Set());
 
   const { data, isLoading } = useQuery<ExtendedProduct[]>({
-    queryKey: ['buy3-products'],
+    queryKey: ['buy2-products'],
     queryFn: async () => {
       const result = await fetchProducts(1, 100);
       return (result || []) as ExtendedProduct[];
@@ -48,8 +48,13 @@ export default function Buy3GetGiftsClient() {
     ? mainPerfumes
     : mainPerfumes.filter(p => p.categories?.some(c => c.name === selectedCategory));
 
-  // Filter 10ml products for gifts
-  const giftPerfumes = allProducts.filter((p) => /10\s*ml/i.test(p.name));
+  // Filter 10ml products (exclude pocket combos - they have "+" or "2 x 10ml" in name)
+  const miniPerfumes = allProducts.filter((p) =>
+    /10\s*ml/i.test(p.name) &&
+    !/\+/.test(p.name) &&
+    !/2\s*[x×]\s*10\s*ml/i.test(p.name) &&
+    !/combo|pack|bundle|duo|set/i.test(p.name)
+  );
 
   const handleQuickAddToCart = (e: React.MouseEvent, product: ExtendedProduct) => {
     e.stopPropagation();
@@ -74,22 +79,22 @@ export default function Buy3GetGiftsClient() {
   const handleSelectMain = (product: ExtendedProduct) => {
     if (selectedMain.find((p) => p.id === product.id)) {
       setSelectedMain(selectedMain.filter((p) => p.id !== product.id));
-    } else if (selectedMain.length < 3) {
+    } else if (selectedMain.length < 2) {
       setSelectedMain([...selectedMain, product]);
     }
     setAddedToCart(false);
   };
 
-  const handleSelectGift = (product: ExtendedProduct) => {
-    if (selectedGifts.find((p) => p.id === product.id)) {
-      setSelectedGifts(selectedGifts.filter((p) => p.id !== product.id));
-    } else if (selectedGifts.length < 3) {
-      setSelectedGifts([...selectedGifts, product]);
+  const handleSelectFree = (product: ExtendedProduct) => {
+    if (selectedFree.find((p) => p.id === product.id)) {
+      setSelectedFree(selectedFree.filter((p) => p.id !== product.id));
+    } else if (selectedFree.length < 2) {
+      setSelectedFree([...selectedFree, product]);
     }
     setAddedToCart(false);
   };
 
-  const isComplete = selectedMain.length === 3 && selectedGifts.length === 3;
+  const isComplete = selectedMain.length === 2 && selectedFree.length === 2;
 
   const handleAddToCart = () => {
     if (!isComplete) return;
@@ -97,9 +102,9 @@ export default function Buy3GetGiftsClient() {
     // Create a special bundle product
     const bundleProduct = {
       id: Date.now(),
-      name: `Buy 3 @ ₹1499 Bundle: ${selectedMain.map(p => p.name.split(' ')[0]).join(', ')} + 3 FREE Gifts`,
-      price: '1499',
-      regular_price: '4499',
+      name: `Buy 2 @ ₹999 Bundle: ${selectedMain.map(p => p.name.split(' ')[0]).join(' + ')} + 2 FREE 10ml`,
+      price: '999',
+      regular_price: '2999',
       images: selectedMain[0]?.images?.map(img => ({ src: img.src })) || [],
     };
 
@@ -111,130 +116,75 @@ export default function Buy3GetGiftsClient() {
   const totalOriginalPrice = () => {
     let total = 0;
     selectedMain.forEach((p) => (total += Number(p.price) || 0));
-    selectedGifts.forEach((p) => (total += Number(p.price) || 0));
+    selectedFree.forEach((p) => (total += Number(p.price) || 0));
     return total;
   };
 
-  const savings = totalOriginalPrice() - 1499;
+  const savings = totalOriginalPrice() - 999;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-violet-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 via-white to-orange-50">
       {/* Hero Banner */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 py-8 md:py-12">
-        {/* Background decorations */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-10 -right-10 w-60 h-60 bg-pink-300/20 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/4 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Left side - Offer details */}
-            <div className="text-center md:text-left">
-              <div className="inline-block bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2 mb-4">
-                <span className="text-white font-bold text-sm md:text-base tracking-wider flex items-center gap-2">
-                  <Crown className="w-4 h-4" /> PREMIUM BUNDLE
-                </span>
-              </div>
-
-              <h1 className="text-white mb-2">
-                <span className="block text-4xl md:text-6xl font-black tracking-tight">BUY 3</span>
-                <span className="block text-2xl md:text-4xl font-bold tracking-tight">+ GET 3 GIFTS</span>
-              </h1>
-
-              <div className="flex items-center justify-center md:justify-start gap-2 my-4">
-                <span className="text-white/80 text-xl md:text-2xl font-medium">@</span>
-                <span className="text-5xl md:text-7xl font-black text-yellow-300 drop-shadow-lg" style={{textShadow: '3px 3px 6px rgba(0,0,0,0.3)'}}>₹1499</span>
-              </div>
-
-              <p className="text-white/90 text-lg md:text-xl font-medium mb-4">
-                3×100ml Perfumes + 3×10ml Travel Sizes FREE
-              </p>
-
-              <div className="flex flex-wrap justify-center md:justify-start gap-3">
-                <div className="bg-white rounded-full px-4 py-2 flex items-center gap-2 shadow-lg">
-                  <Gift className="w-5 h-5 text-purple-600" />
-                  <span className="text-purple-700 font-bold text-sm">3 FREE GIFTS</span>
-                </div>
-                <div className="bg-yellow-400 rounded-full px-4 py-2 shadow-lg">
-                  <span className="text-yellow-900 font-bold text-sm">SAVE ₹3000+</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right side - Visual element */}
-            <div className="relative">
-              <div className="w-48 h-48 md:w-64 md:h-64 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white/30">
-                <div className="text-center">
-                  <div className="text-5xl md:text-7xl font-black text-white">3+3</div>
-                  <p className="text-white font-bold text-sm md:text-base mt-2">PERFUMES</p>
-                </div>
-              </div>
-              <div className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-full w-16 h-16 md:w-20 md:h-20 flex items-center justify-center font-black text-xs md:text-sm shadow-lg animate-pulse">
-                BEST<br/>VALUE
-              </div>
-            </div>
-          </div>
-        </div>
+      <section className="w-full">
+        <a href="#selection-section" className="block cursor-pointer">
+          <img
+            src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/valentinebanner.jpeg"
+            alt="Buy 2 @₹999 & Get 2 10ml FREE - Eda Perfumes"
+            className="w-full h-auto object-cover"
+            loading="eager"
+          />
+        </a>
       </section>
 
       {/* What You Get Section */}
       <section className="py-8 px-4 bg-white border-y border-gray-100">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             <div className="p-4">
-              <div className="w-12 h-12 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                <Package className="w-6 h-6 text-violet-600" />
+              <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                <Package className="w-6 h-6 text-amber-600" />
               </div>
-              <p className="text-sm font-medium text-gray-900">3× 100ml</p>
+              <p className="text-sm font-medium text-gray-900">2× 100ml</p>
               <p className="text-xs text-gray-500">Signature Perfumes</p>
             </div>
             <div className="p-4">
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
                 <Gift className="w-6 h-6 text-green-600" />
               </div>
-              <p className="text-sm font-medium text-gray-900">3× 10ml FREE</p>
-              <p className="text-xs text-gray-500">Gift Perfumes</p>
+              <p className="text-sm font-medium text-gray-900">2× 10ml FREE</p>
+              <p className="text-xs text-gray-500">Travel Sizes</p>
             </div>
             <div className="p-4">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
                 <Star className="w-6 h-6 text-blue-600" />
               </div>
-              <p className="text-sm font-medium text-gray-900">6 Perfumes</p>
-              <p className="text-xs text-gray-500">Total Collection</p>
-            </div>
-            <div className="p-4">
-              <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                <Crown className="w-6 h-6 text-amber-600" />
-              </div>
               <p className="text-sm font-medium text-gray-900">Premium Quality</p>
               <p className="text-xs text-gray-500">Long Lasting</p>
             </div>
-            <div className="p-4 col-span-2 md:col-span-1">
-              <div className="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                <Sparkles className="w-6 h-6 text-rose-600" />
+            <div className="p-4">
+              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                <Zap className="w-6 h-6 text-purple-600" />
               </div>
               <p className="text-sm font-medium text-gray-900">67% OFF</p>
-              <p className="text-xs text-gray-500">Maximum Savings</p>
+              <p className="text-xs text-gray-500">Limited Time</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Selection Section */}
-      <section className="py-12 px-4">
+      <section id="selection-section" className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
 
-          {/* Step 1: Select 3 Main Perfumes */}
+          {/* Step 1: Select 2 Main Perfumes */}
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-6">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedMain.length === 3 ? 'bg-green-500' : 'bg-violet-500'}`}>
-                {selectedMain.length === 3 ? <Check className="w-5 h-5" /> : '1'}
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedMain.length === 2 ? 'bg-green-500' : 'bg-amber-500'}`}>
+                {selectedMain.length === 2 ? <Check className="w-5 h-5" /> : '1'}
               </div>
               <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Choose 3 Signature Perfumes (100ml)
-                <span className="text-violet-600 ml-2">({selectedMain.length}/3 selected)</span>
+                Choose 2 Signature Perfumes (100ml)
+                <span className="text-amber-600 ml-2">({selectedMain.length}/2 selected)</span>
               </h2>
             </div>
 
@@ -247,8 +197,8 @@ export default function Buy3GetGiftsClient() {
                     onClick={() => setSelectedCategory(category)}
                     className={`px-6 py-2.5 rounded-full font-semibold text-sm transition-all whitespace-nowrap ${
                       selectedCategory === category
-                        ? 'bg-violet-500 text-white shadow-lg'
-                        : 'bg-white text-gray-600 hover:bg-violet-50 hover:text-violet-600 border border-gray-200'
+                        ? 'bg-amber-500 text-white shadow-lg'
+                        : 'bg-white text-gray-600 hover:bg-amber-50 hover:text-amber-600 border border-gray-200'
                     }`}
                   >
                     {category}
@@ -271,8 +221,7 @@ export default function Buy3GetGiftsClient() {
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {filteredMainPerfumes.map((product) => {
                   const isSelected = selectedMain.find((p) => p.id === product.id);
-                  const isDisabled = selectedMain.length >= 3 && !isSelected;
-                  const selectionIndex = selectedMain.findIndex((p) => p.id === product.id);
+                  const isDisabled = selectedMain.length >= 2 && !isSelected;
 
                   return (
                     <div
@@ -280,7 +229,7 @@ export default function Buy3GetGiftsClient() {
                       onClick={() => !isDisabled && handleSelectMain(product)}
                       className={`cursor-pointer bg-white rounded-xl overflow-hidden transition-all duration-300 ${
                         isSelected
-                          ? 'ring-2 ring-violet-500 shadow-lg scale-[1.02]'
+                          ? 'ring-2 ring-amber-500 shadow-lg scale-[1.02]'
                           : isDisabled
                           ? 'opacity-50 cursor-not-allowed'
                           : 'hover:shadow-md border border-gray-100'
@@ -293,8 +242,8 @@ export default function Buy3GetGiftsClient() {
                           className="w-full h-full object-cover"
                         />
                         {isSelected && (
-                          <div className="absolute top-3 right-3 bg-violet-500 text-white w-7 h-7 rounded-full flex items-center justify-center font-medium text-sm">
-                            {selectionIndex + 1}
+                          <div className="absolute top-3 right-3 bg-amber-500 text-white p-1.5 rounded-full">
+                            <Check className="w-4 h-4" />
                           </div>
                         )}
                         <div className="absolute bottom-3 left-3 bg-black/70 text-white px-2 py-1 rounded text-xs">
@@ -306,7 +255,7 @@ export default function Buy3GetGiftsClient() {
                           {product.name}
                         </h3>
                         <div className="flex items-center justify-between">
-                          <p className="text-violet-600 font-semibold text-sm">
+                          <p className="text-amber-600 font-semibold text-sm">
                             ₹{Number(product.price).toLocaleString()}
                           </p>
                           <button
@@ -314,7 +263,7 @@ export default function Buy3GetGiftsClient() {
                             className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
                               addedProducts.has(product.id)
                                 ? 'bg-green-500 text-white'
-                                : 'bg-violet-500 text-white hover:bg-violet-600'
+                                : 'bg-amber-500 text-white hover:bg-amber-600'
                             }`}
                           >
                             {addedProducts.has(product.id) ? (
@@ -344,19 +293,18 @@ export default function Buy3GetGiftsClient() {
             )}
           </div>
 
-          {/* Step 2: Select 3 FREE Gifts */}
+          {/* Step 2: Select 2 FREE 10ml */}
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-8">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedGifts.length === 3 ? 'bg-green-500' : 'bg-violet-500'}`}>
-                {selectedGifts.length === 3 ? <Check className="w-5 h-5" /> : '2'}
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedFree.length === 2 ? 'bg-green-500' : 'bg-amber-500'}`}>
+                {selectedFree.length === 2 ? <Check className="w-5 h-5" /> : '2'}
               </div>
               <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Choose 3 FREE Gifts (10ml each)
-                <span className="text-green-600 ml-2">({selectedGifts.length}/3 selected)</span>
+                Choose 2 FREE Travel Sizes (10ml)
+                <span className="text-green-600 ml-2">({selectedFree.length}/2 selected)</span>
               </h2>
-              <span className="bg-gradient-to-r from-emerald-500 to-green-500 text-white text-xs px-3 py-1 rounded-full font-medium flex items-center gap-1">
-                <Gift className="w-3 h-3" />
-                FREE GIFTS
+              <span className="bg-green-500 text-white text-xs px-3 py-1 rounded-full font-medium">
+                FREE
               </span>
             </div>
 
@@ -372,15 +320,14 @@ export default function Buy3GetGiftsClient() {
               </div>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                {giftPerfumes.map((product) => {
-                  const isSelected = selectedGifts.find((p) => p.id === product.id);
-                  const isDisabled = selectedGifts.length >= 3 && !isSelected;
-                  const selectionIndex = selectedGifts.findIndex((p) => p.id === product.id);
+                {miniPerfumes.map((product) => {
+                  const isSelected = selectedFree.find((p) => p.id === product.id);
+                  const isDisabled = selectedFree.length >= 2 && !isSelected;
 
                   return (
                     <div
                       key={product.id}
-                      onClick={() => !isDisabled && handleSelectGift(product)}
+                      onClick={() => !isDisabled && handleSelectFree(product)}
                       className={`cursor-pointer bg-white rounded-xl overflow-hidden transition-all duration-300 ${
                         isSelected
                           ? 'ring-2 ring-green-500 shadow-lg'
@@ -396,12 +343,12 @@ export default function Buy3GetGiftsClient() {
                           className="w-full h-full object-cover"
                         />
                         {isSelected && (
-                          <div className="absolute top-2 right-2 bg-green-500 text-white w-6 h-6 rounded-full flex items-center justify-center font-medium text-xs">
-                            {selectionIndex + 1}
+                          <div className="absolute top-2 right-2 bg-green-500 text-white p-1 rounded-full">
+                            <Check className="w-3 h-3" />
                           </div>
                         )}
-                        <div className="absolute top-2 left-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white px-2 py-0.5 rounded text-xs font-medium">
-                          GIFT
+                        <div className="absolute top-2 left-2 bg-green-500 text-white px-2 py-0.5 rounded text-xs font-medium">
+                          FREE
                         </div>
                       </div>
                       <div className="p-3">
@@ -417,7 +364,7 @@ export default function Buy3GetGiftsClient() {
                             className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold transition-all ${
                               addedProducts.has(product.id)
                                 ? 'bg-green-500 text-white'
-                                : 'bg-violet-500 text-white hover:bg-violet-600'
+                                : 'bg-amber-500 text-white hover:bg-amber-600'
                             }`}
                           >
                             {addedProducts.has(product.id) ? (
@@ -434,28 +381,25 @@ export default function Buy3GetGiftsClient() {
               </div>
             )}
 
-            {giftPerfumes.length === 0 && !isLoading && (
+            {miniPerfumes.length === 0 && !isLoading && (
               <div className="text-center py-12 text-gray-500">
-                <p>Gift perfumes loading...</p>
+                <p>Travel size perfumes loading...</p>
               </div>
             )}
           </div>
 
           {/* Summary & Add to Cart */}
-          <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-violet-100 max-w-2xl mx-auto">
-            <div className="flex items-center justify-center gap-2 mb-6">
-              <Crown className="w-6 h-6 text-violet-500" />
-              <h3 className="text-xl font-light text-gray-900">
-                Your Premium Bundle
-              </h3>
-            </div>
+          <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-amber-100 max-w-2xl mx-auto">
+            <h3 className="text-xl font-light text-gray-900 mb-6 text-center">
+              Your Bundle Summary
+            </h3>
 
             <div className="space-y-4 mb-6">
               {/* Selected Main Perfumes */}
-              <div className="flex items-center gap-4 p-3 bg-violet-50 rounded-lg">
-                <div className="w-20 h-16 bg-violet-100 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-3 gap-0.5 p-1">
-                  {[0, 1, 2].map((i) => (
-                    <div key={i} className="bg-violet-200 rounded overflow-hidden">
+              <div className="flex items-center gap-4 p-3 bg-amber-50 rounded-lg">
+                <div className="w-16 h-16 bg-amber-100 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-2 gap-0.5 p-1">
+                  {[0, 1].map((i) => (
+                    <div key={i} className="bg-amber-200 rounded overflow-hidden">
                       {selectedMain[i] && (
                         <img
                           src={selectedMain[i].images?.[0]?.src || '/placeholder.png'}
@@ -470,21 +414,21 @@ export default function Buy3GetGiftsClient() {
                   <p className="text-sm font-medium text-gray-900">
                     {selectedMain.length > 0
                       ? `${selectedMain.length} Signature Perfumes`
-                      : 'Select 3 signature perfumes'}
+                      : 'Select 2 signature perfumes'}
                   </p>
-                  <p className="text-xs text-gray-500">3 × 100ml Bottles @ ₹1,499</p>
+                  <p className="text-xs text-gray-500">2 × 100ml Bottles @ ₹999</p>
                 </div>
-                {selectedMain.length === 3 && <Check className="w-5 h-5 text-green-500" />}
+                {selectedMain.length === 2 && <Check className="w-5 h-5 text-green-500" />}
               </div>
 
-              {/* Selected Gift Perfumes */}
+              {/* Selected Free Perfumes */}
               <div className="flex items-center gap-4 p-3 bg-green-50 rounded-lg">
-                <div className="w-20 h-16 bg-green-100 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-3 gap-0.5 p-1">
-                  {[0, 1, 2].map((i) => (
+                <div className="w-16 h-16 bg-green-100 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-2 gap-0.5 p-1">
+                  {[0, 1].map((i) => (
                     <div key={i} className="bg-green-200 rounded overflow-hidden">
-                      {selectedGifts[i] && (
+                      {selectedFree[i] && (
                         <img
-                          src={selectedGifts[i].images?.[0]?.src || '/placeholder.png'}
+                          src={selectedFree[i].images?.[0]?.src || '/placeholder.png'}
                           alt=""
                           className="w-full h-full object-cover"
                         />
@@ -494,32 +438,29 @@ export default function Buy3GetGiftsClient() {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-900">
-                    {selectedGifts.length > 0
-                      ? `${selectedGifts.length} Gift Perfumes`
-                      : 'Select 3 gift perfumes'}
+                    {selectedFree.length > 0
+                      ? `${selectedFree.length} Travel Sizes`
+                      : 'Select 2 travel sizes'}
                   </p>
-                  <p className="text-xs text-green-600 font-medium">3 × 10ml Bottles - FREE GIFTS!</p>
+                  <p className="text-xs text-green-600 font-medium">2 × 10ml Bottles - FREE!</p>
                 </div>
-                {selectedGifts.length === 3 && <Check className="w-5 h-5 text-green-500" />}
+                {selectedFree.length === 2 && <Check className="w-5 h-5 text-green-500" />}
               </div>
             </div>
 
             <div className="border-t border-gray-200 pt-4 mb-6">
               <div className="flex justify-between text-sm text-gray-500 mb-2">
-                <span>Original Price (6 perfumes):</span>
+                <span>Original Price:</span>
                 <span className="line-through">₹{totalOriginalPrice().toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-sm text-green-600 mb-2">
                 <span>You Save:</span>
-                <span className="font-medium">₹{savings > 0 ? savings.toLocaleString() : '3,000'}</span>
+                <span>₹{savings > 0 ? savings.toLocaleString() : '2,000'}</span>
               </div>
               <div className="flex justify-between text-xl font-medium text-gray-900">
                 <span>Bundle Price:</span>
-                <span className="text-violet-600">₹1,499</span>
+                <span className="text-amber-600">₹999</span>
               </div>
-              <p className="text-xs text-center text-gray-500 mt-2">
-                That's just ₹250 per perfume!
-              </p>
             </div>
 
             {addedToCart ? (
@@ -542,22 +483,22 @@ export default function Buy3GetGiftsClient() {
                 disabled={!isComplete}
                 className={`w-full py-4 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2 ${
                   isComplete
-                    ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-700 hover:to-purple-700 shadow-lg hover:shadow-xl'
+                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl'
                     : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                 }`}
               >
-                <Crown className="w-5 h-5" />
-                {isComplete ? 'Add Premium Bundle - ₹1,499' : 'Complete Your Selection'}
+                <ShoppingBag className="w-5 h-5" />
+                {isComplete ? 'Add Bundle to Cart - ₹999' : 'Complete Your Selection'}
               </button>
             )}
 
             {!isComplete && (
               <p className="text-center text-sm text-gray-500 mt-4">
-                {selectedMain.length < 3 && selectedGifts.length < 3
-                  ? 'Select 3 signature perfumes and 3 free gifts'
-                  : selectedMain.length < 3
-                  ? `Select ${3 - selectedMain.length} more signature perfume${3 - selectedMain.length > 1 ? 's' : ''}`
-                  : `Select ${3 - selectedGifts.length} more free gift${3 - selectedGifts.length > 1 ? 's' : ''}`}
+                {selectedMain.length < 2 && selectedFree.length < 2
+                  ? 'Select 2 signature perfumes and 2 free travel sizes'
+                  : selectedMain.length < 2
+                  ? `Select ${2 - selectedMain.length} more signature perfume${2 - selectedMain.length > 1 ? 's' : ''}`
+                  : `Select ${2 - selectedFree.length} more free travel size${2 - selectedFree.length > 1 ? 's' : ''}`}
               </p>
             )}
           </div>
@@ -568,47 +509,37 @@ export default function Buy3GetGiftsClient() {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-light text-center text-gray-900 mb-12">
-            Why This is Our Best Deal
+            Why This Deal is Unbeatable
           </h2>
 
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-14 h-14 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Crown className="w-7 h-7 text-violet-600" />
+              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Tag className="w-8 h-8 text-amber-600" />
               </div>
-              <h3 className="font-medium text-gray-900 mb-2">Best Value</h3>
+              <h3 className="font-medium text-gray-900 mb-2">67% Savings</h3>
               <p className="text-gray-600 text-sm">
-                6 perfumes for the price of 1
+                Get 4 perfumes at the price of less than 1
               </p>
             </div>
 
             <div className="text-center">
-              <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Gift className="w-7 h-7 text-green-600" />
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Gift className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="font-medium text-gray-900 mb-2">3 Free Gifts</h3>
+              <h3 className="font-medium text-gray-900 mb-2">Free Gifts</h3>
               <p className="text-gray-600 text-sm">
-                Travel sizes worth ₹900 free
+                2 travel sizes worth ₹600 absolutely free
               </p>
             </div>
 
             <div className="text-center">
-              <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Sparkles className="w-7 h-7 text-amber-600" />
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Zap className="w-8 h-8 text-orange-600" />
               </div>
-              <h3 className="font-medium text-gray-900 mb-2">₹250 Each</h3>
+              <h3 className="font-medium text-gray-900 mb-2">Limited Stock</h3>
               <p className="text-gray-600 text-sm">
-                Lowest price per perfume
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-14 h-14 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="w-7 h-7 text-rose-600" />
-              </div>
-              <h3 className="font-medium text-gray-900 mb-2">Premium Quality</h3>
-              <p className="text-gray-600 text-sm">
-                Same quality, maximum savings
+                Grab this deal before it's gone
               </p>
             </div>
           </div>

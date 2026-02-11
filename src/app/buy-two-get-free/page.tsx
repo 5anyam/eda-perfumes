@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import Buy2GetFreeClient from './Buy2GetFreeClient';
+import BuyTwoGetFreeClient from './BuyTwoGetFreeClient';
 
 export const metadata: Metadata = {
   title: "Buy 2 @ ₹999 + Get 2×10ml FREE | Eda Perfumes",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Buy2GetFreePage() {
-  return <Buy2GetFreeClient />;
+export default function BuyTwoGetFreePage() {
+  return <BuyTwoGetFreeClient />;
 }
 //////

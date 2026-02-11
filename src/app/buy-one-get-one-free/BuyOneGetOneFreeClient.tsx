@@ -13,7 +13,7 @@ interface ExtendedProduct extends Product {
   categories?: { id: number; name: string; slug?: string }[];
 }
 
-export default function Buy1At799Client() {
+export default function BuyOneGetOneFreeClient() {
   const { addToCart, openDrawer } = useCart();
   const [selectedMain, setSelectedMain] = useState<ExtendedProduct | null>(null);
   const [selectedFree, setSelectedFree] = useState<ExtendedProduct | null>(null);

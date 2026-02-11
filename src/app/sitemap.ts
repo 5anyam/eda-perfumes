@@ -18,9 +18,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Special offers
     { url: 'https://www.edaperfumes.com/valentine-gift-pack', lastModified: new Date('2026-02-04'), changeFrequency: 'weekly', priority: 0.90 },
-    { url: 'https://www.edaperfumes.com/buy2-get-free', lastModified: new Date('2026-02-04'), changeFrequency: 'weekly', priority: 0.90 },
-    { url: 'https://www.edaperfumes.com/buy3-get-gifts', lastModified: new Date('2026-02-04'), changeFrequency: 'weekly', priority: 0.90 },
-    { url: 'https://www.edaperfumes.com/buy1-at-799', lastModified: new Date('2026-02-04'), changeFrequency: 'weekly', priority: 0.90 },
+    { url: 'https://www.edaperfumes.com/buy-two-get-free', lastModified: new Date('2026-02-04'), changeFrequency: 'weekly', priority: 0.90 },
+    { url: 'https://www.edaperfumes.com/buy-three-get-gifts', lastModified: new Date('2026-02-04'), changeFrequency: 'weekly', priority: 0.90 },
+    { url: 'https://www.edaperfumes.com/buy-one-get-one-free', lastModified: new Date('2026-02-04'), changeFrequency: 'weekly', priority: 0.90 },
 
     // Static pages
     { url: 'https://www.edaperfumes.com/combos', lastModified: new Date('2026-01-31'), changeFrequency: 'monthly', priority: 0.80 },

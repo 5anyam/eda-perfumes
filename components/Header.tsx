@@ -12,15 +12,15 @@ import { useTypewriter } from 'react-simple-typewriter';
 const navItems = [
   { name: "Home", to: "/" },
   { 
-    name: "Unisex 100ml", 
-    to: "/shop/unisex",
+    name: "Unisex 100ml",
+    to: "/shop",
     submenu: [
-      { name: "Bite Me", to: "https://www.edaperfumes.com/product/bite-me-seductive-floral-citrus-eau-de-parfum", price: "549" },
-      { name: "Nude Poison", to: "https://www.edaperfumes.com/product/nude-poison-elegant-unisex-eau-de-parfum-100ml", price: "569" },
-      { name: "Bad Habits", to: "https://www.edaperfumes.com/product/bad-habits-eau-de-parfum-100ml", price: "529" },
-      { name: "Oudh Shukran", to: "https://www.edaperfumes.com/product/oudh-shukran-eau-de-parfum-100ml", price: "499" },
-      { name: "Lusty Nights", to: "https://www.edaperfumes.com/product/lusty-nights-premium-unisex-eau-de-parfum-100ml", price: "569" },
-      { name: "Guilty Midnight", to: "https://www.edaperfumes.com/product/guilty-premium-eau-de-parfum-100ml", price: "599" }
+      { name: "Bite Me", to: "/product/bite-me-seductive-floral-citrus-eau-de-parfum", price: "549" },
+      { name: "Nude Poison", to: "/product/nude-poison-elegant-unisex-eau-de-parfum-100ml", price: "569" },
+      { name: "Bad Habits", to: "/product/bad-habits-eau-de-parfum-100ml", price: "529" },
+      { name: "Oudh Shukran", to: "/product/oudh-shukran-eau-de-parfum-100ml", price: "499" },
+      { name: "Lusty Nights", to: "/product/lusty-nights-premium-unisex-eau-de-parfum-100ml", price: "569" },
+      { name: "Guilty Midnight", to: "/product/guilty-premium-eau-de-parfum-100ml", price: "599" }
     ]
   },
   {
@@ -28,9 +28,9 @@ const navItems = [
     to: "/valentine-gift-pack",
     submenu: [
       { name: "💝 Valentine Gift Pack", to: "/valentine-gift-pack", price: "Limited" },
-      { name: "Buy 1 at ₹799", to: "/buy1-at-799", price: "799" },
-      { name: "Buy 2 Get Free", to: "/buy2-get-free", price: "Offer" },
-      { name: "Buy 3 Get Gifts", to: "/buy3-get-gifts", price: "Offer" },
+      { name: "Buy 1 at ₹799", to: "/buy-one-get-one-free", price: "799" },
+      { name: "Buy 2 Get Free", to: "/buy-two-get-free", price: "Offer" },
+      { name: "Buy 3 Get Gifts", to: "/buy-three-get-gifts", price: "Offer" },
     ]
   },
   {

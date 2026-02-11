@@ -89,13 +89,13 @@ export default function ValentineGiftPackClient() {
   const handleSelectMini = (product: ExtendedProduct) => {
     if (selectedMinis.find((p) => p.id === product.id)) {
       setSelectedMinis(selectedMinis.filter((p) => p.id !== product.id));
-    } else if (selectedMinis.length < 2) {
+    } else if (selectedMinis.length < 4) {
       setSelectedMinis([...selectedMinis, product]);
     }
     setAddedToCart(false);
   };
 
-  const isComplete = selectedMains.length === 2 && selectedMinis.length === 2;
+  const isComplete = selectedMains.length === 2 && selectedMinis.length === 4;
 
   const handleAddToCart = () => {
     if (!isComplete) return;
@@ -104,9 +104,9 @@ export default function ValentineGiftPackClient() {
     const mainNames = selectedMains.map(p => p.name).join(' + ');
     const giftPackProduct = {
       id: Date.now(), // Unique ID for the gift pack
-      name: `Valentine's Gift Pack: ${mainNames} + 2 Travel Sizes`,
-      price: '999',
-      regular_price: '2499',
+      name: `Valentine's Gift Pack: ${mainNames} + 4 Mini Testers`,
+      price: '1099',
+      regular_price: '2999',
       images: selectedMains[0]?.images?.map(img => ({ src: img.src })) || [],
     };
 
@@ -122,7 +122,7 @@ export default function ValentineGiftPackClient() {
     return total;
   };
 
-  const savings = totalOriginalPrice() - 999;
+  const savings = totalOriginalPrice() - 1099;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-rose-50">
@@ -130,8 +130,8 @@ export default function ValentineGiftPackClient() {
       <section className="w-full">
         <a href="#selection-section" className="block cursor-pointer">
           <img
-            src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/valentinebanner.jpeg"
-            alt="Crafted for Valentine's - Buy 2 @999 & Get 2 10ml FREE"
+            src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/valentine-banner.jpeg"
+            alt="Perfume Love Deal - Buy 2 Perfumes (100ml) Get 4 Mini Testers FREE at just ₹1099"
             className="w-full h-auto object-cover"
             loading="eager"
           />
@@ -256,15 +256,15 @@ export default function ValentineGiftPackClient() {
             )}
           </div>
 
-          {/* Step 2: Select 2 Travel Sizes */}
+          {/* Step 2: Select 4 Mini Testers */}
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-8">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedMinis.length === 2 ? 'bg-green-500' : 'bg-rose-500'}`}>
-                {selectedMinis.length === 2 ? <Check className="w-5 h-5" /> : '2'}
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedMinis.length === 4 ? 'bg-green-500' : 'bg-rose-500'}`}>
+                {selectedMinis.length === 4 ? <Check className="w-5 h-5" /> : '2'}
               </div>
               <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Choose 2 Travel Sizes (10ml each)
-                <span className="text-rose-500 ml-2">({selectedMinis.length}/2 selected)</span>
+                Choose 4 Mini Testers (10ml each)
+                <span className="text-rose-500 ml-2">({selectedMinis.length}/4 selected)</span>
               </h2>
             </div>
 
@@ -282,7 +282,7 @@ export default function ValentineGiftPackClient() {
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {miniPerfumes.map((product) => {
                   const isSelected = selectedMinis.find((p) => p.id === product.id);
-                  const isDisabled = selectedMinis.length >= 2 && !isSelected;
+                  const isDisabled = selectedMinis.length >= 4 && !isSelected;
 
                   return (
                     <div
@@ -379,7 +379,7 @@ export default function ValentineGiftPackClient() {
 
               <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
                 <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-2 gap-0.5 p-1">
-                  {[0, 1].map((i) => (
+                  {[0, 1, 2, 3].map((i) => (
                     <div key={i} className="bg-gray-300 rounded overflow-hidden">
                       {selectedMinis[i] && (
                         <img
@@ -394,12 +394,12 @@ export default function ValentineGiftPackClient() {
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-900">
                     {selectedMinis.length > 0
-                      ? `${selectedMinis.length} Travel Sizes Selected`
-                      : 'Select 2 travel size perfumes'}
+                      ? `${selectedMinis.length} Mini Tester${selectedMinis.length > 1 ? 's' : ''} Selected`
+                      : 'Select 4 mini testers'}
                   </p>
-                  <p className="text-xs text-gray-500">2 × 10ml Bottles</p>
+                  <p className="text-xs text-gray-500">4 × 10ml Bottles (FREE)</p>
                 </div>
-                {selectedMinis.length === 2 && <Check className="w-5 h-5 text-green-500" />}
+                {selectedMinis.length === 4 && <Check className="w-5 h-5 text-green-500" />}
               </div>
             </div>
 
@@ -410,11 +410,11 @@ export default function ValentineGiftPackClient() {
               </div>
               <div className="flex justify-between text-sm text-green-600 mb-2">
                 <span>You Save:</span>
-                <span>₹{savings > 0 ? savings.toLocaleString() : '1,500'}</span>
+                <span>₹{savings > 0 ? savings.toLocaleString() : '1,900'}</span>
               </div>
               <div className="flex justify-between text-xl font-medium text-gray-900">
                 <span>Gift Pack Price:</span>
-                <span className="text-rose-500">₹999</span>
+                <span className="text-rose-500">₹1,099</span>
               </div>
             </div>
 
@@ -450,12 +450,12 @@ export default function ValentineGiftPackClient() {
             {!isComplete && (
               <p className="text-center text-sm text-gray-500 mt-4">
                 {selectedMains.length === 0 && selectedMinis.length === 0
-                  ? 'Select 2 signature perfumes and 2 travel sizes to continue'
-                  : selectedMains.length < 2 && selectedMinis.length < 2
-                  ? `Select ${2 - selectedMains.length} more perfume${2 - selectedMains.length > 1 ? 's' : ''} and ${2 - selectedMinis.length} more travel size${2 - selectedMinis.length > 1 ? 's' : ''}`
+                  ? 'Select 2 signature perfumes and 4 mini testers to continue'
+                  : selectedMains.length < 2 && selectedMinis.length < 4
+                  ? `Select ${2 - selectedMains.length} more perfume${2 - selectedMains.length > 1 ? 's' : ''} and ${4 - selectedMinis.length} more mini tester${4 - selectedMinis.length > 1 ? 's' : ''}`
                   : selectedMains.length < 2
                   ? `Select ${2 - selectedMains.length} more signature perfume${2 - selectedMains.length > 1 ? 's' : ''}`
-                  : `Select ${2 - selectedMinis.length} more travel size${2 - selectedMinis.length > 1 ? 's' : ''}`}
+                  : `Select ${4 - selectedMinis.length} more mini tester${4 - selectedMinis.length > 1 ? 's' : ''}`}
               </p>
             )}
           </div>

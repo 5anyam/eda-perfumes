@@ -79,3 +79,16 @@ body {
 .animate-blob3 {
   animation: blob3 14s ease-in-out infinite;
 }
+
+@layer components {
+  .prose.prose-sm h2 {
+    font-size: 24px;
+  }
+  .prose.prose-sm ul {
+    list-style: disc;
+    margin-left: 20px;
+  }
+  .prose.prose-sm ul li br {
+    display: none;
+  }
+}
