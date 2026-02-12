@@ -49,9 +49,19 @@ export default function ProductClient({
     enabled: Boolean(slug),
   })
 
-  const product: Product | undefined =
+  const rawProduct: Product | undefined =
     initialProduct ??
     products?.find((p) => p.slug === slug || p.id.toString() === slug)
+
+  // Product description overrides
+  const descriptionOverrides: Record<string, string> = {
+    'oudh-shukran-eau-de-parfum-100ml': '<p><span style="font-weight: 400;">Discover the timeless richness of</span><strong> Oudh Shukran</strong><span style="font-weight: 400;">, a luxurious Arabic fragrance crafted to reflect tradition, depth, and quiet confidence. Designed for those </span><strong>who appreciate bold oriental scents</strong><span style="font-weight: 400;">, this perfume blends elegance with intensity to create a truly memorable presence.</span></p>\n<p><span style="font-weight: 400;">With its deep oudh character and warm woody undertones, </span><strong>Oudh Shukran</strong><span style="font-weight: 400;"> is more than a fragrance — it\'s a</span><strong> statement of sophistication</strong><span style="font-weight: 400;"> rooted in </span><strong>Middle Eastern perfumery</strong><span style="font-weight: 400;">. Powerful yet refined, it leaves a lasting impression wherever you go.</span></p>',
+  };
+
+  const product = rawProduct ? {
+    ...rawProduct,
+    ...(rawProduct.slug && descriptionOverrides[rawProduct.slug] ? { description: descriptionOverrides[rawProduct.slug] } : {}),
+  } : undefined;
 
   const [quantity, setQuantity] = useState(1)
   const [isAddingToCart, setIsAddingToCart] = useState(false)
@@ -218,7 +228,7 @@ export default function ProductClient({
             {/* Short Description */}
             {product.short_description && (
               <div
-                className="prose prose-sm max-w-none text-gray-600 leading-relaxed font-light"
+                className="prose prose-sm max-w-none text-gray-600 leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: product.short_description }}
               />
             )}
