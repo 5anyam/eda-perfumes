@@ -117,9 +117,9 @@ export default function HomeClient() {
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3 tracking-wide">
+            <h1 className="text-3xl md:text-4xl font-light text-gray-900 mb-3 tracking-wide">
               Signature Collection
-            </h2>
+            </h1>
             <div className="w-16 h-px bg-gray-300 mx-auto mb-4"></div>
             <p className="text-gray-600 text-base max-w-2xl mx-auto font-light">
               Discover our most coveted fragrances that capture desire and sophistication
