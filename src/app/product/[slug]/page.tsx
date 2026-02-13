@@ -49,110 +49,74 @@ async function getProductBySlug(slug: string) {
   return products.find(p => p.slug === slug || String(p.id) === slug)
 }
 
-// ✅ Updated: Await params in generateMetadata
+// Fetch Yoast SEO data from WordPress REST API
+async function fetchYoastSeo(slug: string) {
+  try {
+    const res = await fetch(
+      `https://cms.edaperfumes.com/wp-json/wp/v2/product?slug=${slug}&_fields=yoast_head_json`,
+      { next: { revalidate: 3600 } }
+    )
+    if (!res.ok) return null
+    const data = await res.json()
+    return data?.[0]?.yoast_head_json ?? null
+  } catch {
+    return null
+  }
+}
+
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const { slug } = await params  // ← Await params here
-  const product = await getProductBySlug(slug)
+  const { slug } = await params
+  const [product, yoast] = await Promise.all([
+    getProductBySlug(slug),
+    fetchYoastSeo(slug),
+  ])
 
   if (!product) {
     return {
-      title: 'Product not found | Amraj',
+      title: 'Product not found | EDA Perfumes',
       description: 'The product you are looking for is unavailable.',
       robots: { index: false, follow: false },
     }
   }
 
-  const slugLower = String(product.slug || '').toLowerCase()
+  const brand = 'EDA Perfumes'
+  const fallbackTitle = `${product.name} | ${brand}`
+  const fallbackDescription = `Shop ${product.name} at EDA Perfumes. Premium long-lasting Eau de Parfum crafted with luxury ingredients.`
+  const fallbackCanonical = `https://www.edaperfumes.com/product/${product.slug}`
 
-  const baseKeywords = [
-    product.name,
-    'buy online',
-    'price',
-    'reviews',
-    'India',
-  ]
+  const title = yoast?.title || fallbackTitle
+  const description = yoast?.description || fallbackDescription
+  const canonical = yoast?.canonical || fallbackCanonical
 
-  let intentKeywords: string[] = []
-  let catchyBenefit = 'Premium Nutrition'
-  let description =
-    'High-quality nutrition supplement formulated for real results, rigorous quality, and everyday wellness support.'
+  const imageUrl = product.images?.[0]?.src || '/eda-perfumes-logo.jpeg'
 
-  if (slugLower.includes('prostate')) {
-    intentKeywords = [
-      'prostate care capsules',
-      'prostate health supplement',
-      'urinary support',
-      'enlarged prostate support',
-      'mens health',
-    ]
-    catchyBenefit = 'Prostate Relief & Urinary Support'
-    description =
-      'Targeted prostate care capsules supporting urinary flow, reduced night-time urgency, and healthy prostate function. Non-GMO, quality assured.'
-  } else if (slugLower.includes('weight') || slugLower.includes('fat') || slugLower.includes('slim')) {
-    intentKeywords = [
-      'weight management capsules',
-      'fat burner supplement',
-      'metabolism support',
-      'appetite control',
-      'green coffee extract',
-    ]
-    catchyBenefit = 'Faster Metabolism & Fat Loss'
-    description =
-      'Advanced weight management formula to support fat metabolism, curb cravings, and maintain steady energy. Non-GMO, trusted quality.'
-  } else if (slugLower.includes('liver') || slugLower.includes('detox')) {
-    intentKeywords = [
-      'liver detox capsules',
-      'liver cleanse supplement',
-      'milk thistle alternative',
-      'liver support',
-      'detox and cleanse',
-    ]
-    catchyBenefit = 'Liver Cleanse & Support'
-    description =
-      'Comprehensive liver detox capsules formulated to support natural detoxification, healthy enzymes, and digestive comfort. Non-GMO, quality assured.'
-  }
-
-  const keywords = Array.from(new Set([...baseKeywords, ...intentKeywords]))
-
-  const brand = 'Amraj'
-  const title = `${product.name} – ${catchyBenefit} | ${brand}`
-
-  const canonical = new URL(`/products/${product.slug}`, 'https://www.amraj.in')
-  const imageUrl =
-    product.images?.[0]?.src
-      ? new URL(product.images[0].src, 'https://www.amraj.in').toString()
-      : 'https://www.amraj.in/amraj-logo.jpg'
-
-  const previous = await parent
-  const previousOgImages = previous.openGraph?.images ?? []
+  const ogTitle = yoast?.og_title || title
+  const ogDescription = yoast?.og_description || description
+  const ogImage = yoast?.og_image?.[0]?.url || imageUrl
 
   return {
     title,
     description,
-    keywords,
-    alternates: { canonical: canonical.toString() },
+    alternates: { canonical },
     openGraph: {
       type: 'website',
-      title,
-      description,
-      url: canonical.toString(),
-      siteName: brand,
-      images: [
-        ...(Array.isArray(previousOgImages) ? previousOgImages : []),
-        { url: imageUrl, width: 1200, height: 630, alt: product.name },
-      ],
+      title: ogTitle,
+      description: ogDescription,
+      url: canonical,
+      siteName: yoast?.og_site_name || brand,
+      images: [{ url: ogImage, width: 1200, height: 630, alt: product.name }],
     },
     twitter: {
       card: 'summary_large_image',
-      title,
-      description,
-      images: [imageUrl],
+      title: ogTitle,
+      description: ogDescription,
+      images: [ogImage],
     },
     robots: { index: true, follow: true },
-    metadataBase: new URL('https://www.amraj.in'),
+    metadataBase: new URL('https://www.edaperfumes.com'),
   }
 }
 
