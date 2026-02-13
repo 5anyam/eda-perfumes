@@ -1,12 +1,14 @@
-'use client';
+import { Metadata } from 'next';
+import DisclaimerClient from './DisclaimerClient';
 
-import React from 'react';
+export const metadata: Metadata = {
+  title: 'Disclaimer | EDA Perfumes',
+  description: 'Disclaimer for EDA Perfumes products and services.',
+  alternates: { canonical: 'https://www.edaperfumes.com/disclaimer' },
+  robots: { index: true, follow: true },
+  metadataBase: new URL('https://www.edaperfumes.com'),
+};
 
-export default function TermsAndConditions() {
-  return (
-    <div className='h-screen justify-center'>
-    <h1 className='text-xl text-black text-center'>Disclaimer</h1>
-    <p className='text-center text-black text-base'>These statements have not been evaluated by the Food and Drug Administration (FDA). This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
-    </div>
-  )
+export default function DisclaimerPage() {
+  return <DisclaimerClient />;
 }

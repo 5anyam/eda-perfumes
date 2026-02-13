@@ -1,8 +1,22 @@
-
+import { Metadata } from 'next';
 import { fetchProducts } from "../../../lib/woocommerceApi";
 import ShopPageClient from "./shopPageClient";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: 'Shop All Perfumes | EDA Perfumes',
+  description: 'Browse the complete collection of EDA Perfumes luxury unisex fragrances. Premium long-lasting Eau de Parfum for every occasion.',
+  alternates: { canonical: 'https://www.edaperfumes.com/shop' },
+  openGraph: {
+    title: 'Shop All Perfumes | EDA Perfumes',
+    description: 'Browse the complete collection of EDA Perfumes luxury unisex fragrances.',
+    type: 'website',
+    url: 'https://www.edaperfumes.com/shop',
+  },
+  robots: { index: true, follow: true },
+  metadataBase: new URL('https://www.edaperfumes.com'),
+};
 
 export interface Product {
   id: number;
