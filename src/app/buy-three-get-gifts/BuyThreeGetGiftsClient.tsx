@@ -133,45 +133,72 @@ export default function BuyThreeGetGiftsClient() {
         />
       </section>
 
-      {/* What You Get Section */}
-      <section className="py-8 px-4 bg-white border-y border-gray-100">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
-            <div className="p-4">
-              <div className="w-12 h-12 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                <Package className="w-6 h-6 text-violet-600" />
-              </div>
-              <p className="text-sm font-medium text-gray-900">3× 100ml</p>
-              <p className="text-xs text-gray-500">Signature Perfumes</p>
+      {/* What You Get Ribbon */}
+      <section className="py-6 px-4 bg-white border-y border-gray-100 overflow-x-auto">
+        <div className="flex items-center justify-center gap-4 md:gap-8 min-w-max mx-auto">
+          {/* 3× 100ml - Image oval, clickable */}
+          <div className="flex flex-col items-center gap-2 cursor-pointer" onClick={() => document.getElementById('selection-section')?.scrollIntoView({ behavior: 'smooth' })}>
+            <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-lg border-2 border-violet-200 ring-2 ring-violet-100 bg-pink-50">
+              <img
+                src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/1.png"
+                alt="3× 100ml Signature Perfumes"
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="p-4">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                <Gift className="w-6 h-6 text-green-600" />
-              </div>
-              <p className="text-sm font-medium text-gray-900">3× 10ml FREE</p>
-              <p className="text-xs text-gray-500">Gift Perfumes</p>
+            <p className="text-xs md:text-sm font-bold text-gray-900">3× 100ml</p>
+            <p className="text-[10px] md:text-xs text-gray-500 font-medium">Signature Perfumes</p>
+          </div>
+
+          {/* 3× 10ml FREE - Image oval, clickable */}
+          <div className="flex flex-col items-center gap-2 cursor-pointer" onClick={() => document.getElementById('gifts-section')?.scrollIntoView({ behavior: 'smooth' })}>
+            <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-lg border-2 border-emerald-200 ring-2 ring-emerald-100 bg-green-50">
+              <img
+                src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/2.png"
+                alt="3× 10ml Gift Perfumes"
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="p-4">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                <Star className="w-6 h-6 text-blue-600" />
-              </div>
-              <p className="text-sm font-medium text-gray-900">6 Perfumes</p>
-              <p className="text-xs text-gray-500">Total Collection</p>
+            <p className="text-xs md:text-sm font-bold text-gray-900">3× 10ml FREE</p>
+            <p className="text-[10px] md:text-xs text-gray-500 font-medium">Gift Perfumes</p>
+          </div>
+
+          {/* 6 Perfumes - Image oval */}
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-lg border-2 border-blue-200 ring-2 ring-blue-100 bg-blue-50">
+              <img
+                src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/3.png"
+                alt="6 Perfumes Total Collection"
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="p-4">
-              <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                <Crown className="w-6 h-6 text-amber-600" />
-              </div>
-              <p className="text-sm font-medium text-gray-900">Premium Quality</p>
-              <p className="text-xs text-gray-500">Long Lasting</p>
+            <p className="text-xs md:text-sm font-bold text-gray-900">6 Perfumes</p>
+            <p className="text-[10px] md:text-xs text-gray-500 font-medium">Total Collection</p>
+          </div>
+
+          {/* Premium Quality - Image oval */}
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-lg border-2 border-amber-200 ring-2 ring-amber-100 bg-amber-50">
+              <img
+                src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/4.png"
+                alt="Premium Quality Long Lasting"
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="p-4 col-span-2 md:col-span-1">
-              <div className="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                <Sparkles className="w-6 h-6 text-rose-600" />
-              </div>
-              <p className="text-sm font-medium text-gray-900">67% OFF</p>
-              <p className="text-xs text-gray-500">Maximum Savings</p>
+            <p className="text-xs md:text-sm font-bold text-gray-900">Premium Quality</p>
+            <p className="text-[10px] md:text-xs text-gray-500 font-medium">Long Lasting</p>
+          </div>
+
+          {/* 67% OFF - Image oval */}
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-lg border-2 border-rose-200 ring-2 ring-rose-100 bg-rose-50">
+              <img
+                src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/5.png"
+                alt="67% OFF Maximum Savings"
+                className="w-full h-full object-cover"
+              />
             </div>
+            <p className="text-xs md:text-sm font-bold text-gray-900">67% OFF</p>
+            <p className="text-[10px] md:text-xs text-gray-500 font-medium">Maximum Savings</p>
           </div>
         </div>
       </section>
@@ -299,7 +326,7 @@ export default function BuyThreeGetGiftsClient() {
           </div>
 
           {/* Step 2: Select 3 FREE Gifts */}
-          <div className="mb-16">
+          <div id="gifts-section" className="mb-16">
             <div className="flex items-center gap-3 mb-8">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedGifts.length === 3 ? 'bg-green-500' : 'bg-violet-500'}`}>
                 {selectedGifts.length === 3 ? <Check className="w-5 h-5" /> : '2'}
