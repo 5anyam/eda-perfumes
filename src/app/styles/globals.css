@@ -81,6 +81,9 @@ body {
 }
 
 @layer components {
+  .prose.prose-sm {
+    margin: 0;
+  }
   .prose.prose-sm h2 {
     font-size: 24px;
   }
