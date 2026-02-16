@@ -14,6 +14,12 @@ import RelatedProducts from '../../../../components/RelatedProducts'
 import ProductReviews from '../../../../components/ProductReviews'
 import { Heart, Star, Shield, Truck, Award, CreditCard, Plus, Minus, Gift } from 'lucide-react'
 
+function decodeHtml(html: string): string {
+  const txt = typeof document !== 'undefined' ? document.createElement('textarea') : null
+  if (txt) { txt.innerHTML = html; return txt.value }
+  return html.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#039;/g, "'")
+}
+
 export interface ImageData { src: string }
 export interface Attribute { option: string }
 export interface Product {
@@ -272,7 +278,7 @@ export default function ProductClient({
               Shop
             </button>
             <span>›</span>
-            <span className="text-black truncate">{product.name}</span>
+            <span className="text-black truncate">{decodeHtml(product.name)}</span>
           </div>
         </div>
       </div>
@@ -297,7 +303,7 @@ export default function ProductClient({
 
             {/* Product Name */}
             <h1 className="text-3xl lg:text-4xl font-light text-gray-900 tracking-wide">
-              {product.name}
+              {decodeHtml(product.name)}
             </h1>
 
             {/* Rating */}
