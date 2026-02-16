@@ -91,6 +91,7 @@ body {
   .prose.prose-sm h3 {
     font-size: 18.72px;
     font-weight: bold;
+    margin-top: 15px;
   }
   .prose.prose-sm ul {
     list-style: disc;
