@@ -86,6 +86,7 @@ body {
   }
   .prose.prose-sm h2 {
     font-size: 24px;
+    margin-top: 15px;
   }
   .prose.prose-sm h3 {
     font-size: 18.72px;
