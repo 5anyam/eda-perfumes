@@ -95,9 +95,21 @@ body {
   .prose.prose-sm ul li br {
     display: none;
   }
-  .prose strong,
-  .prose b {
-    font-weight: 700 !important;
-    color: inherit;
-  }
+}
+
+/* Ensure strong/b tags always render bold in prose sections */
+.prose strong,
+.prose b,
+.prose-sm strong,
+.prose-sm b,
+div[class*="prose"] strong,
+div[class*="prose"] b {
+  font-weight: 700 !important;
+  color: inherit;
+}
+
+/* Ensure inline font-weight styles on span don't override strong/b */
+.prose strong *,
+.prose b * {
+  font-weight: 700 !important;
 }
