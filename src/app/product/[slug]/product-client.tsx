@@ -409,14 +409,7 @@ export default function ProductClient({
             {/* Action Buttons - Minimal */}
             <div className="hidden lg:flex flex-col gap-3 pt-6">
               <button
-                className={`w-full bg-black text-white font-light px-8 py-4 text-xs tracking-widest uppercase hover:bg-gray-800 transition-colors ${isAddingToCart ? 'opacity-50' : ''}`}
-                onClick={handleAddToCart}
-                disabled={isAddingToCart}
-              >
-                {isAddingToCart ? 'Added' : 'Add to Cart'}
-              </button>
-              <button
-                className={`w-full border border-gray-300 text-black font-light px-8 py-4 text-xs tracking-widest uppercase hover:bg-gray-50 transition-colors ${isBuyingNow ? 'opacity-50' : ''}`}
+                className={`w-full bg-black text-white font-light px-8 py-4 text-xs tracking-widest uppercase hover:bg-gray-800 transition-colors ${isBuyingNow ? 'opacity-50' : ''}`}
                 onClick={handleBuyNow}
                 disabled={isBuyingNow}
               >
@@ -490,13 +483,6 @@ export default function ProductClient({
           <div className="flex gap-3">
             <button
               className="flex-1 bg-black text-white font-light px-4 py-3 text-xs tracking-widest uppercase hover:bg-gray-800"
-              onClick={handleAddToCart}
-              disabled={isAddingToCart}
-            >
-              {isAddingToCart ? 'Added' : 'Add to Cart'}
-            </button>
-            <button
-              className="flex-1 border border-gray-300 text-black font-light px-4 py-3 text-xs tracking-widest uppercase hover:bg-gray-50"
               onClick={handleBuyNow}
               disabled={isBuyingNow}
             >
