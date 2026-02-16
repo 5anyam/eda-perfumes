@@ -51,7 +51,7 @@ async function getProductBySlug(slug: string) {
     const cs = process.env.CONSUMER_SECRET || 'cs_d8439cfabc73ad5b9d82d1d3facea6711f24dfd1'
     const res = await fetch(
       `https://cms.edaperfumes.com/wp-json/wc/v3/products?slug=${encodeURIComponent(slug)}&consumer_key=${ck}&consumer_secret=${cs}`,
-      { next: { revalidate: 3600 } }
+      { cache: 'no-store' }
     )
     if (res.ok) {
       const data = await res.json()
@@ -72,7 +72,7 @@ async function fetchYoastSeo(slug: string) {
   try {
     const res = await fetch(
       `https://cms.edaperfumes.com/wp-json/wp/v2/product?slug=${slug}&_fields=yoast_head_json`,
-      { next: { revalidate: 3600 } }
+      { cache: 'no-store' }
     )
     if (!res.ok) return null
     const data = await res.json()
