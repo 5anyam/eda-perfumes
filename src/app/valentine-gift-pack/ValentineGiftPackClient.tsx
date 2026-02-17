@@ -104,7 +104,7 @@ export default function ValentineGiftPackClient() {
     const mainNames = selectedMains.map(p => p.name).join(' + ');
     const giftPackProduct = {
       id: Date.now(), // Unique ID for the gift pack
-      name: `Valentine's Gift Pack: ${mainNames} + 4 Mini Testers`,
+      name: `Valentine's Gift Pack: ${mainNames} + 4 Travel Size Perfumes`,
       price: '1099',
       regular_price: '2999',
       images: selectedMains[0]?.images?.map(img => ({ src: img.src })) || [],
@@ -131,7 +131,7 @@ export default function ValentineGiftPackClient() {
         <a href="#selection-section" className="block cursor-pointer">
           <img
             src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/valentine-banner.jpeg"
-            alt="Perfume Love Deal - Buy 2 Perfumes (100ml) Get 4 Mini Testers FREE at just ₹1099"
+            alt="Perfume Love Deal - Buy 2 Perfumes (100ml) Get 4 Travel Size Perfumes FREE at just ₹1099"
             className="w-full h-auto object-cover"
             loading="eager"
           />
@@ -256,14 +256,14 @@ export default function ValentineGiftPackClient() {
             )}
           </div>
 
-          {/* Step 2: Select 4 Mini Testers */}
+          {/* Step 2: Select 4 Travel Size Perfumes */}
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-8">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedMinis.length === 4 ? 'bg-green-500' : 'bg-rose-500'}`}>
                 {selectedMinis.length === 4 ? <Check className="w-5 h-5" /> : '2'}
               </div>
               <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Choose 4 Mini Testers (10ml each)
+                Choose 4 Travel Size Perfumes (10ml each)
                 <span className="text-rose-500 ml-2">({selectedMinis.length}/4 selected)</span>
               </h2>
             </div>
@@ -394,8 +394,8 @@ export default function ValentineGiftPackClient() {
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-900">
                     {selectedMinis.length > 0
-                      ? `${selectedMinis.length} Mini Tester${selectedMinis.length > 1 ? 's' : ''} Selected`
-                      : 'Select 4 mini testers'}
+                      ? `${selectedMinis.length} Travel Size Perfume${selectedMinis.length > 1 ? 's' : ''} Selected`
+                      : 'Select 4 travel size perfumes'}
                   </p>
                   <p className="text-xs text-gray-500">4 × 10ml Bottles (FREE)</p>
                 </div>
@@ -450,12 +450,12 @@ export default function ValentineGiftPackClient() {
             {!isComplete && (
               <p className="text-center text-sm text-gray-500 mt-4">
                 {selectedMains.length === 0 && selectedMinis.length === 0
-                  ? 'Select 2 signature perfumes and 4 mini testers to continue'
+                  ? 'Select 2 signature perfumes and 4 travel size perfumes to continue'
                   : selectedMains.length < 2 && selectedMinis.length < 4
-                  ? `Select ${2 - selectedMains.length} more perfume${2 - selectedMains.length > 1 ? 's' : ''} and ${4 - selectedMinis.length} more mini tester${4 - selectedMinis.length > 1 ? 's' : ''}`
+                  ? `Select ${2 - selectedMains.length} more perfume${2 - selectedMains.length > 1 ? 's' : ''} and ${4 - selectedMinis.length} more travel size perfume${4 - selectedMinis.length > 1 ? 's' : ''}`
                   : selectedMains.length < 2
                   ? `Select ${2 - selectedMains.length} more signature perfume${2 - selectedMains.length > 1 ? 's' : ''}`
-                  : `Select ${4 - selectedMinis.length} more mini tester${4 - selectedMinis.length > 1 ? 's' : ''}`}
+                  : `Select ${4 - selectedMinis.length} more travel size perfume${4 - selectedMinis.length > 1 ? 's' : ''}`}
               </p>
             )}
           </div>
