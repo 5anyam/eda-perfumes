@@ -207,8 +207,12 @@ export default function Checkout(): React.ReactElement {
   const validateCoupon = (code: string): { valid: boolean; discount: number; message: string } => {
     const upperCode = code.toUpperCase().trim();
 
-    // Logic for AMAAN10
-    if (upperCode === "AMAAN10") {
+    const validCoupons = [
+      "AMAAN10", "ANJALI10", "VISHAL10", "PRATIKSHA10", "SONAKSHI10",
+      "NANDANI10", "ISHITA10", "SHRISHTI10", "POORVA10", "MUSKAN10", "ARUNA10"
+    ];
+
+    if (validCoupons.includes(upperCode)) {
       return {
         valid: true,
         discount: Math.round(total * 0.1),
