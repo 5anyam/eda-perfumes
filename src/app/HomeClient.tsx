@@ -6,7 +6,7 @@ import ProductCard from "../../components/ProductCard";
 import HeroCarousel from "../../components/HeroCarousel";
 import MarqueeBanner from "../../components/MarqueeBanner";
 import AboutUsSection from "../../components/AboutUs";
-import HomeFAQ from "../../components/HomeFaq";
+// import HomeFAQ from "../../components/HomeFaq";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useRef } from 'react';
@@ -240,7 +240,7 @@ export default function HomeClient() {
 
       <AboutUsSection />
       <Testimonials />
-      <HomeFAQ />
+      {/* <HomeFAQ /> */}
 
       <style jsx global>{`
         .scrollbar-hide::-webkit-scrollbar {

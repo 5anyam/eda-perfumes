@@ -9,7 +9,7 @@ import { toast } from '../../../../hooks/use-toast'
 import { useFacebookPixel } from '../../../../hooks/useFacebookPixel'
 import ImageGallery from '../../../../components/ImageGallery'
 import { Tab } from '@headlessui/react'
-import ProductFAQ from '../../../../components/ProductFaq'
+// import ProductFAQ from '../../../../components/ProductFaq'
 import RelatedProducts from '../../../../components/RelatedProducts'
 import ProductReviews from '../../../../components/ProductReviews'
 import { Heart, Star, Shield, Truck, Award, CreditCard, Plus, Minus, Gift } from 'lucide-react'
@@ -563,9 +563,9 @@ export default function ProductClient({
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto mt-16 px-4">
+      {/* <div className="max-w-7xl mx-auto mt-16 px-4">
         <ProductFAQ productSlug={slug} productName={product.name} />
-      </div>
+      </div> */}
       <div className="max-w-7xl mx-auto mt-16 px-4">
         <ProductReviews productId={product.id} productName={product.name} />
       </div>
