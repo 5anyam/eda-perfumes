@@ -206,29 +206,16 @@ export default function Checkout(): React.ReactElement {
 
   const validateCoupon = (code: string): { valid: boolean; discount: number; message: string } => {
     const upperCode = code.toUpperCase().trim();
-    
-    // Logic for FIRST10
-    if (upperCode === "FIRST10") {
-      if (total >= 499) {
-        return { 
-          valid: true, 
-          discount: Math.round(total * 0.1),
-          message: "10% discount applied" 
-        };
-      } else {
-        return { valid: false, discount: 0, message: "Minimum order ₹499 required for FIRST10" };
-      }
-    } 
-    
-    // Logic for VANSHIKA10 (No minimum order)
-    else if (upperCode === "VANSHIKA10") {
-      return { 
-        valid: true, 
-        discount: Math.round(total * 0.1), // Assuming 10% discount based on name
-        message: "10% discount applied" 
+
+    // Logic for AMAAN10
+    if (upperCode === "AMAAN10") {
+      return {
+        valid: true,
+        discount: Math.round(total * 0.1),
+        message: "10% discount applied"
       };
     }
-    
+
     return { valid: false, discount: 0, message: "Invalid coupon code" };
 };
 
