@@ -61,10 +61,10 @@ export default function HomeClient() {
       console.log('Products fetched:', result?.length); // Debug log
       return (result || []) as Product[];
     },
-    staleTime: 10 * 60 * 1000, // 10 minutes - data stays fresh
-    gcTime: 30 * 60 * 1000, // 30 minutes - cache time (was cacheTime in v4)
-    refetchOnWindowFocus: false, // Don't refetch on window focus
-    refetchOnMount: false, // Don't refetch on component mount if data exists
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
     retry: 3, // Retry 3 times on failure
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
   });
