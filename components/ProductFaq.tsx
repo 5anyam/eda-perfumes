@@ -1,3 +1,5 @@
+
+
 'use client';
 
 import React, { useState } from 'react';
@@ -15,7 +17,9 @@ interface ProductFAQProps {
 }
 
 // FAQ Data for different products
+
 const faqData: Record<string, FAQ[]> = {
+  
   'default': [
     {
       question: "What makes Vyadhihar Foods different from other brands?",
@@ -50,7 +54,9 @@ const faqData: Record<string, FAQ[]> = {
       answer: "Our premium dry fruits offer:\n• Rich source of vitamins and minerals\n• Natural energy boost\n• Heart-healthy fats\n• Support for immunity\n• Helps in weight management\n• Improves digestion\n• Natural antioxidants"
     }
   ]
+    
 };
+
 
 const defaultFAQs: FAQ[] = faqData['default'];
 
