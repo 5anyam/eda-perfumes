@@ -137,10 +137,12 @@ export default function AboutClient() {
               </p>
             </div>
           </div>
-          <div className="aspect-square bg-gray-100 flex items-center justify-center">
-            <div className="text-center p-8">
-              <h3 className="text-2xl font-light text-gray-900 tracking-wide">Premium Quality</h3>
-            </div>
+          <div className="aspect-square overflow-hidden">
+            <img
+              src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/ChatGPT-Image-Feb-20-2026-04_22_42-PM.png"
+              alt="Premium Quality - EDA Perfumes"
+              className="w-full h-full object-cover"
+            />
           </div>
         </section>
 
@@ -171,10 +173,12 @@ export default function AboutClient() {
 
         {/* Difference */}
         <section className="grid md:grid-cols-2 gap-16 items-center">
-          <div className="aspect-square bg-gray-100 flex items-center justify-center">
-            <div className="text-center p-8">
-              <h3 className="text-2xl font-light text-gray-900 tracking-wide">Crafted Excellence</h3>
-            </div>
+          <div className="aspect-square overflow-hidden">
+            <img
+              src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/ChatGPT-Image-Feb-20-2026-04_30_30-PM.png"
+              alt="Crafted Excellence - EDA Perfumes"
+              className="w-full h-full object-cover"
+            />
           </div>
           <div>
             <h2 className="text-3xl lg:text-4xl font-light mb-6 text-gray-900 tracking-wide">
