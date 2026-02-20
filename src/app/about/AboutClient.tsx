@@ -79,10 +79,12 @@ export default function AboutClient() {
         
         {/* Mission Section */}
         <section className="grid md:grid-cols-2 gap-16 items-center">
-          <div className="aspect-square bg-gray-100 flex items-center justify-center">
-            <div className="text-center p-8">
-              <h3 className="text-2xl font-light text-gray-900 tracking-wide">Our Vision</h3>
-            </div>
+          <div className="aspect-square overflow-hidden">
+            <img
+              src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/ChatGPT-Image-Feb-20-2026-04_15_06-PM.png"
+              alt="Our Vision - EDA Perfumes"
+              className="w-full h-full object-cover"
+            />
           </div>
           <div>
             <h2 className="text-3xl lg:text-4xl font-light mb-6 text-gray-900 tracking-wide">
