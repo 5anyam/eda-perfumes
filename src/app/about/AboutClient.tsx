@@ -161,9 +161,47 @@ export default function AboutClient() {
               { step: "05", title: "Signature", desc: "Own your unique style" }
             ].map((item, index) => (
               <div key={index} className="text-center">
-                <div className="w-12 h-12 border border-gray-300 flex items-center justify-center mx-auto mb-4 text-gray-900 font-light text-sm">
-                  {item.step}
-                </div>
+                {index === 0 ? (
+                  <div className="w-[70px] h-[70px] overflow-hidden mx-auto mb-4">
+                    <img
+                      src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/1-1.png"
+                      alt="Discovery - EDA Perfumes"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : index === 1 ? (
+                  <div className="w-[70px] h-[70px] overflow-hidden mx-auto mb-4">
+                    <img
+                      src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/2-1.png"
+                      alt="Selection - EDA Perfumes"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : index === 2 ? (
+                  <div className="w-[70px] h-[70px] overflow-hidden mx-auto mb-4">
+                    <img
+                      src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/3-1.png"
+                      alt="Experience - EDA Perfumes"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : index === 3 ? (
+                  <div className="w-[70px] h-[70px] overflow-hidden mx-auto mb-4">
+                    <img
+                      src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/4-1.png"
+                      alt="Confidence - EDA Perfumes"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-[70px] h-[70px] overflow-hidden mx-auto mb-4">
+                    <img
+                      src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/5-1.png"
+                      alt="Signature - EDA Perfumes"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
                 <h3 className="font-light text-sm mb-2 text-gray-900 tracking-wide">{item.title}</h3>
                 <p className="text-gray-600 text-xs leading-relaxed font-light">{item.desc}</p>
               </div>
