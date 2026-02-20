@@ -129,7 +129,7 @@ export default function AboutClient() {
             The Experience
           </h2>
           <div className="w-16 h-px bg-gray-300 mx-auto mb-16"></div>
-          <div className="grid grid-cols-5 gap-2 md:gap-8">
+          <div className="grid grid-cols-3 md:grid-cols-5 gap-4 md:gap-8">
             {[
               { step: "01", title: "Discovery", desc: "Explore our fragrance collection" },
               { step: "02", title: "Selection", desc: "Choose your signature scent" },
