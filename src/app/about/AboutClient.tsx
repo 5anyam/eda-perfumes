@@ -165,7 +165,7 @@ export default function AboutClient() {
                 ) : index === 3 ? (
                   <div className="w-[70px] h-[70px] overflow-hidden mx-auto mb-4">
                     <img
-                      src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/4-1.png"
+                      src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/Gemini_Generated_Image_mpqzkfmpqzkfmpqz.png"
                       alt="Confidence - EDA Perfumes"
                       className="w-full h-full object-cover"
                     />
