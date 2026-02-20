@@ -96,29 +96,6 @@ export default function AboutClient() {
           </div>
         </section>
 
-        {/* Values */}
-        <section className="border-t border-b border-gray-200 py-20">
-          <h2 className="text-3xl lg:text-4xl font-light mb-12 text-center text-gray-900 tracking-wide">
-            Our Values
-          </h2>
-          <div className="w-16 h-px bg-gray-300 mx-auto mb-16"></div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
-            {[
-              { title: 'Quality', desc: 'Premium ingredients and artisan craftsmanship' },
-              { title: 'Elegance', desc: 'Sophisticated compositions for discerning tastes' },
-              { title: 'Authenticity', desc: 'Genuine luxury and timeless appeal' },
-              { title: 'Excellence', desc: 'Dedicated to perfection in every detail' }
-            ].map((item, index) => (
-              <div key={index} className="text-center">
-                <h3 className="font-light text-base mb-3 text-gray-900 tracking-wide uppercase text-xs">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600 text-sm font-light leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* Philosophy */}
         <section className="grid md:grid-cols-2 gap-16 items-center">
           <div>
@@ -152,7 +129,7 @@ export default function AboutClient() {
             The Experience
           </h2>
           <div className="w-16 h-px bg-gray-300 mx-auto mb-16"></div>
-          <div className="grid md:grid-cols-5 gap-8">
+          <div className="grid grid-cols-5 gap-2 md:gap-8">
             {[
               { step: "01", title: "Discovery", desc: "Explore our fragrance collection" },
               { step: "02", title: "Selection", desc: "Choose your signature scent" },
