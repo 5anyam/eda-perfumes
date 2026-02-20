@@ -129,7 +129,7 @@ export default function AboutClient() {
             The Experience
           </h2>
           <div className="w-16 h-px bg-gray-300 mx-auto mb-16"></div>
-          <div className="grid grid-cols-3 md:grid-cols-5 gap-4 md:gap-8">
+          <div className="flex flex-wrap justify-center gap-4 md:grid md:grid-cols-5 md:gap-8">
             {[
               { step: "01", title: "Discovery", desc: "Explore our fragrance collection" },
               { step: "02", title: "Selection", desc: "Choose your signature scent" },
@@ -137,7 +137,7 @@ export default function AboutClient() {
               { step: "04", title: "Confidence", desc: "Make your impression" },
               { step: "05", title: "Signature", desc: "Own your unique style" }
             ].map((item, index) => (
-              <div key={index} className="text-center">
+              <div key={index} className="text-center w-[30%] md:w-auto">
                 {index === 0 ? (
                   <div className="w-[70px] h-[70px] overflow-hidden mx-auto mb-4">
                     <img
