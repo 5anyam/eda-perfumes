@@ -88,13 +88,13 @@ export default function BuyTwoGetFreeClient() {
   const handleSelectFree = (product: ExtendedProduct) => {
     if (selectedFree.find((p) => p.id === product.id)) {
       setSelectedFree(selectedFree.filter((p) => p.id !== product.id));
-    } else if (selectedFree.length < 2) {
+    } else if (selectedFree.length < 3) {
       setSelectedFree([...selectedFree, product]);
     }
     setAddedToCart(false);
   };
 
-  const isComplete = selectedMain.length === 2 && selectedFree.length === 2;
+  const isComplete = selectedMain.length === 2 && selectedFree.length === 3;
 
   const handleAddToCart = () => {
     if (!isComplete) return;
@@ -102,7 +102,7 @@ export default function BuyTwoGetFreeClient() {
     // Create a special bundle product
     const bundleProduct = {
       id: Date.now(),
-      name: `Buy 2 @ ₹999 Bundle: ${selectedMain.map(p => p.name.split(' ')[0]).join(' + ')} + 2 FREE 10ml`,
+      name: `Buy 2 @ ₹999 Bundle: ${selectedMain.map(p => p.name.split(' ')[0]).join(' + ')} + 3 FREE 10ml`,
       price: '999',
       regular_price: '2999',
       images: selectedMain[0]?.images?.map(img => ({ src: img.src })) || [],
@@ -157,11 +157,11 @@ export default function BuyTwoGetFreeClient() {
             <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden transition-transform duration-300 hover:scale-110">
               <img
                 src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/7.png"
-                alt="2× 10ml FREE Travel Sizes"
+                alt="3× 10ml FREE Travel Sizes"
                 className="w-full h-full object-cover"
               />
             </div>
-            <p className="text-xs md:text-sm font-bold text-gray-900">2× 10ml FREE</p>
+            <p className="text-xs md:text-sm font-bold text-gray-900">3× 10ml FREE</p>
             <p className="text-[10px] md:text-xs text-gray-500 font-medium">Travel Sizes</p>
           </div>
 
@@ -317,12 +317,12 @@ export default function BuyTwoGetFreeClient() {
           {/* Step 2: Select 2 FREE 10ml */}
           <div id="gifts-section" className="mb-16">
             <div className="flex items-center gap-3 mb-8">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedFree.length === 2 ? 'bg-green-500' : 'bg-amber-500'}`}>
-                {selectedFree.length === 2 ? <Check className="w-5 h-5" /> : '2'}
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedFree.length === 3 ? 'bg-green-500' : 'bg-amber-500'}`}>
+                {selectedFree.length === 3 ? <Check className="w-5 h-5" /> : '2'}
               </div>
               <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Choose 2 FREE Travel Sizes (10ml)
-                <span className="text-green-600 ml-2">({selectedFree.length}/2 selected)</span>
+                Choose 3 FREE Travel Sizes (10ml)
+                <span className="text-green-600 ml-2">({selectedFree.length}/3 selected)</span>
               </h2>
               <span className="bg-green-500 text-white text-xs px-3 py-1 rounded-full font-medium">
                 FREE
@@ -343,7 +343,7 @@ export default function BuyTwoGetFreeClient() {
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {miniPerfumes.map((product) => {
                   const isSelected = selectedFree.find((p) => p.id === product.id);
-                  const isDisabled = selectedFree.length >= 2 && !isSelected;
+                  const isDisabled = selectedFree.length >= 3 && !isSelected;
 
                   return (
                     <div
@@ -444,8 +444,8 @@ export default function BuyTwoGetFreeClient() {
 
               {/* Selected Free Perfumes */}
               <div className="flex items-center gap-4 p-3 bg-green-50 rounded-lg">
-                <div className="w-16 h-16 bg-green-100 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-2 gap-0.5 p-1">
-                  {[0, 1].map((i) => (
+                <div className="w-16 h-16 bg-green-100 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-3 gap-0.5 p-1">
+                  {[0, 1, 2].map((i) => (
                     <div key={i} className="bg-green-200 rounded overflow-hidden">
                       {selectedFree[i] && (
                         <img
@@ -461,11 +461,11 @@ export default function BuyTwoGetFreeClient() {
                   <p className="text-sm font-medium text-gray-900">
                     {selectedFree.length > 0
                       ? `${selectedFree.length} Travel Sizes`
-                      : 'Select 2 travel sizes'}
+                      : 'Select 3 travel sizes'}
                   </p>
-                  <p className="text-xs text-green-600 font-medium">2 × 10ml Bottles - FREE!</p>
+                  <p className="text-xs text-green-600 font-medium">3 × 10ml Bottles - FREE!</p>
                 </div>
-                {selectedFree.length === 2 && <Check className="w-5 h-5 text-green-500" />}
+                {selectedFree.length === 3 && <Check className="w-5 h-5 text-green-500" />}
               </div>
             </div>
 
@@ -516,10 +516,10 @@ export default function BuyTwoGetFreeClient() {
             {!isComplete && (
               <p className="text-center text-sm text-gray-500 mt-4">
                 {selectedMain.length < 2 && selectedFree.length < 2
-                  ? 'Select 2 signature perfumes and 2 free travel sizes'
+                  ? 'Select 2 signature perfumes and 3 free travel sizes'
                   : selectedMain.length < 2
                   ? `Select ${2 - selectedMain.length} more signature perfume${2 - selectedMain.length > 1 ? 's' : ''}`
-                  : `Select ${2 - selectedFree.length} more free travel size${2 - selectedFree.length > 1 ? 's' : ''}`}
+                  : `Select ${3 - selectedFree.length} more free travel size${3 - selectedFree.length > 1 ? 's' : ''}`}
               </p>
             )}
           </div>
@@ -550,7 +550,7 @@ export default function BuyTwoGetFreeClient() {
               </div>
               <h3 className="font-medium text-gray-900 mb-2">Free Gifts</h3>
               <p className="text-gray-600 text-sm">
-                2 travel sizes worth ₹600 absolutely free
+                3 travel sizes worth ₹900 absolutely free
               </p>
             </div>
 

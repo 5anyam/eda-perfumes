@@ -88,13 +88,13 @@ export default function BuyThreeGetGiftsClient() {
   const handleSelectGift = (product: ExtendedProduct) => {
     if (selectedGifts.find((p) => p.id === product.id)) {
       setSelectedGifts(selectedGifts.filter((p) => p.id !== product.id));
-    } else if (selectedGifts.length < 3) {
+    } else if (selectedGifts.length < 4) {
       setSelectedGifts([...selectedGifts, product]);
     }
     setAddedToCart(false);
   };
 
-  const isComplete = selectedMain.length === 3 && selectedGifts.length === 3;
+  const isComplete = selectedMain.length === 3 && selectedGifts.length === 4;
 
   const handleAddToCart = () => {
     if (!isComplete) return;
@@ -102,7 +102,7 @@ export default function BuyThreeGetGiftsClient() {
     // Create a special bundle product
     const bundleProduct = {
       id: Date.now(),
-      name: `Buy 3 @ ₹1499 Bundle: ${selectedMain.map(p => p.name.split(' ')[0]).join(', ')} + 3 FREE Gifts`,
+      name: `Buy 3 @ ₹1499 Bundle: ${selectedMain.map(p => p.name.split(' ')[0]).join(', ')} + 4 FREE Gifts`,
       price: '1499',
       regular_price: '4499',
       images: selectedMain[0]?.images?.map(img => ({ src: img.src })) || [],
@@ -154,11 +154,11 @@ export default function BuyThreeGetGiftsClient() {
             <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden transition-transform duration-300 hover:scale-110">
               <img
                 src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/2.png"
-                alt="3× 10ml Gift Perfumes"
+                alt="4× 10ml Gift Perfumes"
                 className="w-full h-full object-cover"
               />
             </div>
-            <p className="text-xs md:text-sm font-bold text-gray-900">3× 10ml FREE</p>
+            <p className="text-xs md:text-sm font-bold text-gray-900">4× 10ml FREE</p>
             <p className="text-[10px] md:text-xs text-gray-500 font-medium">Gift Perfumes</p>
           </div>
 
@@ -328,12 +328,12 @@ export default function BuyThreeGetGiftsClient() {
           {/* Step 2: Select 3 FREE Gifts */}
           <div id="gifts-section" className="mb-16">
             <div className="flex items-center gap-3 mb-8">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedGifts.length === 3 ? 'bg-green-500' : 'bg-violet-500'}`}>
-                {selectedGifts.length === 3 ? <Check className="w-5 h-5" /> : '2'}
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedGifts.length === 4 ? 'bg-green-500' : 'bg-violet-500'}`}>
+                {selectedGifts.length === 4 ? <Check className="w-5 h-5" /> : '2'}
               </div>
               <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Choose 3 FREE Gifts (10ml each)
-                <span className="text-green-600 ml-2">({selectedGifts.length}/3 selected)</span>
+                Choose 4 FREE Gifts (10ml each)
+                <span className="text-green-600 ml-2">({selectedGifts.length}/4 selected)</span>
               </h2>
               <span className="bg-gradient-to-r from-emerald-500 to-green-500 text-white text-xs px-3 py-1 rounded-full font-medium flex items-center gap-1">
                 <Gift className="w-3 h-3" />
@@ -355,7 +355,7 @@ export default function BuyThreeGetGiftsClient() {
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {giftPerfumes.map((product) => {
                   const isSelected = selectedGifts.find((p) => p.id === product.id);
-                  const isDisabled = selectedGifts.length >= 3 && !isSelected;
+                  const isDisabled = selectedGifts.length >= 4 && !isSelected;
                   const selectionIndex = selectedGifts.findIndex((p) => p.id === product.id);
 
                   return (
@@ -460,8 +460,8 @@ export default function BuyThreeGetGiftsClient() {
 
               {/* Selected Gift Perfumes */}
               <div className="flex items-center gap-4 p-3 bg-green-50 rounded-lg">
-                <div className="w-20 h-16 bg-green-100 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-3 gap-0.5 p-1">
-                  {[0, 1, 2].map((i) => (
+                <div className="w-20 h-16 bg-green-100 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-4 gap-0.5 p-1">
+                  {[0, 1, 2, 3].map((i) => (
                     <div key={i} className="bg-green-200 rounded overflow-hidden">
                       {selectedGifts[i] && (
                         <img
@@ -477,17 +477,17 @@ export default function BuyThreeGetGiftsClient() {
                   <p className="text-sm font-medium text-gray-900">
                     {selectedGifts.length > 0
                       ? `${selectedGifts.length} Gift Perfumes`
-                      : 'Select 3 gift perfumes'}
+                      : 'Select 4 gift perfumes'}
                   </p>
-                  <p className="text-xs text-green-600 font-medium">3 × 10ml Bottles - FREE GIFTS!</p>
+                  <p className="text-xs text-green-600 font-medium">4 × 10ml Bottles - FREE GIFTS!</p>
                 </div>
-                {selectedGifts.length === 3 && <Check className="w-5 h-5 text-green-500" />}
+                {selectedGifts.length === 4 && <Check className="w-5 h-5 text-green-500" />}
               </div>
             </div>
 
             <div className="border-t border-gray-200 pt-4 mb-6">
               <div className="flex justify-between text-sm text-gray-500 mb-2">
-                <span>Original Price (6 perfumes):</span>
+                <span>Original Price (7 perfumes):</span>
                 <span className="line-through">₹{totalOriginalPrice().toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-sm text-green-600 mb-2">
@@ -535,10 +535,10 @@ export default function BuyThreeGetGiftsClient() {
             {!isComplete && (
               <p className="text-center text-sm text-gray-500 mt-4">
                 {selectedMain.length < 3 && selectedGifts.length < 3
-                  ? 'Select 3 signature perfumes and 3 free gifts'
+                  ? 'Select 3 signature perfumes and 4 free gifts'
                   : selectedMain.length < 3
                   ? `Select ${3 - selectedMain.length} more signature perfume${3 - selectedMain.length > 1 ? 's' : ''}`
-                  : `Select ${3 - selectedGifts.length} more free gift${3 - selectedGifts.length > 1 ? 's' : ''}`}
+                  : `Select ${4 - selectedGifts.length} more free gift${4 - selectedGifts.length > 1 ? 's' : ''}`}
               </p>
             )}
           </div>
@@ -567,9 +567,9 @@ export default function BuyThreeGetGiftsClient() {
               <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Gift className="w-7 h-7 text-green-600" />
               </div>
-              <h3 className="font-medium text-gray-900 mb-2">3 Free Gifts</h3>
+              <h3 className="font-medium text-gray-900 mb-2">4 Free Gifts</h3>
               <p className="text-gray-600 text-sm">
-                Travel sizes worth ₹900 free
+                Travel sizes worth ₹1,200 free
               </p>
             </div>
 
