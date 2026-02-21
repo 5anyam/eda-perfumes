@@ -99,16 +99,36 @@ export default function BuyThreeGetGiftsClient() {
   const handleAddToCart = () => {
     if (!isComplete) return;
 
-    // Create a special bundle product
-    const bundleProduct = {
-      id: Date.now(),
-      name: `Buy 3 @ ₹1499 Bundle: ${selectedMain.map(p => p.name.split(' ')[0]).join(', ')} + 4 FREE Gifts`,
-      price: '1499',
-      regular_price: '4499',
-      images: selectedMain[0]?.images?.map(img => ({ src: img.src })) || [],
-    };
+    // Add main perfumes with proportional bundle pricing (total = ₹999)
+    const BUNDLE_PRICE = 999;
+    const totalActual = selectedMain.reduce((s, p) => s + (Number(p.price) || 0), 0);
+    let assigned = 0;
+    selectedMain.forEach((product, i) => {
+      const isLast = i === selectedMain.length - 1;
+      const share = isLast
+        ? BUNDLE_PRICE - assigned
+        : Math.round(BUNDLE_PRICE * (Number(product.price) || 0) / (totalActual || 1));
+      assigned += share;
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: share.toString(),
+        regular_price: product.regular_price || product.price,
+        images: product.images?.map(img => ({ src: img.src })) || [],
+      });
+    });
 
-    addToCart(bundleProduct);
+    // Add free gift perfumes at ₹0
+    selectedGifts.forEach((product) => {
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: '0',
+        regular_price: product.regular_price || product.price,
+        images: product.images?.map(img => ({ src: img.src })) || [],
+      });
+    });
+
     openDrawer();
     setAddedToCart(true);
   };
@@ -120,7 +140,7 @@ export default function BuyThreeGetGiftsClient() {
     return total;
   };
 
-  const savings = totalOriginalPrice() - 1499;
+  const savings = totalOriginalPrice() - 999;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-violet-50 via-white to-purple-50">
@@ -128,7 +148,7 @@ export default function BuyThreeGetGiftsClient() {
       <section className="relative w-full cursor-pointer" onClick={() => window.scrollTo({ top: document.getElementById('selection-section')?.offsetTop ?? 500, behavior: 'smooth' })}>
         <img
           src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/EDA-Perfume-14-feb-banner.jpg.jpeg"
-          alt="Buy 3 Get 3 Gifts @ ₹1499 - 3×100ml Perfumes + 3×10ml Travel Sizes FREE"
+          alt="Buy 3 Get 3 Gifts @ ₹999 - 3×100ml Perfumes + 3×10ml Travel Sizes FREE"
           className="w-full h-auto object-cover"
         />
       </section>
@@ -453,7 +473,7 @@ export default function BuyThreeGetGiftsClient() {
                       ? `${selectedMain.length} Signature Perfumes`
                       : 'Select 3 signature perfumes'}
                   </p>
-                  <p className="text-xs text-gray-500">3 × 100ml Bottles @ ₹1,499</p>
+                  <p className="text-xs text-gray-500">3 × 100ml Bottles @ ₹999</p>
                 </div>
                 {selectedMain.length === 3 && <Check className="w-5 h-5 text-green-500" />}
               </div>
@@ -496,7 +516,7 @@ export default function BuyThreeGetGiftsClient() {
               </div>
               <div className="flex justify-between text-xl font-medium text-gray-900">
                 <span>Bundle Price:</span>
-                <span className="text-violet-600">₹1,499</span>
+                <span className="text-violet-600">₹999</span>
               </div>
               <p className="text-xs text-center text-gray-500 mt-2">
                 That's just ₹250 per perfume!
@@ -528,7 +548,7 @@ export default function BuyThreeGetGiftsClient() {
                 }`}
               >
                 <Crown className="w-5 h-5" />
-                {isComplete ? 'Add Premium Bundle - ₹1,499' : 'Complete Your Selection'}
+                {isComplete ? 'Add Premium Bundle - ₹999' : 'Complete Your Selection'}
               </button>
             )}
 

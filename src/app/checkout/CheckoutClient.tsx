@@ -368,6 +368,8 @@ export default function Checkout(): React.ReactElement {
         line_items: items.map((item) => ({
           product_id: parseInt(String(item.id), 10),
           quantity: item.quantity,
+          subtotal: (parseFloat(item.price) * item.quantity).toFixed(2),
+          total: (parseFloat(item.price) * item.quantity).toFixed(2),
         })),
         shipping_lines: deliveryCharges > 0 ? [{
           method_id: 'flat_rate',
@@ -591,6 +593,8 @@ export default function Checkout(): React.ReactElement {
         line_items: items.map((item) => ({
           product_id: parseInt(String(item.id), 10),
           quantity: item.quantity,
+          subtotal: (parseFloat(item.price) * item.quantity).toFixed(2),
+          total: (parseFloat(item.price) * item.quantity).toFixed(2),
         })),
         shipping_lines: deliveryCharges > 0 ? [{
           method_id: 'flat_rate',
