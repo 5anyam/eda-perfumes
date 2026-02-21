@@ -22,7 +22,7 @@ export default function BuyOneGetOneFreeClient() {
   const [selectedCategory2, setSelectedCategory2] = useState<string>('All');
   const [addedProducts, setAddedProducts] = useState<Set<number>>(new Set());
 
-  const OFFER_PRICE = 799;
+  const OFFER_PRICE = 399;
 
   const { data, isLoading } = useQuery<ExtendedProduct[]>({
     queryKey: ['buy1get1-products'],
@@ -89,15 +89,25 @@ export default function BuyOneGetOneFreeClient() {
   const handleAddToCart = () => {
     if (!selectedMain || !selectedSecond) return;
 
-    const bundleProduct = {
-      id: Date.now(),
-      name: `Buy 1 Get 1: ${selectedMain.name.split(' ').slice(0, 3).join(' ')} + ${selectedSecond.name.split(' ').slice(0, 3).join(' ')}`,
-      price: OFFER_PRICE.toString(),
-      regular_price: (Number(selectedMain.price) + Number(selectedSecond.price)).toString(),
-      images: selectedMain.images?.map(img => ({ src: img.src })) || [],
-    };
+    // Add both perfumes with proportional bundle pricing (total = ₹399)
+    const products = [selectedMain, selectedSecond];
+    const totalActual = products.reduce((s, p) => s + (Number(p.price) || 0), 0);
+    let assigned = 0;
+    products.forEach((product, i) => {
+      const isLast = i === products.length - 1;
+      const share = isLast
+        ? OFFER_PRICE - assigned
+        : Math.round(OFFER_PRICE * (Number(product.price) || 0) / (totalActual || 1));
+      assigned += share;
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: share.toString(),
+        regular_price: product.regular_price || product.price,
+        images: product.images?.map(img => ({ src: img.src })) || [],
+      });
+    });
 
-    addToCart(bundleProduct);
     openDrawer();
     setAddedToCart(true);
   };
@@ -145,7 +155,7 @@ export default function BuyOneGetOneFreeClient() {
 
               <div className="flex items-center justify-center md:justify-start gap-2 my-4">
                 <span className="text-white/80 text-xl md:text-2xl font-medium">@</span>
-                <span className="text-5xl md:text-7xl font-black text-yellow-300 drop-shadow-lg" style={{textShadow: '2px 2px 4px rgba(0,0,0,0.3)'}}>₹799</span>
+                <span className="text-5xl md:text-7xl font-black text-yellow-300 drop-shadow-lg" style={{textShadow: '2px 2px 4px rgba(0,0,0,0.3)'}}>₹399</span>
               </div>
 
               <p className="text-white/90 text-lg md:text-xl font-medium mb-4">
