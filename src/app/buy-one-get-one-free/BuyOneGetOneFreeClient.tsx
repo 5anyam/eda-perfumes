@@ -132,64 +132,18 @@ export default function BuyOneGetOneFreeClient() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-cyan-50">
       {/* Hero Banner */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 py-8 md:py-12">
-        {/* Background decorations */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-10 -right-10 w-60 h-60 bg-yellow-300/20 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/4 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-        </div>
+      <section className="w-full">
+        <a href="#selection-section" className="block cursor-pointer">
+          <img
+            src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/buy1get1banneerreda.jpeg"
+            alt="Buy 1 Get 1 FREE @ ₹399 - Eda Perfumes"
+            className="w-full h-auto object-cover"
+            loading="eager"
+          />
+        </a>
+      </section>
 
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Left side - Offer details */}
-            <div className="text-center md:text-left">
-              <div className="inline-block bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2 mb-4">
-                <span className="text-white font-bold text-sm md:text-base tracking-wider">LIMITED TIME OFFER</span>
-              </div>
-
-              <h1 className="text-white mb-2">
-                <span className="block text-4xl md:text-6xl font-black tracking-tight">BUY 1</span>
-                <span className="block text-3xl md:text-5xl font-black tracking-tight">GET 1 FREE</span>
-              </h1>
-
-              <div className="flex items-center justify-center md:justify-start gap-2 my-4">
-                <span className="text-white/80 text-xl md:text-2xl font-medium">@</span>
-                <span className="text-5xl md:text-7xl font-black text-yellow-300 drop-shadow-lg" style={{textShadow: '2px 2px 4px rgba(0,0,0,0.3)'}}>₹399</span>
-              </div>
-
-              <p className="text-white/90 text-lg md:text-xl font-medium mb-4">
-                Pick Any 2 × 100ml Perfumes
-              </p>
-
-              <div className="flex flex-wrap justify-center md:justify-start gap-3">
-                <div className="bg-white rounded-full px-4 py-2 flex items-center gap-2 shadow-lg">
-                  <Gift className="w-5 h-5 text-teal-600" />
-                  <span className="text-teal-700 font-bold text-sm">2 × 100ml</span>
-                </div>
-                <div className="bg-yellow-400 rounded-full px-4 py-2 shadow-lg">
-                  <span className="text-yellow-900 font-bold text-sm">SAVE ₹500+</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right side - Visual element */}
-            <div className="relative">
-              <div className="w-48 h-48 md:w-64 md:h-64 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white/30">
-                <div className="text-center">
-                  <div className="text-6xl md:text-8xl">🎁</div>
-                  <p className="text-white font-bold text-sm md:text-base mt-2">2 × 100ml</p>
-                </div>
-              </div>
-              <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-16 h-16 md:w-20 md:h-20 flex items-center justify-center font-black text-xs md:text-sm shadow-lg animate-pulse">
-                HOT<br/>DEAL
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="container mx-auto px-4 py-8">
+      <div id="selection-section" className="container mx-auto px-4 py-8">
         {/* Progress Steps */}
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
           <div className="flex items-center justify-between max-w-2xl mx-auto">
