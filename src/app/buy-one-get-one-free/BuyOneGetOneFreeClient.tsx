@@ -123,14 +123,14 @@ export default function BuyOneGetOneFreeClient() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-cyan-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="animate-spin rounded-full h-16 w-16 border-4 border-teal-500 border-t-transparent"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-cyan-50">
+    <div className="min-h-screen bg-white">
       {/* Hero Banner */}
       <section className="w-full">
         <a href="#selection-section" className="block cursor-pointer">
