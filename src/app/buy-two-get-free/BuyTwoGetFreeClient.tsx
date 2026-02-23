@@ -148,8 +148,8 @@ export default function BuyTwoGetFreeClient() {
       <section className="w-full">
         <a href="#selection-section" className="block cursor-pointer">
           <img
-            src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/valentinebanner.jpeg"
-            alt="Buy 2 @₹799 & Get 2 10ml FREE - Eda Perfumes"
+            src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/Banner-1-EDA.jpg.jpeg"
+            alt="Buy 2 @₹799 & Get 3 10ml FREE - Eda Perfumes"
             className="w-full h-auto object-cover"
             loading="eager"
           />

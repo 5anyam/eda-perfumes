@@ -147,8 +147,8 @@ export default function BuyThreeGetGiftsClient() {
       {/* Hero Banner */}
       <section className="relative w-full cursor-pointer" onClick={() => window.scrollTo({ top: document.getElementById('selection-section')?.offsetTop ?? 500, behavior: 'smooth' })}>
         <img
-          src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/EDA-Perfume-14-feb-banner.jpg.jpeg"
-          alt="Buy 3 Get 3 Gifts @ ₹999 - 3×100ml Perfumes + 3×10ml Travel Sizes FREE"
+          src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/Banner-2-EDA.jpg.jpeg"
+          alt="Buy 3 Get 4 Gifts @ ₹999 - 3×100ml Perfumes + 4×10ml Travel Sizes FREE"
           className="w-full h-auto object-cover"
         />
       </section>
