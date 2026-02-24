@@ -28,7 +28,7 @@ const navItems = [
     to: "/valentine-gift-pack",
     submenu: [
       { name: "Valentine Gift Pack", to: "/valentine-gift-pack", price: "Limited" },
-      // { name: "Buy 1 at ₹399", to: "/buy-one-get-one-free", price: "399" }, // DISABLED
+      { name: "Buy 1 at ₹399", to: "/buy-one-get-one-free", price: "399" },
       { name: "Buy 2 Get Free", to: "/buy-two-get-free", price: "799" },
       { name: "Buy 3 Get Gifts", to: "/buy-three-get-gifts", price: "999" },
     ]
