@@ -63,14 +63,6 @@ export default function BuyOneGetOneFreeClient() {
 
   const handleQuickAddToCart = (e: React.MouseEvent, product: ExtendedProduct) => {
     e.stopPropagation();
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      regular_price: product.regular_price || product.price,
-      images: product.images?.map(img => ({ src: img.src })) || [],
-    });
-    openDrawer();
     setAddedProducts(prev => new Set(prev).add(product.id));
     setTimeout(() => {
       setAddedProducts(prev => {
@@ -241,7 +233,7 @@ export default function BuyOneGetOneFreeClient() {
                     <div className="flex items-center justify-between mt-2">
                       <p className="text-teal-600 font-bold">₹{Number(product.price).toLocaleString()}</p>
                       <button
-                        onClick={(e) => handleQuickAddToCart(e, product)}
+                        onClick={(e) => { handleQuickAddToCart(e, product); handleMainSelect(product); }}
                         className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
                           addedProducts.has(product.id)
                             ? 'bg-green-500 text-white'
@@ -348,7 +340,7 @@ export default function BuyOneGetOneFreeClient() {
                     <div className="flex items-center justify-between mt-2">
                       <p className="text-teal-600 font-bold">₹{Number(product.price).toLocaleString()}</p>
                       <button
-                        onClick={(e) => handleQuickAddToCart(e, product)}
+                        onClick={(e) => { handleQuickAddToCart(e, product); handleSecondSelect(product); }}
                         className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
                           addedProducts.has(product.id)
                             ? 'bg-green-500 text-white'

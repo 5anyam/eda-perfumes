@@ -58,14 +58,6 @@ export default function BuyThreeGetGiftsClient() {
 
   const handleQuickAddToCart = (e: React.MouseEvent, product: ExtendedProduct) => {
     e.stopPropagation();
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      regular_price: product.regular_price || product.price,
-      images: product.images?.map(img => ({ src: img.src })) || [],
-    });
-    openDrawer();
     setAddedProducts(prev => new Set(prev).add(product.id));
     setTimeout(() => {
       setAddedProducts(prev => {
@@ -311,7 +303,7 @@ export default function BuyThreeGetGiftsClient() {
                             ₹{Number(product.price).toLocaleString()}
                           </p>
                           <button
-                            onClick={(e) => handleQuickAddToCart(e, product)}
+                            onClick={(e) => { handleQuickAddToCart(e, product); handleSelectMain(product); }}
                             className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
                               addedProducts.has(product.id)
                                 ? 'bg-green-500 text-white'
@@ -414,7 +406,7 @@ export default function BuyThreeGetGiftsClient() {
                             ₹{Number(product.price).toLocaleString()}
                           </p>
                           <button
-                            onClick={(e) => handleQuickAddToCart(e, product)}
+                            onClick={(e) => { handleQuickAddToCart(e, product); handleSelectGift(product); }}
                             className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold transition-all ${
                               addedProducts.has(product.id)
                                 ? 'bg-green-500 text-white'
