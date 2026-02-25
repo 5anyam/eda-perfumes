@@ -56,7 +56,7 @@ export const useFacebookPixel = () => {
   const trackPurchase = useCallback((orderItems: CartItem[], total: number, orderId: string) => {
     trackEvent('Purchase', {
       content_ids: orderItems.map(item => item.id.toString()),
-      content_name: 'Amraj Wellness Order',
+      content_name: 'EDA Perfumes Order',
       content_type: 'product',
       value: parseFloat(total.toString()),
       currency: 'INR',

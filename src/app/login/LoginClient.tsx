@@ -28,7 +28,7 @@ const LoginPage: React.FC = () => {
   const router = useRouter();
 
   // WordPress site URL - replace with your WordPress site URL
-  const WORDPRESS_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://cms.amraj.in';
+  const WORDPRESS_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://cms.edaperfumes.com';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

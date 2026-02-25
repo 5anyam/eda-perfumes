@@ -116,15 +116,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               ],
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "D5/204, Chintpurni House, Central Market",
-                "addressLocality": "Prashant Vihar",
-                "addressRegion": "New Delhi",
-                "postalCode": "110085",
+                "streetAddress": "WZ-11B Ground Floor, Sahib Pura, Tilak Nagar",
+                "addressLocality": "New Delhi",
+                "addressRegion": "Delhi",
+                "postalCode": "110018",
                 "addressCountry": "IN"
               },
               "contactPoint": {
                 "@type": "ContactPoint",
-                "telephone": "+91-92116-19009",
+                "telephone": "+91-87997-95681",
                 "contactType": "customer service",
                 "email": "care@edaperfumes.com"
               },

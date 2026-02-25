@@ -19,42 +19,42 @@ interface ProductFAQProps {
 // FAQ Data for different products
 
 const faqData: Record<string, FAQ[]> = {
-  
+
   'default': [
     {
-      question: "What makes Vyadhihar Foods different from other brands?",
-      answer: "Vyadhihar Foods specializes in premium, 100% natural dry fruits and healthy snacks. Our products are lab-tested, handpicked for quality, and contain no preservatives or artificial additives. We source from trusted suppliers and maintain rigorous quality standards at every step."
+      question: "What makes EDA Perfumes different from other brands?",
+      answer: "EDA Perfumes (Éclat D'Amour) crafts luxury fragrances using premium ingredients. Our perfumes are long-lasting, skin-friendly, and designed for those who appreciate sophistication and elegance. Each fragrance is carefully formulated to deliver a unique scent experience."
     },
     {
-      question: "Are your products 100% natural?",
-      answer: "Yes! All our dry fruits and snacks are completely natural with:\n• No preservatives or artificial colors\n• No added chemicals\n• Lab-tested for purity\n• Carefully sourced and handpicked\n• Packaged to maintain freshness and quality"
+      question: "How long do EDA Perfumes last?",
+      answer: "Our perfumes are designed for long-lasting wear:\n• Eau de Parfum (100ml): 8-12 hours of lasting fragrance\n• Pocket Perfumes (10ml): 4-6 hours, perfect for on-the-go\n• Longevity depends on skin type, weather, and application method\n• Apply on pulse points for best results"
     },
     {
-      question: "How should I store dry fruits for maximum freshness?",
-      answer: "For best results:\n• Store in a cool, dry place away from direct sunlight\n• Keep in airtight containers after opening\n• Avoid exposure to moisture\n• Refrigeration can extend shelf life\n• Most dry fruits last 6-12 months when stored properly"
+      question: "How should I store my perfume?",
+      answer: "For best results:\n• Store in a cool, dry place away from direct sunlight\n• Keep the cap tightly closed when not in use\n• Avoid storing in bathrooms (humidity affects quality)\n• Keep away from extreme temperatures\n• Properly stored perfumes can last 3-5 years"
     },
     {
-      question: "Do you offer bulk orders for corporate gifting?",
-      answer: "Absolutely! We specialize in premium corporate gifting hampers with:\n• Attractive bulk discounts\n• Custom packaging options\n• Flexible quantity orders\n• Fast nationwide delivery\n• Dedicated customer support\n\nContact us via WhatsApp or email for personalized quotes."
+      question: "Do you offer combo deals?",
+      answer: "Yes! We offer amazing combo deals:\n• Buy 1 Get 1 Free at ₹399\n• Buy 2 Get 3×10ml FREE at ₹799\n• Buy 3 Get 4 FREE Gifts at ₹1,199\n• Pocket combo sets available\n\nCheck our Offers section for the latest deals."
     },
     {
       question: "What is your return policy?",
-      answer: "We offer a 30-day money-back guarantee on all products. If you're not satisfied for any reason, contact us with proof of purchase for a full refund or replacement. Due to hygiene standards, products must be unopened for returns."
+      answer: "We offer hassle-free returns on all products. If you're not satisfied for any reason, contact us within 7 days of delivery with proof of purchase for a full refund or replacement. Products must be unused and in original packaging for returns."
     },
     {
       question: "How long does delivery take?",
-      answer: "We deliver across India with:\n• 3-5 working days for most locations\n• Free shipping on orders above ₹999\n• Secure, hygienic packaging\n• Real-time tracking information\n• Special rates for bulk orders"
+      answer: "We deliver across India with:\n• 3-5 working days for most locations\n• Free shipping on all orders\n• Secure, premium packaging\n• Real-time tracking information\n• Cash on Delivery available"
     },
     {
-      question: "Are these products suitable for dietary restrictions?",
-      answer: "Our dry fruits are naturally:\n• Vegan-friendly\n• Gluten-free\n• No added sugar (natural sweetness only)\n• Rich in protein and healthy fats\n\nAlways check individual product labels for specific allergen information, especially if you have nut allergies."
+      question: "Are your perfumes suitable for sensitive skin?",
+      answer: "Our perfumes are:\n• Dermatologically tested\n• Made with premium, skin-safe ingredients\n• Free from harmful chemicals\n• Suitable for most skin types\n\nIf you have very sensitive skin, we recommend doing a patch test before full application."
     },
     {
-      question: "What are the health benefits of your products?",
-      answer: "Our premium dry fruits offer:\n• Rich source of vitamins and minerals\n• Natural energy boost\n• Heart-healthy fats\n• Support for immunity\n• Helps in weight management\n• Improves digestion\n• Natural antioxidants"
+      question: "How should I apply perfume for best results?",
+      answer: "For maximum fragrance impact:\n• Apply on pulse points (wrists, neck, behind ears)\n• Don't rub wrists together after applying\n• Spray from 6-8 inches distance\n• Apply on moisturized skin for longer lasting scent\n• Layer with matching body products if available"
     }
   ]
-    
+
 };
 
 
@@ -168,7 +168,7 @@ const ProductFAQ: React.FC<ProductFAQProps> = ({ productSlug, productName }) => 
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
-              href="mailto:care@vyadhiharfoods.com"
+              href="mailto:care@edaperfumes.com"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 text-sm text-[#5D4E37] border-2 border-[#D4A574] hover:bg-[#FFF8DC] transition-all rounded-full font-bold shadow-md hover:shadow-lg"
             >
               <Mail className="w-5 h-5" />

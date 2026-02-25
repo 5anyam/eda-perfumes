@@ -37,8 +37,8 @@ export default function ContactClient() {
         </div>
         <h1 className="text-5xl font-bold mb-6 text-gray-800">Get in Touch</h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-          Have questions about our wellness solutions? We&apos;d love to hear from you. 
-          Reach out to us and let&apos;s start your journey to better health together.
+          Have questions about our luxury fragrances? We&apos;d love to hear from you.
+          Reach out to us and let&apos;s help you find your perfect scent.
         </p>
       </section>
 
@@ -51,7 +51,7 @@ export default function ContactClient() {
           <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Email Us</h3>
           <p className="text-gray-600 text-center mb-4">Send us an email and we&apos;ll respond within 24 hours</p>
           <div className="text-center">
-            <a href="mailto:support@amraj.in" className="text-emerald-600 hover:text-emerald-700 font-semibold text-lg">
+            <a href="mailto:care@edaperfumes.com" className="text-emerald-600 hover:text-emerald-700 font-semibold text-lg">
               care@edaperfumes.com
             </a>
           </div>
@@ -62,9 +62,9 @@ export default function ContactClient() {
             <Phone className="w-8 h-8 text-yellow-600" />
           </div>
           <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Call Us</h3>
-          <p className="text-gray-600 text-center mb-4">Speak directly with our wellness experts</p>
+          <p className="text-gray-600 text-center mb-4">Speak directly with our fragrance experts</p>
           <div className="text-center">
-            <a href="tel:+919211619009" className="text-yellow-600 hover:text-yellow-700 font-semibold text-lg">
+            <a href="tel:+918799795681" className="text-yellow-600 hover:text-yellow-700 font-semibold text-lg">
             +91 87997 95681
             </a>
           </div>
@@ -154,7 +154,7 @@ export default function ContactClient() {
                 >
                   <option value="">Select a subject</option>
                   <option value="general">General Inquiry</option>
-                  <option value="consultation">Wellness Consultation</option>
+                  <option value="consultation">Fragrance Consultation</option>
                   <option value="products">Product Information</option>
                   <option value="partnership">Partnership</option>
                   <option value="support">Customer Support</option>
@@ -173,7 +173,7 @@ export default function ContactClient() {
                 onChange={handleInputChange}
                 rows={5}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                placeholder="Tell us about your wellness goals or any questions you have..."
+                placeholder="Tell us about your fragrance preferences or any questions you have..."
               ></textarea>
             </div>
 
@@ -208,9 +208,9 @@ export default function ContactClient() {
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-2">Address</h4>
                   <address className="text-gray-600 not-italic leading-relaxed">
-                    D5/204, Chintpurni House,<br />
-                    Central Market, Prashant Vihar,<br />
-                    New Delhi-110085
+                    WZ-11B Ground Floor, Sahib Pura,<br />
+                    Tilak Nagar,<br />
+                    New Delhi - 110018
                   </address>
                 </div>
               </div>
@@ -237,7 +237,7 @@ export default function ContactClient() {
                   <h4 className="font-semibold text-gray-800 mb-2">Consultation Hours</h4>
                   <div className="text-gray-600 space-y-1">
                     <p>By Appointment Only</p>
-                    <p>Call us to schedule your wellness consultation</p>
+                    <p>Call us to schedule your fragrance consultation</p>
                   </div>
                 </div>
               </div>
@@ -249,7 +249,7 @@ export default function ContactClient() {
             <div className="text-center">
               <MapPin className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
               <h4 className="text-xl font-bold text-gray-800 mb-2">Find Us Here</h4>
-              <p className="text-gray-600">Prashant Vihar, New Delhi</p>
+              <p className="text-gray-600">Tilak Nagar, New Delhi</p>
             </div>
           </div>
         </div>
@@ -266,17 +266,17 @@ export default function ContactClient() {
             </div>
             <div className="bg-white p-6 rounded-2xl shadow-sm">
               <h3 className="font-bold text-lg mb-2 text-gray-800">Do you offer free consultations?</h3>
-              <p className="text-gray-600">Yes, we offer free initial consultations to understand your wellness needs and recommend suitable products.</p>
+              <p className="text-gray-600">Yes, we offer free fragrance consultations to help you find your perfect scent from our collection.</p>
             </div>
           </div>
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-2xl shadow-sm">
               <h3 className="font-bold text-lg mb-2 text-gray-800">Can I visit your office without an appointment?</h3>
-              <p className="text-gray-600">We recommend scheduling an appointment to ensure our wellness experts are available to provide personalized attention.</p>
+              <p className="text-gray-600">We recommend scheduling an appointment to ensure our fragrance experts are available to provide personalized attention.</p>
             </div>
             <div className="bg-white p-6 rounded-2xl shadow-sm">
               <h3 className="font-bold text-lg mb-2 text-gray-800">What information should I include in my inquiry?</h3>
-              <p className="text-gray-600">Please include your health goals, any specific concerns, and current wellness routine to help us provide the best recommendations.</p>
+              <p className="text-gray-600">Please include your fragrance preferences, occasion, and any specific notes you enjoy to help us provide the best recommendations.</p>
             </div>
           </div>
         </div>
@@ -284,19 +284,19 @@ export default function ContactClient() {
 
       {/* CTA Section */}
       <section className="text-center bg-gradient-to-r from-emerald-600 to-emerald-700 p-12 rounded-3xl text-white shadow-2xl">
-        <h2 className="text-4xl font-bold mb-4">Ready to Start Your Wellness Journey?</h2>
+        <h2 className="text-4xl font-bold mb-4">Ready to Find Your Signature Scent?</h2>
         <p className="text-xl mb-8 text-emerald-100">
-          Contact us today and let our experts guide you towards optimal health with personalized solutions.
+          Contact us today and let our fragrance experts help you discover the perfect perfume.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            href="tel:+919211619009"
+            href="tel:+918799795681"
             className="bg-white text-emerald-600 px-8 py-3 rounded-full font-semibold text-lg hover:bg-emerald-50 transition-colors duration-300 shadow-lg"
           >
             Call Now
           </a>
           <a
-            href="mailto:care@amraj.in"
+            href="mailto:care@edaperfumes.com"
             className="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-full font-semibold text-lg transition-colors duration-300 shadow-lg"
           >
             Email Us

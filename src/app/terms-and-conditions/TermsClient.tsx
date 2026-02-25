@@ -92,8 +92,8 @@ export default function TermsClient() {
                   <div>
                     <p className="font-semibold text-gray-800">Address:</p>
                     <p className="text-gray-600">
-                      D5/204, Chintpurni House, Central Market,<br />
-                      Prashant Vihar, New Delhi - 110085, India
+                      WZ-11B Ground Floor, Sahib Pura,<br />
+                      Tilak Nagar, New Delhi - 110018, India
                     </p>
                   </div>
                 </div>

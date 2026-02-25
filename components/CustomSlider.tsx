@@ -5,9 +5,9 @@ export default function CustomProductSlider() {
   const [slidesToShow, setSlidesToShow] = useState(3);
 
   const products = [
-    { id: 1, name: "Prostate Care", image: "/prostate-ingredients.jpg" },
-    { id: 2, name: "Weight Management", image: "/weight-management.jpg" },
-    { id: 3, name: "Liver Detox", image: "/liver-ingredients.jpg" }
+    { id: 1, name: "Signature Perfumes", image: "/eda-perfumes-logo.jpeg" },
+    { id: 2, name: "Combo Offers", image: "/eda-perfumes-logo.jpeg" },
+    { id: 3, name: "Pocket Perfumes", image: "/eda-perfumes-logo.jpeg" }
   ];
 
   useEffect(() => {

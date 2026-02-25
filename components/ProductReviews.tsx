@@ -84,7 +84,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
 
   const parseImageUrlsFromMeta = (meta?: ApiMetaItem[]): string[] | undefined => {
     if (!Array.isArray(meta)) return undefined;
-    const urlsItem = meta.find((m) => isApiMetaItem(m) && m.key === 'amraj_review_image_urls');
+    const urlsItem = meta.find((m) => isApiMetaItem(m) && (m.key === 'eda_review_image_urls' || m.key === 'amraj_review_image_urls'));
     if (!urlsItem) return undefined;
     const v = urlsItem.value;
     if (Array.isArray(v) && v.every((x) => typeof x === 'string')) {

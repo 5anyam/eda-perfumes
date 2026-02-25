@@ -50,24 +50,8 @@ export default function ImageGallery({ images }: { images: Image[] }) {
 
   const displayImages = images && images.length > 0 ? images : [];
 
-  // --- Background Images Logic ---
-  const backgroundImages: Record<string, string> = {
-    liver: "https://cms.amraj.in/wp-content/uploads/2025/07/liver-bg.png",
-    prostate: "https://cms.amraj.in/wp-content/uploads/2025/07/prostate-bg.png",
-    weight: "https://cms.amraj.in/wp-content/uploads/2025/07/weight-bg.png",
-    diabetes: "https://cms.amraj.in/wp-content/uploads/2025/07/diabetes-bg.png",
-    default: "https://cms.amraj.in/wp-content/uploads/2025/07/default-bg.png"
-  };
-
-  const getBackgroundImage = () => {
-    if (backgroundImages[currentSlug]) return backgroundImages[currentSlug];
-    for (const [key, image] of Object.entries(backgroundImages)) {
-      if (key !== 'default' && currentSlug.includes(key)) return image;
-    }
-    return backgroundImages.default;
-  };
-
-  const bgImage = getBackgroundImage();
+  // --- Background Image ---
+  const bgImage = "";
 
   // --- Image Loading State ---
   useEffect(() => {
