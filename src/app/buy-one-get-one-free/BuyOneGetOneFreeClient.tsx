@@ -492,21 +492,6 @@ export default function BuyOneGetOneFreeClient() {
           </div>
         )}
 
-        {/* Features Section */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { icon: '💎', title: 'Premium Quality', desc: 'Long-lasting fragrance' },
-            { icon: '🎁', title: '1 FREE 10ml', desc: 'Free travel size included' },
-            { icon: '🚚', title: 'Free Shipping', desc: 'On orders above ₹499' },
-            { icon: '✨', title: 'Best Deal', desc: 'Unbeatable value' },
-          ].map((feature, index) => (
-            <div key={index} className="bg-white rounded-xl p-4 text-center shadow-md">
-              <div className="text-3xl mb-2">{feature.icon}</div>
-              <h3 className="font-semibold text-gray-800">{feature.title}</h3>
-              <p className="text-sm text-gray-500">{feature.desc}</p>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );

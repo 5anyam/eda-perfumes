@@ -538,46 +538,6 @@ export default function BuyTwoGetFreeClient() {
         </div>
       </section>
 
-      {/* Why This Deal Section */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-light text-center text-gray-900 mb-12">
-            Why This Deal is Unbeatable
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Tag className="w-8 h-8 text-amber-600" />
-              </div>
-              <h3 className="font-medium text-gray-900 mb-2">67% Savings</h3>
-              <p className="text-gray-600 text-sm">
-                Get 4 perfumes at the price of less than 1
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Gift className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="font-medium text-gray-900 mb-2">Free Gifts</h3>
-              <p className="text-gray-600 text-sm">
-                3 travel sizes worth ₹900 absolutely free
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="w-8 h-8 text-orange-600" />
-              </div>
-              <h3 className="font-medium text-gray-900 mb-2">Limited Stock</h3>
-              <p className="text-gray-600 text-sm">
-                Grab this deal before it's gone
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

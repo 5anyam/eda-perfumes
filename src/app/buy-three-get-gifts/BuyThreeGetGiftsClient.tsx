@@ -92,7 +92,7 @@ export default function BuyThreeGetGiftsClient() {
     if (!isComplete) return;
 
     // Add main perfumes with proportional bundle pricing (total = ₹999)
-    const BUNDLE_PRICE = 999;
+    const BUNDLE_PRICE = 1199;
     const totalActual = selectedMain.reduce((s, p) => s + (Number(p.price) || 0), 0);
     let assigned = 0;
     selectedMain.forEach((product, i) => {
@@ -132,14 +132,14 @@ export default function BuyThreeGetGiftsClient() {
     return total;
   };
 
-  const savings = totalOriginalPrice() - 999;
+  const savings = totalOriginalPrice() - 1199;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-violet-50 via-white to-purple-50">
       {/* Hero Banner */}
       <section className="relative w-full cursor-pointer" onClick={() => window.scrollTo({ top: document.getElementById('selection-section')?.offsetTop ?? 500, behavior: 'smooth' })}>
         <img
-          src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/Banner-2-EDA.jpg.jpeg"
+          src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/Banner-2-EDA-1199.jpg-1.jpeg"
           alt="Buy 3 Get 4 Gifts @ ₹999 - 3×100ml Perfumes + 4×10ml Travel Sizes FREE"
           className="w-full h-auto object-cover"
         />
@@ -174,16 +174,16 @@ export default function BuyThreeGetGiftsClient() {
             <p className="text-[10px] md:text-xs text-gray-500 font-medium">Gift Perfumes</p>
           </div>
 
-          {/* 6 Perfumes - Image oval */}
+          {/* 7 Perfumes - Image oval */}
           <div className="flex flex-col items-center gap-2">
             <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden transition-transform duration-300 hover:scale-110">
               <img
                 src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/3.png"
-                alt="6 Perfumes Total Collection"
+                alt="7 Perfumes Total Collection"
                 className="w-full h-full object-cover"
               />
             </div>
-            <p className="text-xs md:text-sm font-bold text-gray-900">6 Perfumes</p>
+            <p className="text-xs md:text-sm font-bold text-gray-900">7 Perfumes</p>
             <p className="text-[10px] md:text-xs text-gray-500 font-medium">Total Collection</p>
           </div>
 
@@ -465,7 +465,7 @@ export default function BuyThreeGetGiftsClient() {
                       ? `${selectedMain.length} Signature Perfumes`
                       : 'Select 3 signature perfumes'}
                   </p>
-                  <p className="text-xs text-gray-500">3 × 100ml Bottles @ ₹999</p>
+                  <p className="text-xs text-gray-500">3 × 100ml Bottles @ ₹1199</p>
                 </div>
                 {selectedMain.length === 3 && <Check className="w-5 h-5 text-green-500" />}
               </div>
@@ -508,10 +508,10 @@ export default function BuyThreeGetGiftsClient() {
               </div>
               <div className="flex justify-between text-xl font-medium text-gray-900">
                 <span>Bundle Price:</span>
-                <span className="text-violet-600">₹999</span>
+                <span className="text-violet-600">₹1,199</span>
               </div>
               <p className="text-xs text-center text-gray-500 mt-2">
-                That's just ₹250 per perfume!
+                That's just ₹171 per perfume!
               </p>
             </div>
 
@@ -540,7 +540,7 @@ export default function BuyThreeGetGiftsClient() {
                 }`}
               >
                 <Crown className="w-5 h-5" />
-                {isComplete ? 'Add Premium Bundle - ₹999' : 'Complete Your Selection'}
+                {isComplete ? 'Add Premium Bundle - ₹1,199' : 'Complete Your Selection'}
               </button>
             )}
 
@@ -557,56 +557,6 @@ export default function BuyThreeGetGiftsClient() {
         </div>
       </section>
 
-      {/* Why This Deal Section */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-light text-center text-gray-900 mb-12">
-            Why This is Our Best Deal
-          </h2>
-
-          <div className="grid md:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="w-14 h-14 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Crown className="w-7 h-7 text-violet-600" />
-              </div>
-              <h3 className="font-medium text-gray-900 mb-2">Best Value</h3>
-              <p className="text-gray-600 text-sm">
-                6 perfumes for the price of 1
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Gift className="w-7 h-7 text-green-600" />
-              </div>
-              <h3 className="font-medium text-gray-900 mb-2">4 Free Gifts</h3>
-              <p className="text-gray-600 text-sm">
-                Travel sizes worth ₹1,200 free
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Sparkles className="w-7 h-7 text-amber-600" />
-              </div>
-              <h3 className="font-medium text-gray-900 mb-2">₹250 Each</h3>
-              <p className="text-gray-600 text-sm">
-                Lowest price per perfume
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-14 h-14 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="w-7 h-7 text-rose-600" />
-              </div>
-              <h3 className="font-medium text-gray-900 mb-2">Premium Quality</h3>
-              <p className="text-gray-600 text-sm">
-                Same quality, maximum savings
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

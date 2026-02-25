@@ -24,13 +24,12 @@ const navItems = [
     ]
   },
   {
-    name: "Valentine Offers",
-    to: "/valentine-gift-pack",
+    name: "Offers",
+    to: "/buy-one-get-one-free",
     submenu: [
-      { name: "Valentine Gift Pack", to: "/valentine-gift-pack", price: "Limited" },
       { name: "Buy 1 at ₹399", to: "/buy-one-get-one-free", price: "399" },
       { name: "Buy 2 Get Free", to: "/buy-two-get-free", price: "799" },
-      { name: "Buy 3 Get Gifts", to: "/buy-three-get-gifts", price: "999" },
+      { name: "Buy 3 Get Gifts", to: "/buy-three-get-gifts", price: "1199" },
     ]
   },
   {
@@ -149,9 +148,9 @@ export default function Header() {
                           location.startsWith(item.to)
                             ? "text-black"
                             : "text-gray-600 hover:text-black"
-                        } ${item.name === "Valentine Offers" ? "text-red-600 hover:text-red-700 animate-pulse font-medium" : ""}`}
+                        } ${item.name === "Offers" ? "text-red-600 hover:text-red-700 animate-pulse font-medium" : ""}`}
                       >
-                        {item.name === "Valentine Offers" && <span className="text-red-500">❤</span>}
+                        {item.name === "Offers" && <span className="text-red-500">❤</span>}
                         {item.name}
                         <BiChevronDown className={`text-xs transition-transform duration-200 ${activeSubmenu === item.name ? 'rotate-180' : ''}`} />
                       </button>
@@ -168,7 +167,7 @@ export default function Header() {
                               className={`block px-6 py-3 text-sm transition-colors duration-200 ${
                                 location === subItem.to
                                   ? 'text-black bg-gray-50'
-                                  : item.name === "Valentine Offers"
+                                  : item.name === "Offers"
                                     ? 'text-gray-600 hover:text-pink-500 hover:bg-pink-50'
                                     : 'text-gray-600 hover:text-black hover:bg-gray-50'
                               } ${idx !== 0 ? 'border-t border-gray-100' : ''}`}
@@ -180,7 +179,7 @@ export default function Header() {
                             </Link>
                           ))}
                         </div>
-                        {item.name !== "Valentine Offers" && (
+                        {item.name !== "Offers" && (
                           <div className="border-t border-gray-200 px-6 py-3">
                             <Link
                               href={item.to}
@@ -319,11 +318,11 @@ export default function Header() {
                       location.startsWith(item.to)
                         ? "text-black"
                         : "text-gray-600 hover:text-black"
-                    } ${item.name === "Valentine Offers" ? "text-red-600 animate-pulse font-medium" : ""}`}
+                    } ${item.name === "Offers" ? "text-red-600 animate-pulse font-medium" : ""}`}
                     onClick={() => setMobileActiveSubmenu(mobileActiveSubmenu === item.name ? null : item.name)}
                   >
                     <span className="flex items-center gap-1">
-                      {item.name === "Valentine Offers" && <span className="text-red-500">❤</span>}
+                      {item.name === "Offers" && <span className="text-red-500">❤</span>}
                       {item.name}
                     </span>
                     <BiChevronDown className={`text-sm transition-transform duration-200 ${mobileActiveSubmenu === item.name ? 'rotate-180' : ''}`} />
@@ -337,11 +336,11 @@ export default function Header() {
                         key={subItem.name}
                         href={subItem.to}
                         className={`block px-3 sm:px-4 py-2.5 text-sm transition-colors border-l ${
-                          item.name === "Valentine Offers" ? 'border-pink-200' : 'border-gray-200'
+                          item.name === "Offers" ? 'border-pink-200' : 'border-gray-200'
                         } ${
                           location === subItem.to
                             ? 'text-black'
-                            : item.name === "Valentine Offers"
+                            : item.name === "Offers"
                               ? 'text-gray-500 hover:text-pink-500'
                               : 'text-gray-500 hover:text-black'
                         }`}

@@ -2,13 +2,13 @@ import { Metadata } from 'next';
 import BuyThreeGetGiftsClient from './BuyThreeGetGiftsClient';
 
 export const metadata: Metadata = {
-  title: "Buy 3 @ ₹999 + Get 4 FREE Gifts | Eda Perfumes",
-  description: "Ultimate perfume deal - Buy any 3 signature perfumes at just ₹999 and get 4 travel size 10ml perfumes as FREE gifts! Best value offer at Eda Perfumes.",
+  title: "Buy 3 @ ₹1199 + Get 4 FREE Gifts | Eda Perfumes",
+  description: "Ultimate perfume deal - Buy any 3 signature perfumes at just ₹1199 and get 4 travel size 10ml perfumes as FREE gifts! Best value offer at Eda Perfumes.",
   keywords: "perfume offer, buy 3 get gifts, eda perfumes, fragrance deal, perfume bundle, best perfume offer",
   alternates: { canonical: 'https://www.edaperfumes.com/buy-three-get-gifts' },
   openGraph: {
-    title: "Buy 3 @ ₹999 + Get 4 FREE Gifts | Eda Perfumes",
-    description: "Buy 3 Signature Perfumes @ ₹999 + Get 4 Travel Sizes FREE",
+    title: "Buy 3 @ ₹1199 + Get 4 FREE Gifts | Eda Perfumes",
+    description: "Buy 3 Signature Perfumes @ ₹1199 + Get 4 Travel Sizes FREE",
     type: "website",
     url: 'https://www.edaperfumes.com/buy-three-get-gifts',
   },
