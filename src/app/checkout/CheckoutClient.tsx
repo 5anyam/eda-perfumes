@@ -180,7 +180,8 @@ export default function Checkout(): React.ReactElement {
   const [couponError, setCouponError] = useState<string>("");
   const [isApplyingCoupon, setIsApplyingCoupon] = useState<boolean>(false);
 
-  const subtotalAfterCoupon = total - couponDiscount;
+  const hasOfferItems = items.some(item => parseFloat(item.price) === 0);
+  const subtotalAfterCoupon = total - (hasOfferItems ? 0 : couponDiscount);
   const finalTotal = subtotalAfterCoupon + deliveryCharges;
 
   const [form, setForm] = useState<FormData>({
@@ -798,6 +799,7 @@ export default function Checkout(): React.ReactElement {
             </div>
           </div>
 
+          {!hasOfferItems && (
           <div className="border border-gray-200 p-6 mb-6">
             <h2 className="text-base font-light text-gray-900 mb-4 uppercase tracking-widest text-xs">Coupon Code</h2>
             <div className="flex flex-col sm:flex-row gap-3">
@@ -835,6 +837,7 @@ export default function Checkout(): React.ReactElement {
               </button>
             </div>
           </div>
+          )}
 
           <form onSubmit={handleCheckout} className="border border-gray-200 p-8">
             <h2 className="text-base font-light text-gray-900 mb-8 uppercase tracking-widest text-xs">Delivery Information</h2>
