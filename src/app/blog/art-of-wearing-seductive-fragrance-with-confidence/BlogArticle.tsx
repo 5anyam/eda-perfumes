@@ -13,7 +13,7 @@ export default function BlogArticle() {
         <nav className="text-sm text-gray-500 mb-6">
           <Link href="/" className="hover:text-rose-600 transition-colors">Home</Link>
           <span className="mx-2">/</span>
-          <Link href="/blog/art-of-wearing-seductive-fragrance-with-confidence" className="text-rose-600">Blog</Link>
+          <Link href="/blog" className="text-rose-600">Blog</Link>
         </nav>
 
         {/* Tags */}
