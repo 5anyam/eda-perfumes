@@ -118,3 +118,68 @@ div[class*="prose"] b {
 .prose b * {
   font-weight: 700 !important;
 }
+
+/* ===== Holi Celebration Full-Screen ===== */
+.holi-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  overflow: hidden;
+  animation: holiFade 1.2s ease-in 4.2s forwards;
+}
+
+.holi-cloud {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(45px);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: holiBurst ease-out forwards;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+@keyframes holiBurst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  15% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  40% {
+    opacity: 0.5;
+    transform: translate(
+      calc(-50% + var(--holi-mx, 0px) * 0.5),
+      calc(-50% + var(--holi-my, 0px) * 0.5)
+    ) scale(1.2);
+  }
+  65% {
+    opacity: 0.25;
+    transform: translate(
+      calc(-50% + var(--holi-mx, 0px) * 0.8),
+      calc(-50% + var(--holi-my, 0px) * 0.8)
+    ) scale(1.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc(-50% + var(--holi-mx, 0px)),
+      calc(-50% + var(--holi-my, 0px))
+    ) scale(2.5);
+  }
+}
+
+@keyframes holiFade {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 767px) {
+  .holi-cloud {
+    filter: blur(30px);
+  }
+}

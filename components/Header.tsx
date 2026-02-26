@@ -10,7 +10,7 @@ import { BiChevronDown } from "react-icons/bi";
 import { useTypewriter } from 'react-simple-typewriter';
 
 const navItems = [
-  { name: "Home", to: "/" },
+  { name: "Blog", to: "/blog/art-of-wearing-seductive-fragrance-with-confidence" },
   { 
     name: "Unisex 100ml",
     to: "/shop",

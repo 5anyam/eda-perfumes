@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 
 const IMAGES = [
   {
+    src: 'https://cms.edaperfumes.com/wp-content/uploads/2026/02/Banner-2-EDA-1199.jpg-1.jpeg',
+    alt: 'Buy 3 Get 4 Gifts - EDA Perfumes Special Offer',
+    link: '/buy-three-get-gifts',
+  },
+  {
     src: 'https://cms.edaperfumes.com/wp-content/uploads/2026/02/eda-perfumes-banner.jpg',
-    alt: 'Healthy skin with bottle',
+    alt: 'EDA Perfumes Collection Banner',
   },
   {
     src: 'https://cms.edaperfumes.com/wp-content/uploads/2025/10/eda-banner2-scaled.jpg',
-    alt: 'Model smiling with serum',
+    alt: 'EDA Perfumes Luxury Fragrances',
   }
 ];
 
@@ -55,16 +61,24 @@ export default function HeroCarousel() {
         >
           {IMAGES.map((img, index) => (
             <div key={index} className="w-full h-full flex-shrink-0 relative">
-              { (
+              {img.link ? (
+                <Link href={img.link} className="block w-full h-full">
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="w-full h-full object-contain bg-gray-50 transition-transform duration-300 hover:scale-105 cursor-pointer"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                  />
+                </Link>
+              ) : (
                 <img
                   src={img.src}
                   alt={img.alt}
                   className="w-full h-full object-contain bg-gray-50 transition-transform duration-300 hover:scale-105"
                   loading={index === 0 ? 'eager' : 'lazy'}
                 />
-              
               )}
-              
+
               {/* Subtle overlay for better contrast */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/5 via-transparent to-transparent pointer-events-none" />
             </div>
