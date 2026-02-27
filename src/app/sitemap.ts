@@ -53,8 +53,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/search`, lastModified: now, changeFrequency: 'monthly', priority: 0.50 },
 
     // Blog
-    { url: `${BASE_URL}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.80 },
-    { url: `${BASE_URL}/blog/art-of-wearing-seductive-fragrance-with-confidence`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blogs`, lastModified: now, changeFrequency: 'weekly', priority: 0.80 },
+    { url: `${BASE_URL}/blogs/art-of-wearing-seductive-fragrance-with-confidence`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
   ];
 
   // Dynamic product pages (auto-fetched from WooCommerce)

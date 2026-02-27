@@ -35,7 +35,7 @@ export default function BlogListClient() {
           {BLOG_POSTS.map((post) => (
             <Link
               key={post.slug}
-              href={`/blog/${post.slug}`}
+              href={`/blogs/${post.slug}`}
               className="group bg-white rounded-lg sm:rounded-xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 hover:-translate-y-1"
             >
               {/* Image */}

@@ -13,7 +13,7 @@ export default function BlogArticle() {
         <nav className="text-sm text-gray-500 mb-6">
           <Link href="/" className="hover:text-rose-600 transition-colors">Home</Link>
           <span className="mx-2">/</span>
-          <Link href="/blog" className="text-rose-600">Blog</Link>
+          <Link href="/blogs" className="text-rose-600">Blog</Link>
         </nav>
 
         {/* Tags */}
@@ -49,7 +49,7 @@ export default function BlogArticle() {
           </p>
 
           <p>
-            At <strong>Edaperfumes</strong>, luxury fragrance is not merely the matter of aroma, but rather the factor of identity, craftsmanship and experience. Having a <strong>luxury perfume box</strong> in mind, or browsing through a collection of <strong>luxury perfume gift sets</strong>, or picking a sophisticated <strong>oud perfume for men</strong> or a <strong>wood perfume for men</strong>, knowing about the right way to wear fragrance is all that matters.
+            At <strong>Edaperfumes</strong>, luxury fragrance is not merely the matter of aroma, but rather the factor of identity, craftsmanship and experience. Having a <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>luxury perfume box</strong></Link> in mind, or browsing through a collection of <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>luxury perfume gift sets</strong></Link>, or picking a sophisticated <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>oud perfume for men</strong></Link> or a <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>woody perfume for men</strong></Link>, knowing about the right way to wear fragrance is all that matters.
           </p>
 
           <p>
@@ -91,7 +91,7 @@ export default function BlogArticle() {
               1. Oud Perfume for Men: Power and Prestige
             </h3>
             <p>
-              One of the most luxurious perfuming ingredients is Oud that is made of agarwood resin. Lounged about as having a smoky, deep and a little sweet flavor, <strong>oud perfume for men</strong> signals power, dominance, and enigma.
+              One of the most luxurious perfuming ingredients is Oud that is made of agarwood resin. Lounged about as having a smoky, deep and a little sweet flavor, <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>oud perfume for men</strong></Link> signals power, dominance, and enigma.
             </p>
             <p className="mt-3 font-semibold text-gray-800">Why oud works:</p>
             <ul className="list-disc pl-6 mt-2 space-y-1">
@@ -110,7 +110,7 @@ export default function BlogArticle() {
               2. Woody Perfume for Men: Timeless Sophistication
             </h3>
             <p>
-              Woody scents are constructed on the base of such notes as sandalwood, cedarwood, vetiver, and patchouli. A <strong>woody perfume for men</strong> embodies stability, sophistication and masculine and not obtrusive.
+              Woody scents are constructed on the base of such notes as sandalwood, cedarwood, vetiver, and patchouli. A <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>woody perfume for men</strong></Link> embodies stability, sophistication and masculine and not obtrusive.
             </p>
             <p className="mt-3 font-semibold text-gray-800">Best suited for:</p>
             <ul className="list-disc pl-6 mt-2 space-y-1">
@@ -132,10 +132,10 @@ export default function BlogArticle() {
               Luxury is not only about the scent, it is also about the whole experience.
             </p>
             <p className="mt-4">
-              A <strong>luxury perfume box</strong> will increase the perceived value and elicit foreseeability. The packaging is a very important element of fragrance experience psychology. It is an indication of quality, genuineness and an elegant touch when a perfume is placed in a well designed box.
+              A <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>luxury perfume box</strong></Link> will increase the perceived value and elicit foreseeability. The packaging is a very important element of fragrance experience psychology. It is an indication of quality, genuineness and an elegant touch when a perfume is placed in a well designed box.
             </p>
             <p className="mt-4">
-              Similarly, <strong>luxury perfume gift sets</strong> elevate fragrance from a product to an experience. They are ideal for:
+              Similarly, <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>luxury perfume gift sets</strong></Link> elevate fragrance from a product to an experience. They are ideal for:
             </p>
             <ul className="list-disc pl-6 mt-2 space-y-1">
               <li>Anniversaries</li>
@@ -222,8 +222,8 @@ export default function BlogArticle() {
               A seductive fragrance should match up with your personality. Ask yourself:
             </p>
             <ul className="list-disc pl-6 mt-3 space-y-2">
-              <li>Do I prefer bold and commanding? (Choose <strong>oud perfume for men</strong>.)</li>
-              <li>Do I prefer refined and subtle? (Choose <strong>woody perfume for men</strong>.)</li>
+              <li>Do I prefer bold and commanding? (Choose <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>oud perfume for men</strong></Link>.)</li>
+              <li>Do I prefer refined and subtle? (Choose <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>woody perfume for men</strong></Link>.)</li>
               <li>Do I want versatility? (Select balanced unisex compositions.)</li>
             </ul>
             <p className="mt-4">
@@ -244,7 +244,7 @@ export default function BlogArticle() {
               <li>Long-lasting formulation</li>
             </ul>
 
-            <p className="mt-4">Investing in <strong>luxury perfume box</strong> one should consider:</p>
+            <p className="mt-4">Investing in <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>luxury perfume box</strong></Link> one should consider:</p>
             <ul className="list-disc pl-6 mt-2 space-y-1">
               <li>Ingredient quality</li>
               <li>Brand credibility</li>
@@ -260,7 +260,7 @@ export default function BlogArticle() {
               Confidence Is the Final Ingredient
             </h2>
             <p>
-              Even the finest <strong>oud perfume for men</strong> or <strong>woody perfume for men</strong> that can substitute confidence even the best perfume of the same. Fragrance complements who you are already - not what you are.
+              Even the finest <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>oud perfume for men</strong></Link> or <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>woody perfume for men</strong></Link> that can substitute confidence even the best perfume of the same. Fragrance complements who you are already - not what you are.
             </p>
             <p className="mt-4 font-semibold text-gray-800">True elegance comes from:</p>
             <ul className="list-disc pl-6 mt-2 space-y-1">
@@ -278,10 +278,10 @@ export default function BlogArticle() {
           <div className="bg-gradient-to-r from-rose-50 via-pink-50 to-purple-50 p-5 sm:p-8 rounded-xl sm:rounded-2xl border border-rose-200 shadow-md my-6 sm:my-8">
             <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-800">Overall Summary</h2>
             <p className="text-gray-700">
-              The art of wearing a seductive fragrance with confidence and elegance is a blend of knowledge, experience, and personal expression. From selecting a well-designed <strong className="text-rose-600">luxury perfume box</strong> to the presentation of the <strong className="text-rose-600">luxury perfume gift sets</strong>, all these details are part of the sensory experience.
+              The art of wearing a seductive fragrance with confidence and elegance is a blend of knowledge, experience, and personal expression. From selecting a well-designed <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong className="text-rose-600">luxury perfume box</strong></Link> to the presentation of the <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong className="text-rose-600">luxury perfume gift sets</strong></Link>, all these details are part of the sensory experience.
             </p>
             <p className="mt-4 text-gray-700">
-              <strong className="text-rose-600">Oud perfume for men</strong> is something that adds depth and prestige. <strong className="text-rose-600">Woody perfume for men</strong> offers timeless sophistication. When applied properly both can raise presence and bring memorable impressions.
+              <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong className="text-rose-600">Oud perfume for men</strong></Link> is something that adds depth and prestige. <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong className="text-rose-600">Woody perfume for men</strong></Link> offers timeless sophistication. When applied properly both can raise presence and bring memorable impressions.
             </p>
             <p className="mt-4 text-gray-700">
               At <strong className="text-rose-600">Edaperfumes</strong>, fragrance is not merely about the smell, but about telling a story, making a craft, and defining a person. Be discerning, use carefully and put on your perfume quietly.
@@ -294,7 +294,7 @@ export default function BlogArticle() {
           {/* CTA */}
           <div className="text-center mt-8 sm:mt-10">
             <Link
-              href="/blog/art-of-wearing-seductive-fragrance-with-confidence"
+              href="/blogs/art-of-wearing-seductive-fragrance-with-confidence"
               className="inline-block px-6 sm:px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-rose-500 to-pink-600 text-white font-semibold rounded-full hover:from-rose-600 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl"
             >
               Explore Our Blogs

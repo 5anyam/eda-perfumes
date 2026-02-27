@@ -10,7 +10,7 @@ import { BiChevronDown } from "react-icons/bi";
 import { useTypewriter } from 'react-simple-typewriter';
 
 const navItems = [
-  { name: "Blog", to: "/blog" },
+  { name: "Blog", to: "/blogs" },
   { 
     name: "Unisex 100ml",
     to: "/shop",
@@ -27,9 +27,9 @@ const navItems = [
     name: "Offers",
     to: "/buy-one-get-one-free",
     submenu: [
-      { name: "Buy 1 at ₹399", to: "/buy-one-get-one-free", price: "399" },
-      { name: "Buy 2 Get Free", to: "/buy-two-get-free", price: "799" },
-      { name: "Buy 3 Get Gifts", to: "/buy-three-get-gifts", price: "1199" },
+      { name: "Buy 1 (100ml) Get 1 Free Gift (10ml)", to: "/buy-one-get-one-free", price: "399" },
+      { name: "Buy 2 (100ml) Get 3 Gifts Free (10ml)", to: "/buy-two-get-free", price: "799" },
+      { name: "Buy 3 (100ml) Get 4 Gifts Free (10ml)", to: "/buy-three-get-gifts", price: "1199" },
     ]
   },
   {
@@ -156,7 +156,9 @@ export default function Header() {
                       </button>
                       
                       {/* Minimal Dropdown */}
-                      <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-white shadow-lg border border-gray-200 min-w-[280px] transition-all duration-200 ${
+                      <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-white shadow-lg border border-gray-200 transition-all duration-200 ${
+                        item.name === "Offers" ? 'min-w-[380px]' : 'min-w-[280px]'
+                      } ${
                         activeSubmenu === item.name ? 'opacity-100 visible' : 'opacity-0 invisible'
                       }`}>
                         <div className="py-3">
@@ -350,8 +352,8 @@ export default function Header() {
                         }}
                       >
                         <div className="flex items-center justify-between gap-2">
-                          <span className="font-light tracking-wide">{subItem.name}</span>
-                          <span className="text-xs text-gray-400 whitespace-nowrap">₹{subItem.price}</span>
+                          <span className="font-light tracking-wide text-xs sm:text-sm leading-snug">{subItem.name}</span>
+                          <span className="text-[10px] sm:text-xs text-gray-400 whitespace-nowrap">₹{subItem.price}</span>
                         </div>
                       </Link>
                     ))}
