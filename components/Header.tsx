@@ -27,9 +27,9 @@ const navItems = [
     name: "Offers",
     to: "/buy-one-get-one-free",
     submenu: [
-      { name: "Buy 1 (100ml) Get 1 Free Gift (10ml)", to: "/buy-one-get-one-free", price: "399" },
-      { name: "Buy 2 (100ml) Get 3 Gifts Free (10ml)", to: "/buy-two-get-free", price: "799" },
-      { name: "Buy 3 (100ml) Get 4 Gifts Free (10ml)", to: "/buy-three-get-gifts", price: "1199" },
+      { name: "Buy 1 (100ml) Get Free Gift", to: "/buy-one-get-one-free", price: "399" },
+      { name: "Buy 2 (100ml) Get Free Gifts", to: "/buy-two-get-free", price: "799" },
+      { name: "Buy 3 (100ml) Get Free Gifts", to: "/buy-three-get-gifts", price: "1199" },
     ]
   },
   {

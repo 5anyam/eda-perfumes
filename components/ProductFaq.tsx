@@ -35,7 +35,7 @@ const faqData: Record<string, FAQ[]> = {
     },
     {
       question: "Do you offer combo deals?",
-      answer: "Yes! We offer amazing combo deals:\n• Buy 1 (100ml) Get 1 Free Gift (10ml) at ₹399\n• Buy 2 (100ml) Get 3 Gifts Free (10ml) at ₹799\n• Buy 3 (100ml) Get 4 Gifts Free (10ml) at ₹1,199\n• Pocket combo sets available\n\nCheck our Offers section for the latest deals."
+      answer: "Yes! We offer amazing combo deals:\n• Buy 1 (100ml) Get Free Gift at ₹399\n• Buy 2 (100ml) Get Free Gifts at ₹799\n• Buy 3 (100ml) Get Free Gifts at ₹1,199\n• Pocket combo sets available\n\nCheck our Offers section for the latest deals."
     },
     {
       question: "What is your return policy?",
