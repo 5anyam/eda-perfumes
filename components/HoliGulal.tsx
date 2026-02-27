@@ -2,20 +2,16 @@
 
 import { useEffect, useState } from 'react';
 
-// Realistic gulaal (Holi powder) colors — soft, matte, powdery shades
+// Dark, rich Holi colors — minimal and bold
 const HOLI_COLORS = [
-  '#D94F6B', // gulaal pink (kumkum)
-  '#E87590', // soft rose pink
-  '#C2185B', // deep magenta (abeer)
-  '#E8A631', // turmeric yellow (haldi)
-  '#F0C04A', // marigold yellow
-  '#D45B2A', // vermillion orange (sindoor)
-  '#E07840', // saffron orange (kesari)
-  '#5B8C3E', // muted leaf green
-  '#7CAA55', // soft herbal green
-  '#4A7FB5', // indigo blue (neel)
-  '#7B6BAA', // soft purple (jamuni)
-  '#B84C65', // dusty rose red
+  '#9B1B7A', // deep magenta
+  '#C2185B', // dark pink
+  '#6A1B9A', // deep purple
+  '#4A148C', // dark violet
+  '#1565C0', // bold blue
+  '#0D47A1', // deep navy blue
+  '#D81B60', // rich rose
+  '#AD1457', // dark fuchsia
 ];
 
 interface Particle {
