@@ -11,9 +11,7 @@ type Product = {
   images?: { src: string; alt?: string }[];
 };
 
-const WC_API = '/api/wc';
-const CONSUMER_KEY = 'ck_b1a13e4236dd41ec9b8e6a1720a69397ddd12da6';
-const CONSUMER_SECRET = 'cs_d8439cfabc73ad5b9d82d1d3facea6711f24dfd1';
+const SEARCH_API = '/api/woocommerce/search';
 
 function getQuery(): string {
   if (typeof window === 'undefined') return '';
@@ -33,7 +31,7 @@ export default function SearchPage() {
         const products: Product[] = [];
         let page = 1;
         while (true) {
-          const url = `${WC_API}/products?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}&per_page=100&page=${page}&status=publish`;
+          const url = `${SEARCH_API}?per_page=100&page=${page}`;
           const res = await fetch(url);
           if (!res.ok) break;
           const data = await res.json();

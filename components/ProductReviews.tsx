@@ -72,9 +72,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
     rating: 0,
   });
 
-  const API_BASE = 'https://cms.edaperfumes.com/wp-json/wc/v3';
-  const CONSUMER_KEY = 'ck_b1a13e4236dd41ec9b8e6a1720a69397ddd12da6';
-  const CONSUMER_SECRET = 'cs_d8439cfabc73ad5b9d82d1d3facea6711f24dfd1';
+  const REVIEWS_API = '/api/woocommerce/reviews';
 
   useEffect(() => {
     if (productId) {
@@ -97,10 +95,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
     try {
       setLoading(true);
 
-      const url =
-        `${API_BASE}/products/reviews?product=${productId}` +
-        `&consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}` +
-        `&per_page=100&status=approved`;
+      const url = `${REVIEWS_API}?product=${productId}&per_page=100&status=approved`;
 
       const res = await fetch(url);
       if (!res.ok) {
@@ -144,19 +139,15 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
     }
     setSubmitting(true);
     try {
-      const url =
-        `${API_BASE}/products/reviews?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}`;
-
       const payload = {
         product_id: productId,
         review: formData.review,
         reviewer: formData.reviewer,
         reviewer_email: formData.reviewer_email || '',
         rating: formData.rating,
-        status: 'approved',
-      } as const;
+      };
 
-      const res = await fetch(url, {
+      const res = await fetch(REVIEWS_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

@@ -40,15 +40,19 @@ function normalizeProduct(p: ProductWire): ProductNormalized {
 }
 
 async function getAllProducts() {
-  const products = await fetchProducts() as ProductWire[]
-  return products.map(normalizeProduct)
+  try {
+    const products = await fetchProducts() as ProductWire[]
+    return products.map(normalizeProduct)
+  } catch {
+    return []
+  }
 }
 
 async function getProductBySlug(slug: string) {
   // Fetch directly by slug from WooCommerce API (handles all products, not just first 100)
   try {
-    const ck = process.env.CONSUMER_KEY || 'ck_b1a13e4236dd41ec9b8e6a1720a69397ddd12da6'
-    const cs = process.env.CONSUMER_SECRET || 'cs_d8439cfabc73ad5b9d82d1d3facea6711f24dfd1'
+    const ck = process.env.CONSUMER_KEY || ''
+    const cs = process.env.CONSUMER_SECRET || ''
     const res = await fetch(
       `https://cms.edaperfumes.com/wp-json/wc/v3/products?slug=${encodeURIComponent(slug)}&consumer_key=${ck}&consumer_secret=${cs}`,
       { cache: 'no-store' }
@@ -138,11 +142,12 @@ export async function generateMetadata(
   }
 }
 
-// ✅ Updated: Await params in Page component
 export default async function Page({ params }: Props) {
-  const { slug } = await params  // ← Await params here
-  const product = await getProductBySlug(slug)
-  const products = await getAllProducts()
+  const { slug } = await params
+  const [product, products] = await Promise.all([
+    getProductBySlug(slug).catch(() => undefined),
+    getAllProducts(),
+  ])
   return (
     <ProductClient
       initialProduct={product}

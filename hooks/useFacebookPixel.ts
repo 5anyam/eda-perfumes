@@ -9,7 +9,6 @@ export const useFacebookPixel = () => {
     if (typeof window !== 'undefined' && window.fbq) {
       // ✅ Type assertion fix
       window.fbq('track', eventName, parameters as Record<string, unknown>);
-      console.log(`FB Pixel: ${eventName}`, parameters);
     }
   }, []);
 

@@ -9,12 +9,6 @@ import type { CartItem } from "../../../lib/facebook-pixel";
 import Script from "next/script";
 import { Gift } from "lucide-react";
 
-const WOOCOMMERCE_CONFIG = {
-  BASE_URL: 'https://cms.edaperfumes.com',
-  CONSUMER_KEY: 'ck_b1a13e4236dd41ec9b8e6a1720a69397ddd12da6',
-  CONSUMER_SECRET: 'cs_d8439cfabc73ad5b9d82d1d3facea6711f24dfd1',
-};
-
 const RAZORPAY_CONFIG = {
   KEY_ID: "rzp_live_ROhFH4ehWnRMKy",
   COMPANY_NAME: "EDA Perfumes",
@@ -89,15 +83,9 @@ declare global {
 }
 
 const createWooCommerceOrder = async (orderData: Record<string, unknown>): Promise<WooCommerceOrder> => {
-  const apiUrl = `${WOOCOMMERCE_CONFIG.BASE_URL}/wp-json/wc/v3/orders`;
-  const auth = btoa(`${WOOCOMMERCE_CONFIG.CONSUMER_KEY}:${WOOCOMMERCE_CONFIG.CONSUMER_SECRET}`);
-
-  const response = await fetch(apiUrl, {
+  const response = await fetch('/api/woocommerce/create-order', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Basic ${auth}`,
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(orderData),
   });
 
@@ -111,12 +99,10 @@ const createWooCommerceOrder = async (orderData: Record<string, unknown>): Promi
 
     let errorMessage = `Order creation failed: ${response.status}`;
     if (response.status === 404) {
-      errorMessage = 'WooCommerce API not found. Please contact support.';
-    } else if (response.status === 401) {
-      errorMessage = 'Authentication failed. Please contact support.';
-    } else if (typeof errorData === 'object' && errorData && errorData !== null && 'message' in errorData) {
-      const typedError = errorData as { message: string };
-      errorMessage += ` - ${typedError.message}`;
+      errorMessage = 'Order API not found. Please contact support.';
+    } else if (typeof errorData === 'object' && errorData && errorData !== null && 'error' in errorData) {
+      const typedError = errorData as { error: string };
+      errorMessage = typedError.error;
     }
 
     throw new Error(errorMessage);
@@ -139,16 +125,10 @@ const updateWooCommerceOrderStatus = async (orderId: number, status: string, pay
     ];
   }
 
-  const apiUrl = `${WOOCOMMERCE_CONFIG.BASE_URL}/wp-json/wc/v3/orders/${orderId}`;
-  const auth = btoa(`${WOOCOMMERCE_CONFIG.CONSUMER_KEY}:${WOOCOMMERCE_CONFIG.CONSUMER_SECRET}`);
-
-  const response = await fetch(apiUrl, {
+  const response = await fetch('/api/woocommerce/update-order', {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Basic ${auth}`,
-    },
-    body: JSON.stringify(updateData),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ orderId, updateData }),
   });
 
   if (!response.ok) {
@@ -171,8 +151,9 @@ export default function Checkout(): React.ReactElement {
   const total = items.reduce((sum, item) => sum + parseFloat(item.price) * item.quantity, 0);
   const deliveryCharges = total >= 500 ? 0 : 50;
 
-  // Calculate total free gifts (1 x 10ml perfume per bottle)
-  const totalFreeGifts = items.reduce((sum, item) => sum + item.quantity, 0);
+  // Calculate total free gifts (1 x 10ml perfume per bottle) — only for regular orders
+  const hasOfferItemsEarly = items.some(item => parseFloat(item.price) === 0);
+  const totalFreeGifts = hasOfferItemsEarly ? 0 : items.reduce((sum, item) => sum + item.quantity, 0);
 
   const [couponCode, setCouponCode] = useState<string>("");
   const [appliedCoupon, setAppliedCoupon] = useState<string>("");
@@ -183,6 +164,42 @@ export default function Checkout(): React.ReactElement {
   const hasOfferItems = items.some(item => parseFloat(item.price) === 0);
   const subtotalAfterCoupon = total - (hasOfferItems ? 0 : couponDiscount);
   const finalTotal = subtotalAfterCoupon + deliveryCharges;
+
+  // Validate cart integrity for offer bundles
+  const validateCartIntegrity = (): { valid: boolean; error: string } => {
+    const paidItems = items.filter(item => parseFloat(item.price) > 0);
+    const freeItems = items.filter(item => parseFloat(item.price) === 0);
+
+    if (freeItems.length === 0) return { valid: true, error: '' };
+
+    // Total free quantity should not exceed total paid quantity
+    const totalPaidQty = paidItems.reduce((sum, i) => sum + i.quantity, 0);
+    const totalFreeQty = freeItems.reduce((sum, i) => sum + i.quantity, 0);
+    if (totalFreeQty > totalPaidQty * freeItems.length) {
+      return { valid: false, error: 'Cart has invalid free item quantities. Please clear cart and re-add from offer page.' };
+    }
+
+    // Must have at least one paid item if there are free items
+    if (paidItems.length === 0 && freeItems.length > 0) {
+      return { valid: false, error: 'Free gifts require at least one paid item.' };
+    }
+
+    // Validate offer price tiers: paid total should match known offer prices
+    const paidTotal = paidItems.reduce((sum, i) => sum + parseFloat(i.price) * i.quantity, 0);
+    const validOfferTotals = [399, 799, 1199]; // Buy1, Buy2, Buy3 bundle prices
+    const isOfferPrice = validOfferTotals.some(t => Math.abs(paidTotal - t) < 1);
+    const isMultipleOfOffer = validOfferTotals.some(t => paidTotal > 0 && Math.abs(paidTotal % t) < 1);
+
+    if (!isOfferPrice && !isMultipleOfOffer) {
+      // Allow normal (non-offer) purchases to pass through
+      // Only block if there are free items with a suspicious total
+      if (freeItems.length > 0 && paidTotal < 399) {
+        return { valid: false, error: 'Invalid offer bundle. Please re-add items from the offer page.' };
+      }
+    }
+
+    return { valid: true, error: '' };
+  };
 
   const [form, setForm] = useState<FormData>({
     name: "", email: "", phone: "", whatsapp: "", address: "", 
@@ -326,6 +343,11 @@ export default function Checkout(): React.ReactElement {
   }
 
   const handleCODSubmit = async (): Promise<void> => {
+    const cartCheck = validateCartIntegrity();
+    if (!cartCheck.valid) {
+      toast({ title: "Invalid Cart", description: cartCheck.error, variant: "destructive" });
+      return;
+    }
     if (!validateForm()) {
       toast({
         title: "Please fix the errors",
@@ -367,7 +389,7 @@ export default function Checkout(): React.ReactElement {
           country: 'IN',
         },
         line_items: items.map((item) => ({
-          product_id: parseInt(String(item.id), 10),
+          product_id: Math.abs(parseInt(String(item.id), 10)),
           quantity: item.quantity,
           subtotal: (parseFloat(item.price) * item.quantity).toFixed(2),
           total: (parseFloat(item.price) * item.quantity).toFixed(2),
@@ -384,7 +406,7 @@ export default function Checkout(): React.ReactElement {
         customer_note: form.notes + (form.notes ? '\n\n' : '') + 
           `WhatsApp: ${form.whatsapp}\n` +
           `Full Address: ${fullAddress}\n` +
-          `FREE GIFT: ${totalFreeGifts} x 10ml perfume${totalFreeGifts > 1 ? 's' : ''}` +
+          (totalFreeGifts > 0 ? `FREE GIFT: ${totalFreeGifts} x 10ml perfume${totalFreeGifts > 1 ? 's' : ''}` : 'Offer bundle order') +
           (appliedCoupon ? `\nCoupon Applied: ${appliedCoupon} (₹${couponDiscount} discount)` : ''),
         meta_data: [
           { key: 'whatsapp_number', value: form.whatsapp },
@@ -392,7 +414,7 @@ export default function Checkout(): React.ReactElement {
           { key: 'subtotal', value: total.toString() },
           { key: 'delivery_charges', value: deliveryCharges.toString() },
           { key: 'final_total', value: finalTotal.toString() },
-          { key: 'free_gifts', value: `${totalFreeGifts} x 10ml perfume` },
+          { key: 'free_gifts', value: totalFreeGifts > 0 ? `${totalFreeGifts} x 10ml perfume` : 'Included in offer bundle' },
           { key: 'payment_method', value: 'cod' },
           ...(appliedCoupon ? [
             { key: 'coupon_code', value: appliedCoupon },
@@ -551,6 +573,12 @@ export default function Checkout(): React.ReactElement {
         return;
       }
 
+      const cartCheck = validateCartIntegrity();
+      if (!cartCheck.valid) {
+        toast({ title: "Invalid Cart", description: cartCheck.error, variant: "destructive" });
+        return;
+      }
+
       if (!validateForm()) {
         toast({
           title: "Please fix the errors",
@@ -592,7 +620,7 @@ export default function Checkout(): React.ReactElement {
           country: 'IN',
         },
         line_items: items.map((item) => ({
-          product_id: parseInt(String(item.id), 10),
+          product_id: Math.abs(parseInt(String(item.id), 10)),
           quantity: item.quantity,
           subtotal: (parseFloat(item.price) * item.quantity).toFixed(2),
           total: (parseFloat(item.price) * item.quantity).toFixed(2),
@@ -609,7 +637,7 @@ export default function Checkout(): React.ReactElement {
         customer_note: form.notes + (form.notes ? '\n\n' : '') + 
           `WhatsApp: ${form.whatsapp}\n` +
           `Full Address: ${fullAddress}\n` +
-          `FREE GIFT: ${totalFreeGifts} x 10ml perfume${totalFreeGifts > 1 ? 's' : ''}` +
+          (totalFreeGifts > 0 ? `FREE GIFT: ${totalFreeGifts} x 10ml perfume${totalFreeGifts > 1 ? 's' : ''}` : 'Offer bundle order') +
           (appliedCoupon ? `\nCoupon Applied: ${appliedCoupon} (₹${couponDiscount} discount)` : ''),
         meta_data: [
           { key: 'whatsapp_number', value: form.whatsapp },
@@ -617,7 +645,7 @@ export default function Checkout(): React.ReactElement {
           { key: 'subtotal', value: total.toString() },
           { key: 'delivery_charges', value: deliveryCharges.toString() },
           { key: 'final_total', value: finalTotal.toString() },
-          { key: 'free_gifts', value: `${totalFreeGifts} x 10ml perfume` },
+          { key: 'free_gifts', value: totalFreeGifts > 0 ? `${totalFreeGifts} x 10ml perfume` : 'Included in offer bundle' },
           ...(appliedCoupon ? [
             { key: 'coupon_code', value: appliedCoupon },
             { key: 'coupon_discount', value: couponDiscount.toString() }
@@ -735,10 +763,17 @@ export default function Checkout(): React.ReactElement {
                     <div>
                       <span className="font-light text-sm text-gray-900">{item.name}</span>
                       <span className="text-gray-500 text-xs ml-2">×{item.quantity}</span>
-                      <span className="ml-2 text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-medium inline-flex items-center gap-1">
-                        <Gift className="w-3 h-3" />
-                        +{item.quantity} FREE 10ml
-                      </span>
+                      {!hasOfferItems && parseFloat(item.price) > 0 && (
+                        <span className="ml-2 text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-medium inline-flex items-center gap-1">
+                          <Gift className="w-3 h-3" />
+                          +{item.quantity} FREE 10ml
+                        </span>
+                      )}
+                      {parseFloat(item.price) === 0 && (
+                        <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded font-medium">
+                          FREE GIFT
+                        </span>
+                      )}
                     </div>
                     <span className="font-light text-sm text-gray-900">
                       ₹{(parseFloat(item.price) * item.quantity).toFixed(2)}
@@ -775,15 +810,17 @@ export default function Checkout(): React.ReactElement {
                 <span>{deliveryCharges === 0 ? 'Free' : `₹${deliveryCharges}`}</span>
               </div>
 
-              {/* Free gifts summary */}
-              <div className="p-3 bg-emerald-50 border border-emerald-100 rounded-sm">
-                <div className="flex items-center gap-2 text-emerald-800">
-                  <Gift className="w-4 h-4" />
-                  <span className="text-xs font-medium">
-                    You will receive {totalFreeGifts} FREE 10ml perfume{totalFreeGifts > 1 ? 's' : ''} with this order!
-                  </span>
+              {/* Free gifts summary — only for regular (non-offer) orders */}
+              {!hasOfferItems && totalFreeGifts > 0 && (
+                <div className="p-3 bg-emerald-50 border border-emerald-100 rounded-sm">
+                  <div className="flex items-center gap-2 text-emerald-800">
+                    <Gift className="w-4 h-4" />
+                    <span className="text-xs font-medium">
+                      You will receive {totalFreeGifts} FREE 10ml perfume{totalFreeGifts > 1 ? 's' : ''} with this order!
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )}
               
               <div className="flex justify-between items-center py-3 border-t border-gray-200">
                 <span className="text-sm text-gray-900 font-light uppercase tracking-widest">Total</span>

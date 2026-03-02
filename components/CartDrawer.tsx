@@ -30,6 +30,9 @@ export default function CartDrawer() {
   const originalTotal = items.reduce((sum, item) => sum + Number(item.regular_price || item.price) * item.quantity, 0);
   const discount = originalTotal - subtotal;
 
+  // If cart has any free (₹0) items, it's an offer bundle — lock all modifications
+  const isOfferCart = items.some(item => parseFloat(item.price) === 0);
+
   return (
     <Sheet open={isDrawerOpen} onOpenChange={(open) => !open && closeDrawer()}>
       <SheetContent side="right" className="w-full sm:max-w-md p-0 flex flex-col">
@@ -91,46 +94,71 @@ export default function CartDrawer() {
 
                   {/* Product Details */}
                   <div className="flex-1 min-w-0">
-                    <button
-                      onClick={() => removeFromCart(item.id)}
-                      className="float-right text-gray-400 hover:text-rose-500 transition-colors"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
+                    {parseFloat(item.price) > 0 && !isOfferCart && (
+                      <button
+                        onClick={() => removeFromCart(item.id)}
+                        className="float-right text-gray-400 hover:text-rose-500 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    )}
                     <h3 className="text-sm font-medium text-gray-900 line-clamp-2 pr-6">
                       {item.name}
                     </h3>
                     <div className="mt-1 flex items-center gap-2">
-                      {item.regular_price && Number(item.regular_price) > Number(item.price) && (
-                        <span className="text-xs text-gray-400 line-through">
-                          ₹{Number(item.regular_price).toLocaleString()}
-                        </span>
+                      {parseFloat(item.price) === 0 ? (
+                        <span className="text-sm font-semibold text-green-600">FREE Gift</span>
+                      ) : (
+                        <>
+                          {item.regular_price && Number(item.regular_price) > Number(item.price) && (
+                            <span className="text-xs text-gray-400 line-through">
+                              ₹{Number(item.regular_price).toLocaleString('en-IN')}
+                            </span>
+                          )}
+                          <span className="text-sm font-semibold text-gray-900">
+                            ₹{Number(item.price).toLocaleString('en-IN')}
+                          </span>
+                        </>
                       )}
-                      <span className="text-sm font-semibold text-gray-900">
-                        ₹{Number(item.price).toLocaleString()}
-                      </span>
                     </div>
 
                     {/* Quantity Controls */}
                     <div className="mt-2 flex items-center gap-2">
-                      <div className="flex items-center border border-gray-300 rounded-lg">
-                        <button
-                          onClick={() => decrement(item.id)}
-                          className="p-1.5 hover:bg-gray-100 transition-colors"
-                        >
-                          <Minus className="w-3 h-3" />
-                        </button>
-                        <span className="px-3 text-sm font-medium">{item.quantity}</span>
-                        <button
-                          onClick={() => increment(item.id)}
-                          className="p-1.5 hover:bg-gray-100 transition-colors"
-                        >
-                          <Plus className="w-3 h-3" />
-                        </button>
-                      </div>
-                      <span className="text-sm text-gray-500">
-                        = ₹{(Number(item.price) * item.quantity).toLocaleString()}
-                      </span>
+                      {parseFloat(item.price) === 0 ? (
+                        <div className="flex items-center border border-gray-200 rounded-lg bg-gray-50">
+                          <span className="px-3 py-1.5 text-sm text-gray-500">{item.quantity} × FREE</span>
+                        </div>
+                      ) : isOfferCart ? (
+                        <>
+                          <div className="flex items-center border border-gray-200 rounded-lg bg-gray-50">
+                            <span className="px-3 py-1.5 text-sm text-gray-500">Qty: {item.quantity}</span>
+                          </div>
+                          <span className="text-sm text-gray-500">
+                            = ₹{(Number(item.price) * item.quantity).toLocaleString('en-IN')}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex items-center border border-gray-300 rounded-lg">
+                            <button
+                              onClick={() => decrement(item.id)}
+                              className="p-1.5 hover:bg-gray-100 transition-colors"
+                            >
+                              <Minus className="w-3 h-3" />
+                            </button>
+                            <span className="px-3 text-sm font-medium">{item.quantity}</span>
+                            <button
+                              onClick={() => increment(item.id)}
+                              className="p-1.5 hover:bg-gray-100 transition-colors"
+                            >
+                              <Plus className="w-3 h-3" />
+                            </button>
+                          </div>
+                          <span className="text-sm text-gray-500">
+                            = ₹{(Number(item.price) * item.quantity).toLocaleString('en-IN')}
+                          </span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -180,7 +208,7 @@ export default function CartDrawer() {
               {discount > 0 && (
                 <div className="flex justify-between text-green-600">
                   <span>Discount</span>
-                  <span>- ₹{discount.toLocaleString()}</span>
+                  <span>- ₹{discount.toLocaleString('en-IN')}</span>
                 </div>
               )}
               <div className="flex justify-between">
@@ -188,10 +216,10 @@ export default function CartDrawer() {
                 <div className="text-right">
                   {discount > 0 && (
                     <span className="text-gray-400 line-through mr-2">
-                      ₹{originalTotal.toLocaleString()}
+                      ₹{originalTotal.toLocaleString('en-IN')}
                     </span>
                   )}
-                  <span className="font-semibold">₹{subtotal.toLocaleString()}</span>
+                  <span className="font-semibold">₹{subtotal.toLocaleString('en-IN')}</span>
                 </div>
               </div>
             </div>

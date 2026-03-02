@@ -2,6 +2,7 @@
 
 //
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProducts, Product } from '../../../lib/woocommerceApi';
 import { useCart } from '../../../lib/cart';
@@ -15,7 +16,8 @@ interface ExtendedProduct extends Product {
 }
 
 export default function BuyThreeGetGiftsClient() {
-  const { addToCart, openDrawer } = useCart();
+  const router = useRouter();
+  const { addToCart } = useCart();
   const [selectedMain, setSelectedMain] = useState<ExtendedProduct[]>([]);
   const [selectedGifts, setSelectedGifts] = useState<ExtendedProduct[]>([]);
   const [addedToCart, setAddedToCart] = useState(false);
@@ -89,7 +91,8 @@ export default function BuyThreeGetGiftsClient() {
   const isComplete = selectedMain.length === 3 && selectedGifts.length === 4;
 
   const handleAddToCart = () => {
-    if (!isComplete) return;
+    if (!isComplete || addedToCart) return;
+    setAddedToCart(true); // Set immediately to prevent double-clicks
 
     // Add main perfumes with proportional bundle pricing (total = ₹999)
     const BUNDLE_PRICE = 1199;
@@ -110,19 +113,18 @@ export default function BuyThreeGetGiftsClient() {
       });
     });
 
-    // Add free gift perfumes at ₹0
+    // Add free gift perfumes at ₹0 (negative ID to avoid collision with regular products)
     selectedGifts.forEach((product) => {
       addToCart({
-        id: product.id,
-        name: product.name,
+        id: -(product.id),
+        name: `${product.name} (FREE Gift)`,
         price: '0',
         regular_price: product.regular_price || product.price,
         images: product.images?.map(img => ({ src: img.src })) || [],
       });
     });
 
-    openDrawer();
-    setAddedToCart(true);
+    router.push('/cart');
   };
 
   const totalOriginalPrice = () => {

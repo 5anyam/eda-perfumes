@@ -44,7 +44,7 @@ export default function ProductClient({
   slug: string
 }) {
   const router = useRouter()
-  const { addToCart } = useCart()
+  const { addToCart, items } = useCart()
   const { trackViewContent, trackAddToCart, trackInitiateCheckout } = useFacebookPixel()
 
   const { data: products, isLoading, error } = useQuery<Product[]>({
@@ -173,7 +173,8 @@ export default function ProductClient({
         price: product.price,
       })
     }
-  }, [product, trackViewContent])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product?.id])
 
   if (isLoading && !product) {
     return (
@@ -245,15 +246,19 @@ export default function ProductClient({
   const handleBuyNow = async () => {
     setIsBuyingNow(true)
     try {
-      for (let i = 0; i < quantity; i++) {
-        addToCart({
-          ...product,
-          name: product.name,
-          price: salePrice.toString(),
-          images: product.images || [],
-        })
+      // Only add to cart if the product isn't already there
+      const alreadyInCart = items.some((i) => i.id === product.id)
+      if (!alreadyInCart) {
+        for (let i = 0; i < quantity; i++) {
+          addToCart({
+            ...product,
+            name: product.name,
+            price: salePrice.toString(),
+            images: product.images || [],
+          })
+        }
+        trackAddToCart({ id: product.id, name: product.name, price: salePrice }, quantity)
       }
-      trackAddToCart({ id: product.id, name: product.name, price: salePrice }, quantity)
       const cartItems = [{ id: product.id, name: product.name, price: salePrice, quantity }]
       const total = totalPrice
       trackInitiateCheckout(cartItems, total)

@@ -3,9 +3,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const WOOCOMMERCE_CONFIG = {
-  BASE_URL: process.env.API_BASE,
-  CONSUMER_KEY: process.env.CONSUMER_KEY,
-  CONSUMER_SECRET: process.env.CONSUMER_SECRET,
+  BASE_URL: process.env.API_BASE || 'https://cms.edaperfumes.com/wp-json/wc/v3',
+  CONSUMER_KEY: process.env.CONSUMER_KEY || '',
+  CONSUMER_SECRET: process.env.CONSUMER_SECRET || '',
 };
 
 export async function PUT(request: NextRequest) {

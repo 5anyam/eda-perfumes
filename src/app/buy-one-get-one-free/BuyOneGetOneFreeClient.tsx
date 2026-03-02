@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProducts, Product } from '../../../lib/woocommerceApi';
 import { useCart } from '../../../lib/cart';
@@ -13,7 +14,8 @@ interface ExtendedProduct extends Product {
 }
 
 export default function BuyOneGetOneFreeClient() {
-  const { addToCart, openDrawer } = useCart();
+  const router = useRouter();
+  const { addToCart } = useCart();
   const [selectedMain, setSelectedMain] = useState<ExtendedProduct | null>(null);
   const [selectedSecond, setSelectedSecond] = useState<ExtendedProduct | null>(null);
   const [addedToCart, setAddedToCart] = useState(false);
@@ -86,7 +88,8 @@ export default function BuyOneGetOneFreeClient() {
   };
 
   const handleAddToCart = () => {
-    if (!selectedMain || !selectedSecond) return;
+    if (!selectedMain || !selectedSecond || addedToCart) return;
+    setAddedToCart(true); // Set immediately to prevent double-clicks
 
     // Add 100ml at bundle price ₹399, free 10ml at ₹0
     addToCart({
@@ -97,15 +100,14 @@ export default function BuyOneGetOneFreeClient() {
       images: selectedMain.images?.map(img => ({ src: img.src })) || [],
     });
     addToCart({
-      id: selectedSecond.id,
-      name: selectedSecond.name,
+      id: -(selectedSecond.id), // Negative ID to avoid collision with regular products
+      name: `${selectedSecond.name} (FREE Gift)`,
       price: '0',
       regular_price: selectedSecond.regular_price || selectedSecond.price,
       images: selectedSecond.images?.map(img => ({ src: img.src })) || [],
     });
 
-    openDrawer();
-    setAddedToCart(true);
+    router.push('/cart');
   };
 
   const resetSelection = () => {
@@ -460,23 +462,6 @@ export default function BuyOneGetOneFreeClient() {
                       </>
                     )}
                   </button>
-
-                  {addedToCart && (
-                    <div className="flex gap-4">
-                      <button
-                        onClick={resetSelection}
-                        className="flex-1 py-3 border-2 border-teal-500 text-teal-600 rounded-xl font-semibold hover:bg-teal-50 transition-colors"
-                      >
-                        Add Another
-                      </button>
-                      <Link
-                        href="/cart"
-                        className="flex-1 py-3 bg-gray-800 text-white rounded-xl font-semibold hover:bg-gray-900 transition-colors text-center"
-                      >
-                        View Cart
-                      </Link>
-                    </div>
-                  )}
 
                   {!addedToCart && (
                     <button

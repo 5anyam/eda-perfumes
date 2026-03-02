@@ -4,7 +4,7 @@ import { useCart } from "../../../lib/cart";
 import { Trash2, Minus, Plus, Package, Star } from "lucide-react";
 
 export default function CartClient() {
-  const { items, increment, decrement, removeFromCart } = useCart();
+  const { items, increment, decrement, removeFromCart, clear } = useCart();
   const total = items.reduce((sum, i) => sum + parseFloat(i.price) * i.quantity, 0);
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
 
@@ -15,6 +15,9 @@ export default function CartClient() {
   }, 0);
 
   const discountAmount = mrpTotal - total;
+
+  // If cart has any free (₹0) items, it's an offer bundle — lock all modifications
+  const isOfferCart = items.some(item => parseFloat(item.price) === 0);
 
   return (
     <div className="min-h-screen bg-white">
@@ -63,10 +66,17 @@ export default function CartClient() {
             {/* Cart Items */}
             <div className="lg:col-span-2">
               <div className="border border-gray-200">
-                <div className="p-6 border-b border-gray-200 bg-gray-50">
+                <div className="p-6 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
                   <h2 className="text-base font-light text-gray-900 tracking-wide uppercase text-xs">
                     Items
                   </h2>
+                  <button
+                    onClick={() => clear()}
+                    className="flex items-center gap-1 text-xs text-gray-500 hover:text-red-600 transition-colors font-light"
+                  >
+                    <Trash2 className="h-3 w-3" />
+                    Clear Cart
+                  </button>
                 </div>
                 <div className="divide-y divide-gray-200">
                   {items.map((item) => {
@@ -118,32 +128,48 @@ export default function CartClient() {
 
                               {/* Quantity */}
                               <div className="flex items-center gap-4">
-                                <div className="flex items-center border border-gray-300">
-                                  <button
-                                    onClick={() => decrement(item.id)}
-                                    className="p-2 hover:bg-gray-50 transition-colors"
-                                    disabled={item.quantity <= 1}
-                                  >
-                                    <Minus className="h-3 w-3 text-gray-600" />
-                                  </button>
-                                  <span className="w-12 text-center font-light text-gray-900 text-sm">
-                                    {item.quantity}
-                                  </span>
-                                  <button
-                                    onClick={() => increment(item.id)}
-                                    className="p-2 hover:bg-gray-50 transition-colors"
-                                  >
-                                    <Plus className="h-3 w-3 text-gray-600" />
-                                  </button>
-                                </div>
+                                {parseFloat(item.price) === 0 ? (
+                                  <div className="flex items-center border border-gray-200 bg-gray-50">
+                                    <span className="px-4 py-2 text-center font-light text-gray-500 text-sm">
+                                      {item.quantity} × FREE
+                                    </span>
+                                  </div>
+                                ) : isOfferCart ? (
+                                  <div className="flex items-center border border-gray-200 bg-gray-50">
+                                    <span className="px-4 py-2 text-center font-light text-gray-500 text-sm">
+                                      Qty: {item.quantity}
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <div className="flex items-center border border-gray-300">
+                                    <button
+                                      onClick={() => decrement(item.id)}
+                                      className="p-2 hover:bg-gray-50 transition-colors"
+                                      disabled={item.quantity <= 1}
+                                    >
+                                      <Minus className="h-3 w-3 text-gray-600" />
+                                    </button>
+                                    <span className="w-12 text-center font-light text-gray-900 text-sm">
+                                      {item.quantity}
+                                    </span>
+                                    <button
+                                      onClick={() => increment(item.id)}
+                                      className="p-2 hover:bg-gray-50 transition-colors"
+                                    >
+                                      <Plus className="h-3 w-3 text-gray-600" />
+                                    </button>
+                                  </div>
+                                )}
 
-                                <button
-                                  onClick={() => removeFromCart(item.id)}
-                                  className="p-2 text-gray-400 hover:text-black transition-colors"
-                                  title="Remove"
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </button>
+                                {parseFloat(item.price) > 0 && !isOfferCart && (
+                                  <button
+                                    onClick={() => removeFromCart(item.id)}
+                                    className="p-2 text-gray-400 hover:text-black transition-colors"
+                                    title="Remove"
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </button>
+                                )}
                               </div>
                             </div>
 
@@ -220,6 +246,14 @@ export default function CartClient() {
                     >
                       Continue Shopping
                     </Link>
+
+                    <button
+                      onClick={() => clear()}
+                      className="w-full border border-red-200 text-red-600 font-light py-3 text-xs tracking-widest uppercase hover:bg-red-50 transition-colors text-center flex items-center justify-center gap-2"
+                    >
+                      <Trash2 className="h-3 w-3" />
+                      Clear Cart
+                    </button>
                   </div>
 
                   {/* Trust Info */}

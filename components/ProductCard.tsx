@@ -38,10 +38,10 @@ export default function ProductCard({ product }: { product: Product }) {
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           />
           
-          {/* Discount Badge - Minimal */}
+          {/* Discount Badge - Royal Gold */}
           {isOnSale && (
-            <div className="absolute top-3 left-3 bg-black text-white px-3 py-1 text-xs font-light tracking-wide">
-              -{discountPercentage}%
+            <div className="absolute top-3 left-3 bg-gradient-to-r from-yellow-700 via-amber-500 to-yellow-600 text-white px-3.5 py-1.5 text-[11px] font-bold tracking-wider rounded-sm shadow-lg border border-yellow-400/30">
+              <span className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.4)]">{discountPercentage}% OFF</span>
             </div>
           )}
 
@@ -95,11 +95,11 @@ export default function ProductCard({ product }: { product: Product }) {
           <div className="pt-2 border-t border-gray-100">
             <div className="flex items-baseline gap-2">
               <span className="text-lg font-light text-gray-900">
-                ₹{salePrice.toLocaleString()}
+                ₹{salePrice.toLocaleString('en-IN')}
               </span>
               {isOnSale && (
                 <span className="text-sm text-gray-400 line-through font-light">
-                  ₹{originalPrice.toLocaleString()}
+                  ₹{originalPrice.toLocaleString('en-IN')}
                 </span>
               )}
             </div>
@@ -107,7 +107,7 @@ export default function ProductCard({ product }: { product: Product }) {
             {/* Savings Text */}
             {isOnSale && (
               <div className="text-xs text-gray-500 mt-1 font-light">
-                Save ₹{(originalPrice - salePrice).toLocaleString()}
+                Save ₹{(originalPrice - salePrice).toLocaleString('en-IN')}
               </div>
             )}
           </div>

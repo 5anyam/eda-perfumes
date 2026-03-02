@@ -98,21 +98,40 @@ export default function ValentineGiftPackClient() {
   const isComplete = selectedMains.length === 2 && selectedMinis.length === 4;
 
   const handleAddToCart = () => {
-    if (!isComplete) return;
-
-    // Create a special gift pack product
-    const mainNames = selectedMains.map(p => p.name).join(' + ');
-    const giftPackProduct = {
-      id: Date.now(), // Unique ID for the gift pack
-      name: `Valentine's Gift Pack: ${mainNames} + 4 Travel Size Perfumes`,
-      price: '1099',
-      regular_price: '2999',
-      images: selectedMains[0]?.images?.map(img => ({ src: img.src })) || [],
-    };
-
-    addToCart(giftPackProduct);
-    openDrawer();
+    if (!isComplete || addedToCart) return;
     setAddedToCart(true);
+
+    // Add main perfumes with proportional bundle pricing (total = ₹1099)
+    const BUNDLE_PRICE = 1099;
+    const totalActual = selectedMains.reduce((s, p) => s + (Number(p.price) || 0), 0);
+    let assigned = 0;
+    selectedMains.forEach((product, i) => {
+      const isLast = i === selectedMains.length - 1;
+      const share = isLast
+        ? BUNDLE_PRICE - assigned
+        : Math.round(BUNDLE_PRICE * (Number(product.price) || 0) / (totalActual || 1));
+      assigned += share;
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: share.toString(),
+        regular_price: product.regular_price || product.price,
+        images: product.images?.map(img => ({ src: img.src })) || [],
+      });
+    });
+
+    // Add free mini perfumes at ₹0 (negative ID to avoid collision)
+    selectedMinis.forEach((product) => {
+      addToCart({
+        id: -(product.id),
+        name: `${product.name} (FREE Gift)`,
+        price: '0',
+        regular_price: product.regular_price || product.price,
+        images: product.images?.map(img => ({ src: img.src })) || [],
+      });
+    });
+
+    openDrawer();
   };
 
   const totalOriginalPrice = () => {
