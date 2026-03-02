@@ -51,8 +51,8 @@ async function getAllProducts() {
 async function getProductBySlug(slug: string) {
   // Fetch directly by slug from WooCommerce API (handles all products, not just first 100)
   try {
-    const ck = process.env.CONSUMER_KEY || ''
-    const cs = process.env.CONSUMER_SECRET || ''
+    const ck = process.env.NEXT_PUBLIC_CONSUMER_KEY || ''
+    const cs = process.env.NEXT_PUBLIC_CONSUMER_SECRET || ''
     const res = await fetch(
       `https://cms.edaperfumes.com/wp-json/wc/v3/products?slug=${encodeURIComponent(slug)}&consumer_key=${ck}&consumer_secret=${cs}`,
       { cache: 'no-store' }

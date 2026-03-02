@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const API_BASE = process.env.API_BASE || 'https://cms.edaperfumes.com/wp-json/wc/v3';
-const CONSUMER_KEY = process.env.CONSUMER_KEY || '';
-const CONSUMER_SECRET = process.env.CONSUMER_SECRET || '';
+const CONSUMER_KEY = process.env.NEXT_PUBLIC_CONSUMER_KEY || '';
+const CONSUMER_SECRET = process.env.NEXT_PUBLIC_CONSUMER_SECRET || '';
 
 export async function GET(request: NextRequest) {
   try {

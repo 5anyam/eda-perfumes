@@ -4,8 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 const WOOCOMMERCE_CONFIG = {
   BASE_URL: process.env.API_BASE || 'https://cms.edaperfumes.com/wp-json/wc/v3',
-  CONSUMER_KEY: process.env.CONSUMER_KEY || '',
-  CONSUMER_SECRET: process.env.CONSUMER_SECRET || '',
+  CONSUMER_KEY: process.env.NEXT_PUBLIC_CONSUMER_KEY || '',
+  CONSUMER_SECRET: process.env.NEXT_PUBLIC_CONSUMER_SECRET || '',
 };
 
 // Known offer bundle totals — must match offer page prices exactly
