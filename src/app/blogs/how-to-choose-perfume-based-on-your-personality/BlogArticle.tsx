@@ -237,10 +237,10 @@ export default function BlogArticle() {
           {/* Section: Top 10 Brands */}
           <div className="bg-gradient-to-r from-rose-50 via-pink-50 to-purple-50 p-4 sm:p-6 rounded-xl border border-rose-200 my-6 sm:my-8">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
-              Top 10 Perfume Brands for Male in India
+              Key Factors in Selecting a Male Fragrance in India
             </h2>
             <p>
-              When exploring the <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>top 10 perfume brands for male in India</strong></Link>, quality, durability, and suitability to the climate are of utmost importance. The following are reputable names that have proved to be performance and popularity wise:
+              When picking a men&apos;s fragrance in India, focus on quality, longevity, and how well it suits the climate. The right scent balances freshness, elegance, and durability for everyday, work, and evening wear.
             </p>
             <ol className="list-decimal pl-6 mt-3 space-y-2">
               <li>Refined masculine notes with classy touch.</li>
