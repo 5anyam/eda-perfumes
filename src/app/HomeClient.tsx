@@ -56,17 +56,14 @@ export default function HomeClient() {
   const { data, isLoading, isError } = useQuery<Product[]>({
     queryKey: ["homepage-products"],
     queryFn: async () => {
-      console.log('Fetching products...'); // Debug log
       const result = await fetchProducts();
-      console.log('Products fetched:', result?.length); // Debug log
       return (result || []) as Product[];
     },
-    staleTime: 0,
-    gcTime: 0,
-    refetchOnWindowFocus: true,
-    refetchOnMount: true,
-    retry: 3, // Retry 3 times on failure
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
+    staleTime: 300000,
+    gcTime: 600000,
+    refetchOnWindowFocus: false,
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 
   const all = Array.isArray(data) ? data : [];
@@ -89,9 +86,6 @@ export default function HomeClient() {
       });
     }
   };
-
-  // Debug: Log current state
-  console.log('Query state:', { isLoading, isError, dataLength: all.length });
 
   return (
     <div className="min-h-screen bg-white pb-16 overflow-x-hidden">

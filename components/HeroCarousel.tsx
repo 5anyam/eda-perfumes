@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const IMAGES = [
   {
@@ -63,19 +64,23 @@ export default function HeroCarousel() {
             <div key={index} className="w-full h-full flex-shrink-0 relative">
               {img.link ? (
                 <Link href={img.link} className="block w-full h-full">
-                  <img
+                  <Image
                     src={img.src}
                     alt={img.alt}
-                    className="w-full h-full object-contain bg-gray-50 transition-transform duration-300 hover:scale-105 cursor-pointer"
-                    loading={index === 0 ? 'eager' : 'lazy'}
+                    fill
+                    sizes="100vw"
+                    className="object-contain bg-gray-50 transition-transform duration-300 hover:scale-105 cursor-pointer"
+                    priority={index === 0}
                   />
                 </Link>
               ) : (
-                <img
+                <Image
                   src={img.src}
                   alt={img.alt}
-                  className="w-full h-full object-contain bg-gray-50 transition-transform duration-300 hover:scale-105"
-                  loading={index === 0 ? 'eager' : 'lazy'}
+                  fill
+                  sizes="100vw"
+                  className="object-contain bg-gray-50 transition-transform duration-300 hover:scale-105"
+                  priority={index === 0}
                 />
               )}
 

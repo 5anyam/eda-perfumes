@@ -30,6 +30,14 @@ body {
   color: var(--foreground);
   font-family: 'Inter', sans-serif;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover {
+  color: inherit;
+}
 @keyframes marquee {
   0% {
     transform: translateX(100%);

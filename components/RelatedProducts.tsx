@@ -147,7 +147,7 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({ currentProduct, allPr
 
                   {/* CTA Button */}
                   <button
-                    className="w-full border border-gray-300 text-black font-light py-2.5 text-xs tracking-widest uppercase hover:bg-black hover:text-white hover:border-black transition-colors duration-300"
+                    className="w-full py-2.5 text-xs text-gray-900 border border-gray-200 tracking-widest uppercase font-light hover:bg-black hover:text-white hover:border-black transition-colors duration-300"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleProductClick(product.slug);

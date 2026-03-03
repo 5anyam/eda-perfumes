@@ -1,6 +1,7 @@
 'use client';
 
 import Link from "next/link";
+import Image from "next/image";
 import { productToSlug } from "../lib/slug";
 
 interface Product {
@@ -28,14 +29,16 @@ export default function ProductCard({ product }: { product: Product }) {
     : 0;
 
   return (
-    <Link href={productUrl}>
+    <Link href={productUrl} className="no-underline focus:outline-none text-inherit hover:text-inherit">
       <div className="group relative overflow-hidden bg-white transition-all duration-300 hover:shadow-lg">
         {/* Image Container */}
         <div className="relative aspect-square overflow-hidden bg-gray-50">
-          <img
+          <Image
             src={product.images?.[0]?.src || "/placeholder.png"}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-700"
           />
           
           {/* Discount Badge - Royal Gold */}
@@ -112,7 +115,7 @@ export default function ProductCard({ product }: { product: Product }) {
             )}
           </div>
 
-          {/* View Details Button - Always Visible */}
+          {/* View Details Button */}
           <div className="pt-3">
             <button className="w-full py-2.5 text-xs text-gray-900 border border-gray-200 tracking-widest uppercase font-light hover:bg-black hover:text-white hover:border-black transition-colors duration-300">
               View Details

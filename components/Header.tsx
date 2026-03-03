@@ -1,6 +1,7 @@
 'use client';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from "next/link";
+import Image from "next/image";
 import CartIcon from "./CartIcon";
 import { useIsMobile } from "../hooks/use-mobile";
 import React, { useState, useRef, useEffect } from "react";
@@ -117,10 +118,13 @@ export default function Header() {
             {/* Logo + Brand - Now visible on mobile */}
             <div className="flex items-center flex-shrink-0">
               <Link href="/" className="flex items-center gap-2 group">
-                <img 
-                  className="h-8 sm:h-9 md:h-11 transition-opacity duration-300 group-hover:opacity-80" 
-                  src="/eda-perfumes-logo.jpeg" 
-                  alt='ÉCLAT D&apos;AMOUR' 
+                <Image
+                  className="h-8 sm:h-9 md:h-11 w-auto transition-opacity duration-300 group-hover:opacity-80"
+                  src="/eda-perfumes-logo.jpeg"
+                  alt='ÉCLAT D&apos;AMOUR'
+                  width={44}
+                  height={44}
+                  priority
                 />
                 <div className="border-l border-gray-300 pl-2 sm:pl-3 ml-1">
                   <span className="block text-black font-light text-xs sm:text-base md:text-lg lg:text-xl tracking-[0.1em] sm:tracking-[0.15em] leading-none">
@@ -291,7 +295,7 @@ export default function Header() {
         {/* Header */}
         <div className="flex items-center justify-between px-4 sm:px-6 py-5 sm:py-6 border-b border-gray-200">
           <div className="flex items-center gap-2 sm:gap-3">
-            <img className="h-9 sm:h-10" src="/eda-perfumes-logo.jpeg" alt='ÉCLAT D&apos;AMOUR' />
+            <Image className="h-9 sm:h-10 w-auto" src="/eda-perfumes-logo.jpeg" alt='ÉCLAT D&apos;AMOUR' width={40} height={40} />
             <div>
               <span className="block text-black font-light text-sm sm:text-base tracking-[0.12em]">
                 EDA PERFUMES
