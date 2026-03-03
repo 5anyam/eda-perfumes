@@ -36,7 +36,7 @@ export default function BlogArticle() {
         {/* Featured Image */}
         <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
           <img
-            src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/how-to-choose-perfume-based-on-your-personality.jpeg"
+            src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/best-summer-perfume-for-men-.jpeg"
             alt="How to Choose a Perfume Based on Your Personality"
             className="w-full h-auto object-cover"
           />

@@ -9,7 +9,7 @@ const BLOG_POSTS = [
     excerpt:
       'Discover how to choose the perfect perfume based on your personality and Indian summer climate. Find the best summer fragrances for men with expert tips.',
     image:
-      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/how-to-choose-perfume-based-on-your-personality.jpeg',
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/best-summer-perfume-for-men-.jpeg',
     date: 'March 2026',
     tags: ['Best Summer Perfumes For Men', 'Top 10 Perfume Brands For Male In India'],
   },
