@@ -88,7 +88,7 @@ export default function BuyTwoGetFreeClient() {
     setAddedToCart(false);
   };
 
-  const isComplete = selectedMain.length === 2 && selectedFree.length === 3;
+  const isComplete = selectedMain.length === 2 && selectedFree.length >= 1;
 
   const handleAddToCart = () => {
     if (!isComplete || addedToCart) return;
@@ -331,11 +331,11 @@ export default function BuyTwoGetFreeClient() {
           {/* Step 2: Select 2 FREE 10ml */}
           <div id="gifts-section" className="mb-16">
             <div className="flex items-center gap-3 mb-8">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedFree.length === 3 ? 'bg-green-500' : 'bg-amber-500'}`}>
-                {selectedFree.length === 3 ? <Check className="w-5 h-5" /> : '2'}
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedFree.length >= 1 ? 'bg-green-500' : 'bg-amber-500'}`}>
+                {selectedFree.length >= 1 ? <Check className="w-5 h-5" /> : '2'}
               </div>
               <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Choose 3 FREE Travel Sizes (10ml)
+                Choose Up to 3 FREE Travel Sizes (10ml)
                 <span className="text-green-600 ml-2">({selectedFree.length}/3 selected)</span>
               </h2>
               <span className="bg-green-500 text-white text-xs px-3 py-1 rounded-full font-medium">
@@ -474,12 +474,12 @@ export default function BuyTwoGetFreeClient() {
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-900">
                     {selectedFree.length > 0
-                      ? `${selectedFree.length} Travel Sizes`
-                      : 'Select 3 travel sizes'}
+                      ? `${selectedFree.length} Travel Size${selectedFree.length > 1 ? 's' : ''}`
+                      : 'Select up to 3 travel sizes'}
                   </p>
-                  <p className="text-xs text-green-600 font-medium">3 × 10ml Bottles - FREE!</p>
+                  <p className="text-xs text-green-600 font-medium">Up to 3 × 10ml Bottles - FREE!</p>
                 </div>
-                {selectedFree.length === 3 && <Check className="w-5 h-5 text-green-500" />}
+                {selectedFree.length >= 1 && <Check className="w-5 h-5 text-green-500" />}
               </div>
             </div>
 
@@ -529,11 +529,11 @@ export default function BuyTwoGetFreeClient() {
 
             {!isComplete && (
               <p className="text-center text-sm text-gray-500 mt-4">
-                {selectedMain.length < 2 && selectedFree.length < 2
-                  ? 'Select 2 signature perfumes and 3 free travel sizes'
+                {selectedMain.length < 2 && selectedFree.length === 0
+                  ? 'Select 2 signature perfumes and at least 1 free travel size'
                   : selectedMain.length < 2
                   ? `Select ${2 - selectedMain.length} more signature perfume${2 - selectedMain.length > 1 ? 's' : ''}`
-                  : `Select ${3 - selectedFree.length} more free travel size${3 - selectedFree.length > 1 ? 's' : ''}`}
+                  : 'Select at least 1 free travel size'}
               </p>
             )}
           </div>

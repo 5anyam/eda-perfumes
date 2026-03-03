@@ -88,7 +88,7 @@ export default function BuyThreeGetGiftsClient() {
     setAddedToCart(false);
   };
 
-  const isComplete = selectedMain.length === 3 && selectedGifts.length === 4;
+  const isComplete = selectedMain.length === 3 && selectedGifts.length >= 1;
 
   const handleAddToCart = () => {
     if (!isComplete || addedToCart) return;
@@ -342,11 +342,11 @@ export default function BuyThreeGetGiftsClient() {
           {/* Step 2: Select 3 FREE Gifts */}
           <div id="gifts-section" className="mb-16">
             <div className="flex items-center gap-3 mb-8">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedGifts.length === 4 ? 'bg-green-500' : 'bg-violet-500'}`}>
-                {selectedGifts.length === 4 ? <Check className="w-5 h-5" /> : '2'}
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedGifts.length >= 1 ? 'bg-green-500' : 'bg-violet-500'}`}>
+                {selectedGifts.length >= 1 ? <Check className="w-5 h-5" /> : '2'}
               </div>
               <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Choose 4 FREE Gifts (10ml each)
+                Choose Up to 4 FREE Gifts (10ml each)
                 <span className="text-green-600 ml-2">({selectedGifts.length}/4 selected)</span>
               </h2>
               <span className="bg-gradient-to-r from-emerald-500 to-green-500 text-white text-xs px-3 py-1 rounded-full font-medium flex items-center gap-1">
@@ -490,12 +490,12 @@ export default function BuyThreeGetGiftsClient() {
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-900">
                     {selectedGifts.length > 0
-                      ? `${selectedGifts.length} Gift Perfumes`
-                      : 'Select 4 gift perfumes'}
+                      ? `${selectedGifts.length} Gift Perfume${selectedGifts.length > 1 ? 's' : ''}`
+                      : 'Select up to 4 gift perfumes'}
                   </p>
-                  <p className="text-xs text-green-600 font-medium">4 × 10ml Bottles - FREE GIFTS!</p>
+                  <p className="text-xs text-green-600 font-medium">Up to 4 × 10ml Bottles - FREE GIFTS!</p>
                 </div>
-                {selectedGifts.length === 4 && <Check className="w-5 h-5 text-green-500" />}
+                {selectedGifts.length >= 1 && <Check className="w-5 h-5 text-green-500" />}
               </div>
             </div>
 
@@ -548,11 +548,11 @@ export default function BuyThreeGetGiftsClient() {
 
             {!isComplete && (
               <p className="text-center text-sm text-gray-500 mt-4">
-                {selectedMain.length < 3 && selectedGifts.length < 3
-                  ? 'Select 3 signature perfumes and 4 free gifts'
+                {selectedMain.length < 3 && selectedGifts.length === 0
+                  ? 'Select 3 signature perfumes and at least 1 free gift'
                   : selectedMain.length < 3
                   ? `Select ${3 - selectedMain.length} more signature perfume${3 - selectedMain.length > 1 ? 's' : ''}`
-                  : `Select ${4 - selectedGifts.length} more free gift${4 - selectedGifts.length > 1 ? 's' : ''}`}
+                  : 'Select at least 1 free gift'}
               </p>
             )}
           </div>
