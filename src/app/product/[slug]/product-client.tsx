@@ -404,10 +404,6 @@ export default function ProductClient({
                     <Plus className="w-3.5 h-3.5 text-gray-600" />
                   </button>
                 </div>
-                <div className="text-xs text-gray-600 font-light">
-                  <Gift className="w-3.5 h-3.5 inline mr-1" />
-                  +{freeGiftsCount} free 10ml
-                </div>
               </div>
             </div>
 
