@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import ProductCard from "../../../components/ProductCard";
 import { fetchComboProducts } from "../../../lib/woocommerceApi"; // Or woocommerceApi
 import { SlidersHorizontal, X, Search, Package } from 'lucide-react';
+import { ScrollReveal, StaggerContainer, StaggerItem, HeroText } from '../../../components/motion';
 
 export interface Product {
   id: number;
@@ -116,7 +117,7 @@ export default function CombosPageClient() {
       {/* Hero Section */}
       <div className="border-b border-gray-200 bg-white">
         <div className="max-w-7xl mx-auto px-4 py-16 lg:py-20">
-          <div className="text-center">
+          <HeroText className="text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
               <Package className="h-8 w-8 text-gray-900" />
               <h1 className="text-4xl md:text-5xl font-light text-gray-900 tracking-wide">
@@ -132,7 +133,7 @@ export default function CombosPageClient() {
                 Save up to 30% with our exclusive combo offers
               </p>
             )}
-          </div>
+          </HeroText>
         </div>
       </div>
 
@@ -375,11 +376,13 @@ export default function CombosPageClient() {
                     )}
                   </div>
                 ) : (
-                  <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                  <StaggerContainer className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                     {filteredProducts.map((product) => (
-                      <ProductCard key={product.id} product={product} />
+                      <StaggerItem key={product.id}>
+                        <ProductCard product={product} />
+                      </StaggerItem>
                     ))}
-                  </div>
+                  </StaggerContainer>
                 )}
               </>
             )}

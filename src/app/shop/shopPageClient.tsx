@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import ProductCard from "../../../components/ProductCard";
 import { Product } from "./page";
 import { SlidersHorizontal, X, Search } from 'lucide-react';
+import { ScrollReveal, StaggerContainer, StaggerItem, HeroText } from '../../../components/motion';
 
 interface ShopPageClientProps {
   products: Product[];
@@ -77,7 +78,7 @@ export default function ShopPageClient({ products }: ShopPageClientProps) {
       {/* Hero Section - Minimal */}
       <div className="border-b border-gray-200 bg-white">
         <div className="max-w-7xl mx-auto px-4 py-16 lg:py-20">
-          <div className="text-center">
+          <HeroText className="text-center">
             <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-4 tracking-wide">
               The Collection
             </h1>
@@ -85,7 +86,7 @@ export default function ShopPageClient({ products }: ShopPageClientProps) {
             <p className="text-base text-gray-600 max-w-2xl mx-auto font-light">
               Discover our curated selection of luxury fragrances
             </p>
-          </div>
+          </HeroText>
         </div>
       </div>
 
@@ -261,17 +262,18 @@ export default function ShopPageClient({ products }: ShopPageClientProps) {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              <StaggerContainer className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredProducts.map((product) => (
-                  <ProductCard 
-                    key={product.id}
-                    product={{
-                      ...product,
-                      slug: product.slug || `product-${product.id}`
-                    } as ProductWithSlug} 
-                  />
+                  <StaggerItem key={product.id}>
+                    <ProductCard
+                      product={{
+                        ...product,
+                        slug: product.slug || `product-${product.id}`
+                      } as ProductWithSlug}
+                    />
+                  </StaggerItem>
                 ))}
-              </div>
+              </StaggerContainer>
             )}
           </div>
         </div>

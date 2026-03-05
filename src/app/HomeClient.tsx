@@ -10,6 +10,7 @@ import AboutUsSection from "../../components/AboutUs";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useRef } from 'react';
+import { ScrollReveal, StaggerContainer, StaggerItem, HeroText } from '../../components/motion';
 
 export interface Product {
   id: number;
@@ -89,14 +90,18 @@ export default function HomeClient() {
 
   return (
     <div className="min-h-screen bg-white pb-16 overflow-x-hidden">
-      <HeroCarousel />
-      <MarqueeBanner />
+      <HeroText>
+        <HeroCarousel />
+      </HeroText>
+      <HeroText delay={0.3}>
+        <MarqueeBanner />
+      </HeroText>
 
 
       {/* Signature Collection */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          <ScrollReveal className="text-center mb-12">
             <h1 className="text-3xl md:text-4xl font-light text-gray-900 mb-3 tracking-wide">
               Signature Collection
             </h1>
@@ -104,7 +109,7 @@ export default function HomeClient() {
             <p className="text-gray-600 text-base max-w-2xl mx-auto font-light">
               Discover our most coveted fragrances that capture desire and sophistication
             </p>
-          </div>
+          </ScrollReveal>
 
           {isLoading ? (
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -129,11 +134,13 @@ export default function HomeClient() {
               <p>Products will be available soon.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <StaggerContainer className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {signatureTop6.map((prod) => (
-                <ProductCard key={prod.id} product={prod} />
+                <StaggerItem key={prod.id}>
+                  <ProductCard product={prod} />
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           )}
         </div>
       </section>
@@ -142,7 +149,7 @@ export default function HomeClient() {
       {!isLoading && tenMl.length > 0 && (
         <section className="py-16 px-4 bg-gray-50">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
+            <ScrollReveal className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3 tracking-wide">
                 Travel Size Collection
               </h2>
@@ -150,9 +157,9 @@ export default function HomeClient() {
               <p className="text-gray-600 text-base max-w-2xl mx-auto font-light">
                 Perfect for on-the-go luxury. Try before you commit.
               </p>
-            </div>
+            </ScrollReveal>
 
-            <div className="relative group">
+            <ScrollReveal className="relative group" delay={0.15}>
               <button
                 onClick={() => scroll('left')}
                 className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden lg:block"
@@ -179,7 +186,7 @@ export default function HomeClient() {
               >
                 <ChevronRight className="w-5 h-5 text-gray-700" />
               </button>
-            </div>
+            </ScrollReveal>
           </div>
         </section>
       )}
@@ -188,7 +195,7 @@ export default function HomeClient() {
       {!isLoading && comboTop6.length > 0 && (
         <section className="py-16 px-4">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
+            <ScrollReveal className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3 tracking-wide">
                 Curated Duos
               </h2>
@@ -196,13 +203,15 @@ export default function HomeClient() {
               <p className="text-gray-600 text-base max-w-2xl mx-auto font-light">
                 Hand-picked fragrance combinations for day-to-night versatility
               </p>
-            </div>
+            </ScrollReveal>
 
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <StaggerContainer className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {comboTop6.map((prod) => (
-                <ProductCard key={prod.id} product={prod} />
+                <StaggerItem key={prod.id}>
+                  <ProductCard product={prod} />
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
 
             {combos.length > 6 && (
               <div className="mt-10 flex justify-center">
@@ -218,8 +227,12 @@ export default function HomeClient() {
         </section>
       )}
 
-      <AboutUsSection />
-      <Testimonials />
+      <ScrollReveal>
+        <AboutUsSection />
+      </ScrollReveal>
+      <ScrollReveal>
+        <Testimonials />
+      </ScrollReveal>
       {/* <HomeFAQ /> */}
 
       <style jsx global>{`

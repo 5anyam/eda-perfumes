@@ -8,6 +8,7 @@ import { fetchProducts, Product } from '../../../lib/woocommerceApi';
 import { useCart } from '../../../lib/cart';
 import Link from 'next/link';
 import { Tag, Gift, Zap, Check, ShoppingBag, Star, Package, ShoppingCart } from 'lucide-react';
+import { ScrollReveal, HeroText } from '../../../components/motion';
 
 interface ExtendedProduct extends Product {
   slug?: string;
@@ -151,6 +152,7 @@ export default function BuyTwoGetFreeClient() {
       </section>
 
       {/* What You Get Ribbon */}
+      <HeroText delay={0.2}>
       <section className="py-8 px-4 bg-white border-y border-gray-100 overflow-x-auto">
         <div className="flex items-center justify-center gap-12 md:gap-16 lg:gap-20 min-w-max mx-auto">
           {/* 2× 100ml - Image oval, clickable */}
@@ -206,13 +208,14 @@ export default function BuyTwoGetFreeClient() {
           </div>
         </div>
       </section>
+      </HeroText>
 
       {/* Selection Section */}
       <section id="selection-section" className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
 
           {/* Step 1: Select 2 Main Perfumes */}
-          <div className="mb-16">
+          <ScrollReveal className="mb-16">
             <div className="flex items-center gap-3 mb-6">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedMain.length === 2 ? 'bg-green-500' : 'bg-amber-500'}`}>
                 {selectedMain.length === 2 ? <Check className="w-5 h-5" /> : '1'}
@@ -326,10 +329,11 @@ export default function BuyTwoGetFreeClient() {
                 <p>Products loading...</p>
               </div>
             )}
-          </div>
+          </ScrollReveal>
 
           {/* Step 2: Select 2 FREE 10ml */}
-          <div id="gifts-section" className="mb-16">
+          <div id="gifts-section">
+          <ScrollReveal className="mb-16">
             <div className="flex items-center gap-3 mb-8">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedFree.length >= 1 ? 'bg-green-500' : 'bg-amber-500'}`}>
                 {selectedFree.length >= 1 ? <Check className="w-5 h-5" /> : '2'}
@@ -421,6 +425,7 @@ export default function BuyTwoGetFreeClient() {
                 <p>Travel size perfumes loading...</p>
               </div>
             )}
+          </ScrollReveal>
           </div>
 
           {/* Summary & Add to Cart */}

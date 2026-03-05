@@ -8,6 +8,7 @@ import { fetchProducts, Product } from '../../../lib/woocommerceApi';
 import { useCart } from '../../../lib/cart';
 import Link from 'next/link';
 import { Crown, Gift, Sparkles, Check, ShoppingBag, Star, Package, Award, ShoppingCart } from 'lucide-react';
+import { ScrollReveal, HeroText } from '../../../components/motion';
 
 interface ExtendedProduct extends Product {
   slug?: string;
@@ -148,6 +149,7 @@ export default function BuyThreeGetGiftsClient() {
       </section>
 
       {/* What You Get Ribbon */}
+      <HeroText delay={0.2}>
       <section className="py-8 px-4 bg-white border-y border-gray-100 overflow-x-auto">
         <div className="flex items-center justify-center gap-12 md:gap-16 lg:gap-20 min-w-max mx-auto">
           {/* 3× 100ml - Image oval, clickable */}
@@ -216,13 +218,14 @@ export default function BuyThreeGetGiftsClient() {
           </div>
         </div>
       </section>
+      </HeroText>
 
       {/* Selection Section */}
       <section id="selection-section" className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
 
           {/* Step 1: Select 3 Main Perfumes */}
-          <div className="mb-16">
+          <ScrollReveal className="mb-16">
             <div className="flex items-center gap-3 mb-6">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedMain.length === 3 ? 'bg-green-500' : 'bg-violet-500'}`}>
                 {selectedMain.length === 3 ? <Check className="w-5 h-5" /> : '1'}
@@ -337,10 +340,11 @@ export default function BuyThreeGetGiftsClient() {
                 <p>Products loading...</p>
               </div>
             )}
-          </div>
+          </ScrollReveal>
 
           {/* Step 2: Select 3 FREE Gifts */}
-          <div id="gifts-section" className="mb-16">
+          <div id="gifts-section">
+          <ScrollReveal className="mb-16">
             <div className="flex items-center gap-3 mb-8">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selectedGifts.length >= 1 ? 'bg-green-500' : 'bg-violet-500'}`}>
                 {selectedGifts.length >= 1 ? <Check className="w-5 h-5" /> : '2'}
@@ -434,6 +438,7 @@ export default function BuyThreeGetGiftsClient() {
                 <p>Gift perfumes loading...</p>
               </div>
             )}
+          </ScrollReveal>
           </div>
 
           {/* Summary & Add to Cart */}

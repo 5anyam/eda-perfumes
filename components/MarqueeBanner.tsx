@@ -32,11 +32,11 @@ const MarqueeBanner = () => {
             <span className="hidden sm:inline-block w-1 h-1 bg-gray-500 rounded-full mx-2"></span>
           </span>
         ))}
-        
+
         {/* Duplicate set for seamless loop */}
         {bannerItems.map((item, index) => (
-          <span 
-            key={`second-${index}`} 
+          <span
+            key={`second-${index}`}
             className="inline-flex items-center gap-2 sm:gap-3 mx-4 sm:mx-8 text-gray-100 hover:text-white transition-colors duration-300"
           >
             <span className="text-sm sm:text-base opacity-70" role="img" aria-label={`${item.text} icon`}>
