@@ -1,53 +1,53 @@
 'use client';
 
+import { Clock, Gem, ShieldCheck, Sparkles, Heart, Wind, Palette } from 'lucide-react';
+
 const MarqueeBanner = () => {
   const bannerItems = [
-    { text: "Long Lasting", icon: "⏰" },
-    { text: "Premium Quality", icon: "💎" },
-    { text: "Skin Safe", icon: "✨" },
-    { text: "Luxury Blend", icon: "🌟" },
-    { text: "Cruelty Free", icon: "🐰" },
-    { text: "Intense Sillage", icon: "💨" },
-    { text: "Artisan Crafted", icon: "🎨" }
+    { text: "Long Lasting", icon: Clock },
+    { text: "Premium Quality", icon: Gem },
+    { text: "Skin Safe", icon: ShieldCheck },
+    { text: "Luxury Blend", icon: Sparkles },
+    { text: "Cruelty Free", icon: Heart },
+    { text: "Intense Sillage", icon: Wind },
+    { text: "Artisan Crafted", icon: Palette }
   ];
 
-  return (
-    <div className="overflow-hidden bg-gradient-to-r from-slate-900 via-gray-900 to-slate-900 py-3 sm:py-4 text-white font-medium whitespace-nowrap relative border-y border-gray-700/50">
-      {/* Subtle animated shimmer */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse opacity-60"></div>
-      
-      <div className="animate-marquee inline-block min-w-full text-xs sm:text-sm tracking-wider relative z-10">
-        {/* First set of items */}
-        {bannerItems.map((item, index) => (
-          <span 
-            key={`first-${index}`} 
-            className="inline-flex items-center gap-2 sm:gap-3 mx-4 sm:mx-8 text-gray-100 hover:text-white transition-colors duration-300"
-          >
-            <span className="text-sm sm:text-base opacity-70" role="img" aria-label={`${item.text} icon`}>
-              {item.icon}
-            </span>
-            <span className="font-light text-xs sm:text-sm uppercase tracking-widest">
-              {item.text}
-            </span>
-            <span className="hidden sm:inline-block w-1 h-1 bg-gray-500 rounded-full mx-2"></span>
-          </span>
-        ))}
-
-        {/* Duplicate set for seamless loop */}
-        {bannerItems.map((item, index) => (
+  const ItemSet = ({ keyPrefix }: { keyPrefix: string }) => (
+    <>
+      {bannerItems.map((item, index) => {
+        const Icon = item.icon;
+        return (
           <span
-            key={`second-${index}`}
-            className="inline-flex items-center gap-2 sm:gap-3 mx-4 sm:mx-8 text-gray-100 hover:text-white transition-colors duration-300"
+            key={`${keyPrefix}-${index}`}
+            className="inline-flex items-center gap-2 sm:gap-3 mx-3 sm:mx-6"
           >
-            <span className="text-sm sm:text-base opacity-70" role="img" aria-label={`${item.text} icon`}>
-              {item.icon}
-            </span>
-            <span className="font-light text-xs sm:text-sm uppercase tracking-widest">
+            <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300/90" strokeWidth={1.5} />
+            <span className="font-light text-[11px] sm:text-xs uppercase tracking-[0.2em] text-amber-100/90">
               {item.text}
             </span>
-            <span className="hidden sm:inline-block w-1 h-1 bg-gray-500 rounded-full mx-2"></span>
+            <span className="text-amber-400/40 text-[8px] ml-2 sm:ml-4">◆</span>
           </span>
-        ))}
+        );
+      })}
+    </>
+  );
+
+  return (
+    <div className="relative overflow-hidden border-t border-b border-amber-400/20">
+      {/* Dark frosted background */}
+      <div className="absolute inset-0 bg-gradient-to-r from-gray-950 via-gray-900 to-gray-950" />
+      <div className="absolute inset-0 backdrop-blur-md bg-black/40" />
+
+      {/* Animated gold shimmer */}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-200/[0.07] to-transparent animate-shimmer" />
+
+      {/* Content */}
+      <div className="relative z-10 py-3 sm:py-3.5 whitespace-nowrap">
+        <div className="animate-marquee inline-block min-w-full">
+          <ItemSet keyPrefix="first" />
+          <ItemSet keyPrefix="second" />
+        </div>
       </div>
 
       <style jsx>{`
@@ -55,28 +55,23 @@ const MarqueeBanner = () => {
           0% { transform: translateX(0%); }
           100% { transform: translateX(-50%); }
         }
-        
+        @keyframes shimmer {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
         .animate-marquee {
           animation: marquee 30s linear infinite;
         }
-        
-        /* Slower, more elegant animation on mobile */
+        .animate-shimmer {
+          animation: shimmer 4s ease-in-out infinite;
+        }
         @media (max-width: 640px) {
           .animate-marquee {
             animation: marquee 40s linear infinite;
           }
         }
-        
-        /* Subtle pause interaction */
         @media (min-width: 641px) {
           .animate-marquee:hover {
-            animation-play-state: paused;
-          }
-        }
-        
-        /* Touch-friendly pause on mobile */
-        @media (max-width: 640px) {
-          .animate-marquee:active {
             animation-play-state: paused;
           }
         }
