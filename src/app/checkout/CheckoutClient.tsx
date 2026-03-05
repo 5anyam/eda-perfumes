@@ -210,12 +210,19 @@ export default function Checkout(): React.ReactElement {
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [razorpayLoaded, setRazorpayLoaded] = useState<boolean>(false);
 
+  // Check if Razorpay is already loaded (e.g. from previous page visit / client-side nav)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.Razorpay) {
+      setRazorpayLoaded(true);
+    }
+  }, []);
+
   useEffect(() => {
     if (items.length > 0) {
       const cartItems: CartItem[] = items.map(item => ({
-        id: item.id, 
-        name: item.name, 
-        price: parseFloat(item.price), 
+        id: item.id,
+        name: item.name,
+        price: parseFloat(item.price),
         quantity: item.quantity
       }));
       trackInitiateCheckout(cartItems, finalTotal);
