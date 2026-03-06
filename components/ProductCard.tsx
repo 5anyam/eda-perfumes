@@ -117,7 +117,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
           {/* View Details Button */}
           <div className="pt-3">
-            <button className="w-full py-3 text-xs tracking-widest uppercase font-light bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-amber-100 border border-amber-400/20 hover:from-amber-800 hover:via-yellow-700 hover:to-amber-800 hover:text-white transition-all duration-500 shadow-sm hover:shadow-md">
+            <button className="w-full py-2.5 text-xs text-gray-900 border border-gray-200 tracking-widest uppercase font-light hover:bg-black hover:text-white hover:border-black transition-colors duration-300">
               View Details
             </button>
           </div>
