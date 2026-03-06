@@ -49,7 +49,7 @@ export default function BlogArticle() {
           </p>
 
           <p>
-            At <strong>EDA Perfumes</strong>, we believe fragrance is not just an accessory. It is identity. Whether you are searching for the <strong>best perfume for men under 1000</strong> or exploring refined <strong>woody floral perfumes for women</strong>, choosing the right scent allows you to shape how the world experiences you.
+            At <strong>EDA Perfumes</strong>, we believe fragrance is not just an accessory. It is identity. Whether you are searching for the <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>best perfume for men under 1000</strong></Link> or exploring refined <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>woody floral perfumes for women</strong></Link>, choosing the right scent allows you to shape how the world experiences you.
           </p>
 
           <p>
@@ -82,7 +82,7 @@ export default function BlogArticle() {
               Best Perfume for Men Under 1000: Luxury Appeal Within Budget
             </h2>
             <p>
-              It is a widespread belief that only costly designer brands have to smell classy. Factually, even the <strong>best perfume for men under 1000</strong> may have an amazing long lasting, projection and depth — when the composition is balanced.
+              It is a widespread belief that only costly designer brands have to smell classy. Factually, even the <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>best perfume for men under 1000</strong></Link> may have an amazing long lasting, projection and depth — when the composition is balanced.
             </p>
             <p className="mt-3">
               At <strong>EDA Perfumes</strong>, the quality of the fragrances is determined by the structure rather than the prices of the perfumes. This is the real mark of an exclusive smelling fragrance budget.
@@ -123,7 +123,7 @@ export default function BlogArticle() {
               <li><strong>Base Notes:</strong> The long-lasting foundation</li>
             </ul>
             <p className="mt-3">
-              Even when choosing the <strong>best perfume for men under 1000</strong>, ensure the scent evolves smoothly instead of fading abruptly.
+              Even when choosing the <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>best perfume for men under 1000</strong></Link>, ensure the scent evolves smoothly instead of fading abruptly.
             </p>
           </div>
 
@@ -176,7 +176,7 @@ export default function BlogArticle() {
               How to Apply Perfume for Maximum Performance
             </h2>
             <p>
-              Even the <strong>best perfume for men under 1000</strong> will not work when applied in the wrong manner.
+              Even the <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>best perfume for men under 1000</strong></Link> will not work when applied in the wrong manner.
             </p>
             <p className="mt-3 font-semibold text-gray-800">Professional application tips:</p>
             <ul className="list-disc pl-6 mt-2 space-y-1">
@@ -196,7 +196,7 @@ export default function BlogArticle() {
               Woody Floral Perfumes for Women: Strength Wrapped in Elegance
             </h2>
             <p>
-              Whereas men tend to develop mystery using depth and warmth, women tend to develop it using contrast. This is where <strong>woody floral perfumes for women</strong> excel.
+              Whereas men tend to develop mystery using depth and warmth, women tend to develop it using contrast. This is where <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>woody floral perfumes for women</strong></Link> excel.
             </p>
             <p className="mt-3">
               These perfumes are elegant and tough at the same time, with light flowers and balancing woody perfumes.
@@ -306,10 +306,10 @@ export default function BlogArticle() {
               The perfume sector has also developed tremendously. Enhanced aromas give superior blends at affordable prices.
             </p>
             <p className="mt-3">
-              Compromise is no longer an issue in the <strong>best perfume for men under 1000</strong>. It is regarding choosing a well-organized smell that is admirable of who you are.
+              Compromise is no longer an issue in the <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>best perfume for men under 1000</strong></Link>. It is regarding choosing a well-organized smell that is admirable of who you are.
             </p>
             <p className="mt-3">
-              Similarly, <strong>woody floral perfumes for women</strong> provide depth and elegance without requiring a luxury budget.
+              Similarly, <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong>woody floral perfumes for women</strong></Link> provide depth and elegance without requiring a luxury budget.
             </p>
             <p className="mt-3">
               Composition, balance, and lasting impression are the key factors at <strong>EDA Perfumes</strong>, as opposed to inflated branding expenses.
@@ -341,7 +341,7 @@ export default function BlogArticle() {
               Before you are heard, your perfume walks into a room, and even when you are away. It forms the perception in an unspoken and mighty way.
             </p>
             <p className="mt-4 text-gray-700">
-              It may be the <strong className="text-rose-600">best perfume under 1000</strong> that you can buy as a man to exude confidence without spending too much money, or it may be the elegant-smelling <strong className="text-rose-600">woody floral perfumes</strong> that women need to showcase their classiness as well as costliness and richness.
+              It may be the <strong className="text-rose-600">best perfume under 1000</strong> that you can buy as a man to exude confidence without spending too much money, or it may be the elegant-smelling <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong className="text-rose-600">woody floral perfumes that women</strong></Link> need to showcase their classiness as well as costliness and richness.
             </p>
             <p className="mt-4 text-gray-700">
               A mysterious persona is not created through noise. It is created through nuance. Choose intentionally. Apply strategically. Wear consistently. Since the best introduction is sometimes the one never spoken.
