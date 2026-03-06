@@ -25,9 +25,7 @@ const FeatureCard = ({ item, isHovered, onHover, onLeave }: FeatureCardProps) =>
     onMouseLeave={onLeave}
   >
     <div className="mb-6 flex justify-center">
-      <div className="p-3 rounded-full border border-gray-200 bg-gray-50">
-        {item.icon}
-      </div>
+      {item.icon}
     </div>
     <h3 className="text-lg font-light text-gray-900 mb-3 text-center tracking-wide">
       {item.title}
@@ -43,17 +41,17 @@ export default function AboutUsSection() {
 
   const features: Feature[] = [
     {
-      icon: <Crown className="text-gray-700 w-6 h-6" />,
+      icon: <img src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/1-3.png" alt="Luxury Craftsmanship" className="w-20 h-20 object-contain" />,
       title: 'Luxury Craftsmanship',
       desc: 'Each fragrance is meticulously crafted using premium ingredients and artisan techniques for an unparalleled olfactory experience.',
     },
     {
-      icon: <Clock className="text-gray-700 w-6 h-6" />,
+      icon: <img src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/2-3.png" alt="Long-Lasting Formula" className="w-20 h-20 object-contain" />,
       title: 'Long-Lasting Formula',
       desc: 'Premium EDP concentration ensures your signature scent lingers beautifully throughout the day.',
     },
     {
-      icon: <Star className="text-gray-700 w-6 h-6" />,
+      icon: <img src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/3-2.png" alt="Unisex Appeal" className="w-20 h-20 object-contain" />,
       title: 'Unisex Appeal',
       desc: 'Expertly balanced fragrances that captivate regardless of gender - true luxury knows no boundaries.',
     }
@@ -61,17 +59,17 @@ export default function AboutUsSection() {
 
   const values: Feature[] = [
     {
-      icon: <Shield className="text-gray-700 w-6 h-6" />,
+      icon: <img src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/4-1.png" alt="Authentic Quality" className="w-20 h-20 object-contain" />,
       title: 'Authentic Quality',
       desc: 'Every bottle represents our commitment to excellence and authenticity in luxury fragrance.',
     },
     {
-      icon: <Gift className="text-gray-700 w-6 h-6" />,
+      icon: <img src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/5-1.png" alt="Elegant Presentation" className="w-20 h-20 object-contain" />,
       title: 'Elegant Presentation',
       desc: 'Each bottle is a work of art, perfect for gifting or adding sophistication to your collection.',
     },
     {
-      icon: <Award className="text-gray-700 w-6 h-6" />,
+      icon: <img src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/6-1.png" alt="Customer Trust" className="w-20 h-20 object-contain" />,
       title: 'Customer Trust',
       desc: 'Trusted by discerning customers worldwide for our dedication to quality and service.',
     }

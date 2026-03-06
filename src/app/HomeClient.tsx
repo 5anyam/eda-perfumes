@@ -71,7 +71,11 @@ export default function HomeClient() {
 
   // Split collections
   const signature = all.filter((p) => !isCombo(p) && !is10ml(p));
-  const combos = all.filter((p) => isCombo(p));
+  const combos = all.filter((p) => isCombo(p)).sort((a, b) => {
+    if (a.slug === 'mini-perfume-set') return -1;
+    if (b.slug === 'mini-perfume-set') return 1;
+    return 0;
+  });
   const tenMl = all.filter((p) => is10ml(p));
 
   const signatureTop6 = signature.slice(0, 6);
