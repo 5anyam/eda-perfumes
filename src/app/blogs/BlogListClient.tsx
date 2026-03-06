@@ -4,6 +4,16 @@ import Link from 'next/link';
 
 const BLOG_POSTS = [
   {
+    title: 'Craft a Mysterious Persona Through the Power of Scent',
+    slug: 'craft-a-mysterious-persona-through-scent',
+    excerpt:
+      'Discover how the right fragrance builds a mysterious persona. Explore the best perfume for men under 1000 and elegant woody floral perfumes for women.',
+    image:
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/Woody-Floral-Perfumes-For-Women.jpeg',
+    date: 'March 2026',
+    tags: ['Best Perfume For Men Under 1000', 'Woody Floral Perfumes For Women'],
+  },
+  {
     title: 'How to Choose a Perfume Based on Your Personality',
     slug: 'how-to-choose-perfume-based-on-your-personality',
     excerpt:
