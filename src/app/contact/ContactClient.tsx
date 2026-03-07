@@ -31,7 +31,7 @@ export default function ContactClient() {
     <main className="max-w-7xl mt-24 lg:mt-0 mx-auto px-4 py-12 space-y-16">
       {/* Hero Section */}
       <section className="text-center">
-        <div className="inline-flex items-center bg-emerald-100 text-emerald-700 px-6 py-2 rounded-full text-sm font-medium mb-6">
+        <div className="inline-flex items-center bg-neutral-100 text-neutral-700 border border-neutral-200 px-6 py-2 rounded-full text-sm font-medium mb-6">
           <MessageCircle className="w-4 h-4 mr-2" />
           We&apos;re Here to Help
         </div>
@@ -44,40 +44,40 @@ export default function ContactClient() {
 
       {/* Contact Information Cards */}
       <section className="grid md:grid-cols-3 gap-8">
-        <div className="bg-white p-8 rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-emerald-100">
-          <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Mail className="w-8 h-8 text-emerald-600" />
+        <div className="bg-white p-8 rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-neutral-200">
+          <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Mail className="w-8 h-8 text-amber-700" />
           </div>
           <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Email Us</h3>
           <p className="text-gray-600 text-center mb-4">Send us an email and we&apos;ll respond within 24 hours</p>
           <div className="text-center">
-            <a href="mailto:care@edaperfumes.com" className="text-emerald-600 hover:text-emerald-700 font-semibold text-lg">
+            <a href="mailto:care@edaperfumes.com" className="text-neutral-900 hover:text-amber-700 font-semibold text-lg">
               care@edaperfumes.com
             </a>
           </div>
         </div>
 
-        <div className="bg-white p-8 rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-yellow-100">
-          <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Phone className="w-8 h-8 text-yellow-600" />
+        <div className="bg-white p-8 rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-neutral-200">
+          <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Phone className="w-8 h-8 text-amber-700" />
           </div>
           <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Call Us</h3>
           <p className="text-gray-600 text-center mb-4">Speak directly with our fragrance experts</p>
           <div className="text-center">
-            <a href="tel:+918799795681" className="text-yellow-600 hover:text-yellow-700 font-semibold text-lg">
+            <a href="tel:+918799795681" className="text-neutral-900 hover:text-amber-700 font-semibold text-lg">
             +91 87997 95681
             </a>
           </div>
         </div>
 
-        <div className="bg-white p-8 rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-emerald-100">
-          <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <MapPin className="w-8 h-8 text-emerald-600" />
+        <div className="bg-white p-8 rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-neutral-200">
+          <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <MapPin className="w-8 h-8 text-amber-700" />
           </div>
           <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Visit Us</h3>
           <p className="text-gray-600 text-center mb-4">Come visit our office for a personal consultation</p>
           <div className="text-center">
-            <address className="text-emerald-600 not-italic font-medium text-sm leading-relaxed">
+            <address className="text-neutral-700 not-italic font-medium text-sm leading-relaxed">
             WZ-11B Ground Floor, Sahib Pura, <br/> 
             Tilak Nagar, New Delhi - 110018
             </address>
@@ -88,7 +88,7 @@ export default function ContactClient() {
       {/* Contact Form and Map Section */}
       <section className="grid lg:grid-cols-2 gap-12">
         {/* Contact Form */}
-        <div className="bg-gradient-to-br from-emerald-50 to-yellow-50 p-8 rounded-3xl">
+        <div className="bg-neutral-50 border border-neutral-200 p-8 rounded-3xl">
           <h2 className="text-3xl font-bold mb-6 text-gray-800">Send us a Message</h2>
           <p className="text-gray-600 mb-8">
             Fill out the form below and we&apos;ll get back to you as soon as possible.
@@ -106,7 +106,7 @@ export default function ContactClient() {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:border-neutral-400"
                   placeholder="Your full name"
                 />
               </div>
@@ -120,7 +120,7 @@ export default function ContactClient() {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:border-neutral-400"
                   placeholder="your@email.com"
                 />
               </div>
@@ -137,7 +137,7 @@ export default function ContactClient() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:border-neutral-400"
                   placeholder="+91 XXXXX XXXXX"
                 />
               </div>
@@ -150,7 +150,7 @@ export default function ContactClient() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:border-neutral-400"
                 >
                   <option value="">Select a subject</option>
                   <option value="general">General Inquiry</option>
@@ -172,14 +172,14 @@ export default function ContactClient() {
                 value={formData.message}
                 onChange={handleInputChange}
                 rows={5}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:border-neutral-400"
                 placeholder="Tell us about your fragrance preferences or any questions you have..."
               ></textarea>
             </div>
 
             <button
               onClick={handleSubmit}
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-lg font-semibold text-lg transition-colors duration-300 shadow-lg hover:shadow-xl flex items-center justify-center"
+              className="w-full bg-neutral-900 hover:bg-neutral-800 text-white py-4 rounded-lg font-semibold text-lg transition-colors duration-300 shadow-lg hover:shadow-xl flex items-center justify-center"
             >
               {isSubmitted ? (
                 <>
@@ -202,8 +202,8 @@ export default function ContactClient() {
             <h3 className="text-2xl font-bold mb-6 text-gray-800">Our Office</h3>
             <div className="space-y-6">
               <div className="flex items-start">
-                <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mr-4 mt-1">
-                  <MapPin className="w-6 h-6 text-emerald-600" />
+                <div className="w-12 h-12 bg-neutral-100 rounded-full flex items-center justify-center mr-4 mt-1">
+                  <MapPin className="w-6 h-6 text-amber-700" />
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-2">Address</h4>
@@ -216,8 +216,8 @@ export default function ContactClient() {
               </div>
 
               <div className="flex items-start">
-                <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mr-4 mt-1">
-                  <Clock className="w-6 h-6 text-yellow-600" />
+                <div className="w-12 h-12 bg-neutral-100 rounded-full flex items-center justify-center mr-4 mt-1">
+                  <Clock className="w-6 h-6 text-amber-700" />
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-2">Business Hours</h4>
@@ -230,8 +230,8 @@ export default function ContactClient() {
               </div>
 
               <div className="flex items-start">
-                <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mr-4 mt-1">
-                  <Calendar className="w-6 h-6 text-emerald-600" />
+                <div className="w-12 h-12 bg-neutral-100 rounded-full flex items-center justify-center mr-4 mt-1">
+                  <Calendar className="w-6 h-6 text-amber-700" />
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-2">Consultation Hours</h4>
@@ -245,9 +245,9 @@ export default function ContactClient() {
           </div>
 
           {/* Map Placeholder */}
-          <div className="bg-gradient-to-br from-emerald-200 to-yellow-200 h-64 rounded-3xl flex items-center justify-center">
+          <div className="bg-neutral-100 border border-neutral-200 h-64 rounded-3xl flex items-center justify-center">
             <div className="text-center">
-              <MapPin className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
+              <MapPin className="w-16 h-16 text-amber-700 mx-auto mb-4" />
               <h4 className="text-xl font-bold text-gray-800 mb-2">Find Us Here</h4>
               <p className="text-gray-600">Tilak Nagar, New Delhi</p>
             </div>
@@ -256,7 +256,7 @@ export default function ContactClient() {
       </section>
 
       {/* FAQ Section */}
-      <section className="bg-gradient-to-r from-emerald-50 to-yellow-50 p-10 rounded-3xl">
+      <section className="bg-neutral-50 border border-neutral-200 p-10 rounded-3xl">
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Frequently Asked Questions</h2>
         <div className="grid md:grid-cols-2 gap-8">
           <div className="space-y-6">
@@ -283,21 +283,21 @@ export default function ContactClient() {
       </section>
 
       {/* CTA Section */}
-      <section className="text-center bg-gradient-to-r from-emerald-600 to-emerald-700 p-12 rounded-3xl text-white shadow-2xl">
+      <section className="text-center bg-neutral-900 p-12 rounded-3xl text-white shadow-2xl">
         <h2 className="text-4xl font-bold mb-4">Ready to Find Your Signature Scent?</h2>
-        <p className="text-xl mb-8 text-emerald-100">
+        <p className="text-xl mb-8 text-neutral-400">
           Contact us today and let our fragrance experts help you discover the perfect perfume.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="tel:+918799795681"
-            className="bg-white text-emerald-600 px-8 py-3 rounded-full font-semibold text-lg hover:bg-emerald-50 transition-colors duration-300 shadow-lg"
+            className="bg-white text-neutral-900 px-8 py-3 rounded-full font-semibold text-lg hover:bg-neutral-100 transition-colors duration-300 shadow-lg"
           >
             Call Now
           </a>
           <a
             href="mailto:care@edaperfumes.com"
-            className="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-full font-semibold text-lg transition-colors duration-300 shadow-lg"
+            className="bg-amber-700 hover:bg-amber-600 text-white px-8 py-3 rounded-full font-semibold text-lg transition-colors duration-300 shadow-lg"
           >
             Email Us
           </a>
