@@ -16,8 +16,8 @@ const IMAGES = [
   },
   {
     src: 'https://cms.edaperfumes.com/wp-content/uploads/2025/10/eda-banner2-scaled.jpg',
-    alt: 'EDA Perfumes Luxury Fragrances',
-    link: '/shop',
+    alt: 'Lusty Nights Premium Unisex Eau De Parfum - Best Seller',
+    link: '/product/lusty-nights-premium-unisex-eau-de-parfum-100ml',
   }
 ];
 
