@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next';
 export const revalidate = 3600;
 
 const BASE_URL = 'https://www.edaperfumes.com';
-const WC_API = 'https://cms.amraj.in/wp-json/wc/v3';
+const WC_API = process.env.API_BASE || 'https://cms.edaperfumes.com/wp-json/wc/v3';
 const CONSUMER_KEY = process.env.NEXT_PUBLIC_CONSUMER_KEY || '';
 const CONSUMER_SECRET = process.env.NEXT_PUBLIC_CONSUMER_SECRET || '';
 

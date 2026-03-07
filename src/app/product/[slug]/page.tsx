@@ -54,7 +54,7 @@ async function getProductBySlug(slug: string) {
     const ck = process.env.NEXT_PUBLIC_CONSUMER_KEY || ''
     const cs = process.env.NEXT_PUBLIC_CONSUMER_SECRET || ''
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://cms.amraj.in'}/wp-json/wc/v3/products?slug=${encodeURIComponent(slug)}&consumer_key=${ck}&consumer_secret=${cs}`,
+      `${process.env.API_BASE || 'https://cms.edaperfumes.com/wp-json/wc/v3'}/products?slug=${encodeURIComponent(slug)}&consumer_key=${ck}&consumer_secret=${cs}`,
       { cache: 'no-store' }
     )
     if (res.ok) {
@@ -75,7 +75,7 @@ async function getProductBySlug(slug: string) {
 async function fetchYoastSeo(slug: string) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://cms.amraj.in'}/wp-json/wp/v2/product?slug=${slug}&_fields=yoast_head_json`,
+      `${process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://cms.edaperfumes.com'}/wp-json/wp/v2/product?slug=${slug}&_fields=yoast_head_json`,
       { cache: 'no-store' }
     )
     if (!res.ok) return null
