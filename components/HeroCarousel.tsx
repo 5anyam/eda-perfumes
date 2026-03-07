@@ -12,10 +12,12 @@ const IMAGES = [
   {
     src: 'https://cms.edaperfumes.com/wp-content/uploads/2026/02/eda-perfumes-banner.jpg',
     alt: 'EDA Perfumes Collection Banner',
+    link: '/shop',
   },
   {
     src: 'https://cms.edaperfumes.com/wp-content/uploads/2025/10/eda-banner2-scaled.jpg',
     alt: 'EDA Perfumes Luxury Fragrances',
+    link: '/shop',
   }
 ];
 
