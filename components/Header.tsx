@@ -11,7 +11,7 @@ import { BiChevronDown } from "react-icons/bi";
 import { useTypewriter } from 'react-simple-typewriter';
 
 const navItems = [
-  { name: "Blog", to: "/blogs" },
+  { name: "Blogs", to: "/blogs" },
   { 
     name: "Unisex 100ml",
     to: "/shop",
