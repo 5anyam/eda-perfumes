@@ -4,7 +4,7 @@ import HomeClient from './HomeClient';
 async function fetchHomeYoastSeo() {
   try {
     const res = await fetch(
-      'https://cms.edaperfumes.com/wp-json/wp/v2/pages?slug=home&_fields=yoast_head_json',
+      'https://cms.amraj.in/wp-json/wp/v2/pages?slug=home&_fields=yoast_head_json',
       { next: { revalidate: 3600 } }
     )
     if (!res.ok) return null

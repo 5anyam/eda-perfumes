@@ -4,6 +4,16 @@ import Link from 'next/link';
 
 const BLOG_POSTS = [
   {
+    title: 'Wear Your Invisible Crown with Guilty Premium Perfume for Men',
+    slug: 'wear-your-invisible-crown-with-guilty-premium-perfume-for-men',
+    excerpt:
+      'Discover how a guilty premium perfume for men enhances confidence, personal style, and presence. Learn how to choose signature and summer fragrances.',
+    image:
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/IMG-20260307-WA0000.jpg',
+    date: 'March 2026',
+    tags: ['Guilty Premium Perfume For Men', 'Best Summer Perfumes For Men'],
+  },
+  {
     title: 'Craft a Mysterious Persona Through the Power of Scent',
     slug: 'craft-a-mysterious-persona-through-scent',
     excerpt:

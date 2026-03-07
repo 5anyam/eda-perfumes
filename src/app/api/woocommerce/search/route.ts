@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const API_BASE = process.env.API_BASE || 'https://cms.edaperfumes.com/wp-json/wc/v3';
+const API_BASE = process.env.API_BASE || 'https://cms.amraj.in/wp-json/wc/v3';
 const CONSUMER_KEY = process.env.NEXT_PUBLIC_CONSUMER_KEY || '';
 const CONSUMER_SECRET = process.env.NEXT_PUBLIC_CONSUMER_SECRET || '';
 
