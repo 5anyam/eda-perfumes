@@ -4,6 +4,16 @@ import Link from 'next/link';
 
 const BLOG_POSTS = [
   {
+    title: 'Bottling Main Character Energy with Luxury Perfume Gift Sets',
+    slug: 'bottling-main-character-energy-with-luxury-perfume-gift-sets',
+    excerpt:
+      'Discover how EDA Perfumes\' luxury perfume gift sets and office perfume for men elevate your presence. Find scents that boost confidence, and give the main character energy.',
+    image:
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/IMG-20260307-WA0000.jpg',
+    date: 'March 2026',
+    tags: ['Office Perfumes for Men', 'Luxury Perfume Gift Sets'],
+  },
+  {
     title: 'Wear Your Invisible Crown with Guilty Premium Perfume for Men',
     slug: 'wear-your-invisible-crown-with-guilty-premium-perfume-for-men',
     excerpt:
