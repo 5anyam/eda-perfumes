@@ -211,7 +211,7 @@ export default function BlogArticle() {
               Fragrance is not only a luxury, but also it is a product of use, a present, and a personality. You can use this strength to make yourself prominent, draw attention and demonstrate your uniqueness with <strong>EDA Perfumes</strong>.
             </p>
             <p className="mt-4 text-gray-700">
-              From thoughtful <Link href="/product/mini-perfume-set" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong className="text-rose-600">luxury perfume gift sets</strong></Link> to subtle yet commanding <Link href="/combos" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong className="text-rose-600">office perfume for men</strong></Link>, every bottle is crafted to help you bottle your main character&apos;s energy.
+              From thoughtful <Link href="/product/mini-perfume-set" className="underline decoration-rose-300 hover:decoration-rose-500 transition-colors"><strong className="text-rose-600">luxury perfume gift sets</strong></Link> to subtle yet commanding <strong className="text-rose-600">office perfume for men</strong>, every bottle is crafted to help you bottle your main character&apos;s energy.
             </p>
             <p className="mt-4 text-lg font-semibold italic text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-purple-600">
               Because in the end, your fragrance is your invisible signature—make it unforgettable.
