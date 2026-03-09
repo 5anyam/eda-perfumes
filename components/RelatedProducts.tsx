@@ -79,8 +79,8 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({ currentProduct, allPr
                 {/* Product Image */}
                 <div className="relative overflow-hidden bg-gray-50">
                   {hasDiscount && (
-                    <div className="absolute top-3 left-3 bg-black text-white text-xs font-light px-3 py-1 z-10 tracking-wide">
-                      -{discountPercent}%
+                    <div className="absolute top-3 left-3 bg-gradient-to-r from-yellow-700 via-amber-500 to-yellow-600 text-white px-3.5 py-1.5 text-[11px] font-bold tracking-wider rounded-sm shadow-lg border border-yellow-400/30 z-10">
+                      <span className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.4)]">{discountPercent}% OFF</span>
                     </div>
                   )}
                   
