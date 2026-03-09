@@ -62,6 +62,12 @@ export default function ProductClient({
   // Product short_description overrides
   const shortDescOverrides: Record<string, string> = {
     'oudh-shukran-eau-de-parfum-100ml': '<p><span style="font-weight: 400;">Discover the timeless richness of</span><strong> Oudh Shukran</strong><span style="font-weight: 400;">, a luxurious Arabic fragrance crafted to reflect tradition, depth, and quiet confidence. Designed for those </span><strong>who appreciate bold oriental scents</strong><span style="font-weight: 400;">, this perfume blends elegance with intensity to create a truly memorable presence.</span></p>\n<p><span style="font-weight: 400;">With its deep oudh character and warm woody undertones, </span><strong>Oudh Shukran</strong><span style="font-weight: 400;"> is more than a fragrance — it\'s a</span><strong> statement of sophistication</strong><span style="font-weight: 400;"> rooted in </span><strong>Middle Eastern perfumery</strong><span style="font-weight: 400;">. Powerful yet refined, it leaves a lasting impression wherever you go.</span></p>',
+    'oudh-shukran-eau-de-parfum-10ml': '<p><span style="font-weight: 400;">Carry luxury wherever you go with the </span><strong>Oudh Shukran pocket spray perfume</strong><span style="font-weight: 400;">, a compact version of the classic </span><strong>Arabic attar fragrance</strong><span style="font-weight: 400;">. Designed for those who value bold oriental richness in a travel-friendly format, this miniature perfume retains the same deep oudh character and woody sophistication as the full-sized bottle.</span></p>\n<p><span style="font-weight: 400;">Perfect as the </span><strong>best pocket perfume for men</strong><span style="font-weight: 400;">, this 10ml spray is also appreciated as a </span><strong>mens attar perfume</strong><span style="font-weight: 400;">, offering an easy way to refresh your scent throughout the day.</span></p>',
+    'bite-me-seductive-floral-citrus-eau-de-parfum-10ml': '<p><span style="font-weight: 400;">Take the allure of Bite Me Seductive Floral Citrus wherever you go with this compact </span><strong>pocket size perfume</strong><span style="font-weight: 400;">. Crafted for women who love vibrant, refreshing scents, this 10ml perfume combines zesty citrus with delicate floral notes for a versatile fragrance.</span></p>\n<p><span style="font-weight: 400;">Perfect as a </span><strong>pocket perfume for womens</strong><span style="font-weight: 400;">, it also works beautifully as a </span><strong>Floral citrus perfume for her</strong><span style="font-weight: 400;"> or </span><strong>citrus notes perfume</strong><span style="font-weight: 400;"> for daily wear. Its travel-friendly design ensures you can refresh your scent anytime, anywhere.</span></p>',
+    'guilty-premium-eau-de-parfum-10ml': '<p><span style="font-weight: 400;">Carry the allure of Guilty Premium wherever you go with this compact </span><strong>small pocket perfume</strong><span style="font-weight: 400;">. Designed for women who love bold and expressive fragrances, it combines modern floral-aromatic sophistication with long-lasting performance.</span></p>\n<p><span style="font-weight: 400;">Perfect as a </span><strong>girls pocket perfume</strong><span style="font-weight: 400;">, this travel-friendly 10ml bottle delivers the same statement-making presence as the full-sized version. Inspired by </span><strong>Guilty Midnight Shades perfume</strong><span style="font-weight: 400;">, it\u2019s ideal for evening wear, special occasions, or anytime you want to feel unforgettable.</span></p>',
+    'lusty-nights-premium-unisex-eau-de-parfum-10ml': '<p><span style="font-weight: 400;">Carry the captivating charm of Lusty Nights wherever you go with this </span><strong>pocket size perfume</strong><span style="font-weight: 400;">. Designed for both men and women, it blends citrus freshness with woody depth to create a balanced, long-lasting fragrance.</span></p>\n<p><span style="font-weight: 400;">Ideal as the </span><strong>best pocket perfume for men</strong><span style="font-weight: 400;">, this 10ml travel-friendly bottle allows you to refresh your scent anytime. With its modern unisex appeal, Lusty Nights is perfect for evenings, special occasions, or whenever you want to make an unforgettable impression.</span></p>',
+    'nude-poison-elegant-unisex-eau-de-parfum-10ml': '<p><span style="font-weight: 400;">Carry sophistication in your pocket with Nude Poison, a </span><strong>mini pocket perfume</strong><span style="font-weight: 400;"> designed for versatile elegance. This </span><strong>Elegant Unisex perfume</strong><span style="font-weight: 400;"> opens with crisp citrus freshness and evolves into soft jasmine layers with warm sandalwood undertones, creating a luxurious scent experience for both men and women.</span></p>\n<p><span style="font-weight: 400;">Its compact 10ml size makes it perfect for travel or quick fragrance touch-ups, while its balanced profile ensures it remains one of the </span><strong>best luxury perfumes for her</strong><span style="font-weight: 400;">. From daytime elegance to evening allure, Nude Poison leaves a lasting impression wherever you go.</span></p>',
+    'bad-habits-eau-de-parfum-10ml': '<p><span style="font-weight: 400;">Carry allure in your pocket with Bad Habits, a </span><strong>small pocket perfume</strong><span style="font-weight: 400;"> crafted to balance fresh citrus brightness with seductive floral undertones. This </span><strong>pocket size perfume</strong><span style="font-weight: 400;"> is perfect for those who want a refreshing yet captivating fragrance anywhere, anytime.</span></p>\n<p><span style="font-weight: 400;">Its 10ml mini size makes it ideal for travel, quick touch-ups, or daily use, while the carefully layered scent ensures it remains a </span><strong>seductive perfume for women</strong><span style="font-weight: 400;">. From casual outings to evening events, Bad Habits creates an unforgettable impression.</span></p>',
   };
 
   // Product full description overrides
@@ -94,6 +100,226 @@ export default function ProductClient({
 <p><span style="font-weight: 400;">With its bold character, this </span><strong>arabic attar perfume</strong><span style="font-weight: 400;"> is best suited for formal wear, celebrations, and cooler climates.</span></p>
 <h3><strong>Why Choose EDA Perfumes</strong></h3>
 <p><span style="font-weight: 400;">EDA Perfumes creates thoughtfully crafted fragrances that respect tradition while delivering modern performance and consistency.</span></p>`,
+    'oudh-shukran-eau-de-parfum-10ml': `<p><span style="font-weight: 400;">Oudh Shukran by EDA Perfumes in 10ml is a travel-ready </span><strong>pocket spray perfume</strong><span style="font-weight: 400;"> that encapsulates the luxurious depth of the classic </span><strong>Arabic attar fragrance</strong><span style="font-weight: 400;">. Crafted for convenience without compromising on richness, this compact </span><strong>oud pocket perfume</strong><span style="font-weight: 400;"> delivers long-lasting, sophisticated aroma on-the-go.</span></p>
+<h2><strong>Key Fragrance Notes</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Top Notes:</strong> Subtle citrus brightness</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Heart Notes:</strong> Rich oud accords, resinous warmth</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Base Notes:</strong> Smooth woody undertones, lasting depth</span></li>
+</ul>
+<p><span style="font-weight: 400;">This combination ensures that Oudh Shukran retains its premium character, whether carried in your pocket, bag, or travel kit.</span></p>
+<h2><strong>Perfect On-the-Go Companion</strong></h2>
+<p><span style="font-weight: 400;">As the </span><strong>best pocket perfume for men</strong><span style="font-weight: 400;">, this 10ml spray provides all the elegance and intensity of the full-sized Oudh Shukran. Its compact size makes it ideal for office use, evening outings, or quick refreshes during travel.</span></p>
+<p><span style="font-weight: 400;">Whether you seek a </span><strong>mens attar perfume</strong><span style="font-weight: 400;">, </span><strong>oud attar perfume</strong><span style="font-weight: 400;">, or simply a portable touch of luxury, this </span><strong>pocket spray perfume</strong><span style="font-weight: 400;"> is a versatile addition to your fragrance collection.</span></p>
+<h2><strong>How to Use</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Apply on clean, dry skin for optimal performance</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Spray lightly on pulse points such as the neck, wrists, and behind the ears</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Hold the bottle 3 to 5 inches away while applying</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Do not rub after spraying to maintain fragrance integrity</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Perfect for reapplication throughout the day due to its travel-friendly size</span></li>
+</ul>
+<h2><strong>Key Highlights</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Travel-ready <strong>pocket spray perfume</strong> \u2013 10ml</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Rich <strong>oud attar perfume</strong> with oriental depth</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Long-lasting <strong>mens attar perfume</strong></span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Perfect as the <strong>best pocket perfume for men</strong></span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Compact design for convenience and portability</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Maintains full-sized fragrance experience in a mini format</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Crafted by EDA Perfumes with premium quality</span></li>
+</ul>
+<h3><strong>Bold Arabic Elegance in a Pocket Spray</strong></h3>
+<p><span style="font-weight: 400;">Oudh Shukran 10ml delivers the sophistication and timelessness of traditional Arabic perfumery in a compact, portable format. Its rich oud, resin, and woody notes evolve beautifully, making it perfect for daily wear or special occasions.</span></p>
+<h3><strong>Deep and Long-Lasting Scent Profile</strong></h3>
+<p><span style="font-weight: 400;">Despite its small size, this </span><strong>pocket spray perfume</strong><span style="font-weight: 400;"> provides strong projection and impressive longevity. From vibrant top notes to a deep, woody base, the scent unfolds elegantly throughout the day.</span></p>
+<h3><strong>Ideal for Travel and Everyday Use</strong></h3>
+<p><span style="font-weight: 400;">Carry Oudh Shukran wherever life takes you. Its portable design ensures that your fragrance remains fresh during office hours, evening outings, or trips, making it the versatile and ultimate </span><strong>best pocket perfume for men</strong><span style="font-weight: 400;">.</span></p>
+<h3><strong>Why Choose EDA Perfumes</strong></h3>
+<p><span style="font-weight: 400;">EDA Perfumes creates high-performance fragrances that honor tradition while delivering modern convenience. This </span><strong>pocket spray perfume</strong><span style="font-weight: 400;"> reflects our commitment to quality, consistency, and memorable scent experiences designed for fragrance enthusiasts on-the-go.</span></p>`,
+    'bite-me-seductive-floral-citrus-eau-de-parfum-10ml': `<p><span style="font-weight: 400;">Bite Me Seductive Floral Citrus by EDA Perfumes is a travel-ready </span><strong>pocket size perfume</strong><span style="font-weight: 400;"> that captures the perfect balance of freshness and elegance. Ideal for women who want a luxurious fragrance in a convenient, portable format, this 10ml Eau de Parfum retains the same seductive power as the full-sized version.</span></p>
+<h2><strong>Fragrance Profile</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Top Notes:</strong> Bright citrus accents for an invigorating opening</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Heart Notes:</strong> Soft floral bouquet for feminine sophistication</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Base Notes:</strong> Subtle musk and warmth for lasting impression</span></li>
+</ul>
+<p><span style="font-weight: 400;">The combination delivers a </span><strong>Floral citrus perfume for her</strong><span style="font-weight: 400;"> that evolves beautifully on the skin while maintaining a refreshing character throughout the day.</span></p>
+<h2><strong>Perfect Travel Companion</strong></h2>
+<p><span style="font-weight: 400;">This </span><strong>pocket size perfume</strong><span style="font-weight: 400;"> is ideal for quick touch-ups during office hours, evening outings, or weekend getaways. Its compact size makes it the ultimate </span><strong>pocket perfume for womens</strong><span style="font-weight: 400;">, while the elegant floral-citrus blend ensures it works in any setting.</span></p>
+<h2><strong>How to Use</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Apply on clean, dry skin for best results</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Spray lightly on pulse points such as the neck, wrists, and behind the ears</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Hold the bottle 3 to 5 inches away while applying</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Avoid rubbing to preserve the fragrance structure</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Reapply lightly throughout the day for a continuous fresh scent</span></li>
+</ul>
+<h2><strong>Key Highlights</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Travel-ready <strong>pocket size perfume</strong> \u2013 10ml</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Vibrant <strong>Floral citrus perfume for her</strong></span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Refreshing citrus top notes and soft floral heart</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Works as a <strong>pocket perfume for womens</strong></span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Long-lasting Eau de Parfum concentration</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Ideal for office, evenings, or quick scent refreshes</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Compact design for convenience without compromising quality</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Crafted by EDA Perfumes for elegance and performance</span></li>
+</ul>
+<h3><strong>Seductive Citrus Elegance Anywhere</strong></h3>
+<p><span style="font-weight: 400;">Bite Me Seductive Floral Citrus pocket spray captures the essence of feminine sophistication in a portable format. Its zesty citrus top notes blend seamlessly with a delicate floral bouquet, creating a fragrance that is uplifting, confident, and versatile.</span></p>
+<h3><strong>Deep and Long-Lasting Scent Profile</strong></h3>
+<p><span style="font-weight: 400;">Despite its small size, this </span><strong>pocket size perfume</strong><span style="font-weight: 400;"> delivers strong projection and lasting aroma. From fresh citrus brightness to soft floral elegance, the scent develops gracefully for all-day enjoyment.</span></p>
+<h3><strong>Ideal for Everyday and Travel</strong></h3>
+<p><span style="font-weight: 400;">Perfect as a </span><strong>pocket perfume for womens</strong><span style="font-weight: 400;">, this 10ml bottle allows you to maintain your signature scent anywhere. Whether for office, social events, or travel, it ensures your fragrance is always at its best.</span></p>
+<h3><strong>Why Choose EDA Perfumes</strong></h3>
+<p><span style="font-weight: 400;">EDA Perfumes combines modern sophistication with convenience. This </span><strong>pocket size perfume</strong><span style="font-weight: 400;"> demonstrates their commitment to quality, consistency, and memorable fragrance experiences, making it a must-have for women who love floral-citrus elegance on-the-go.</span></p>`,
+    'guilty-premium-eau-de-parfum-10ml': `<p><span style="font-weight: 400;">Guilty Premium by EDA Perfumes is a </span><strong>small pocket perfume</strong><span style="font-weight: 400;"> crafted for confident women who love expressive scents in a portable format. This 10ml pocket spray offers the luxury of the full-sized Guilty Premium in a convenient, travel-ready size.</span></p>
+<h2><strong>Fragrance Profile</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Top Notes:</strong> Vibrant, contemporary notes that capture attention immediately</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Heart Notes:</strong> Floral-aromatic composition adding depth and sophistication</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Base Notes:</strong> Warm undertones for long-lasting projection and intensity</span></li>
+</ul>
+<p><span style="font-weight: 400;">The result is a </span><strong>guilty midnight perfume for women</strong><span style="font-weight: 400;"> that blends boldness with elegance. Whether for a casual outing or a special evening, this fragrance ensures you leave a memorable impression.</span></p>
+<h2><strong>Travel-Friendly Elegance</strong></h2>
+<p><span style="font-weight: 400;">Compact yet powerful, this </span><strong>small pocket perfume</strong><span style="font-weight: 400;"> is perfect as a </span><strong>girls pocket perfume</strong><span style="font-weight: 400;"> for everyday touch-ups. Its 10ml design fits easily into purses, handbags, or pockets without compromising on quality or longevity.</span></p>
+<h2><strong>How to Use</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Apply on clean, dry skin for optimal results</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Spray lightly on pulse points such as the neck, wrists, and behind the ears</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Hold the bottle 3 to 5 inches away while applying</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Avoid rubbing to maintain fragrance integrity</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Reapply lightly for extended wear</span></li>
+</ul>
+<h2><strong>Key Highlights</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Compact <strong>small pocket perfume</strong> \u2013 10ml</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Inspired by <strong>Guilty Midnight Shades perfume</strong></span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Bold floral-aromatic fragrance for confident women</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Ideal <strong>girls pocket perfume</strong> for travel and everyday use</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Long-lasting Eau de Parfum concentration</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Convenient pocket spray for on-the-go freshness</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Crafted by EDA Perfumes for quality and performance</span></li>
+</ul>
+<h3><strong>Bold and Expressive Presence</strong></h3>
+<p><span style="font-weight: 400;">This </span><strong>small pocket perfume</strong><span style="font-weight: 400;"> captures the bold spirit of Guilty Premium. Its floral-aromatic notes develop elegantly on the skin, delivering sophistication and confidence in every spray.</span></p>
+<h3><strong>Long-Lasting Scent Profile</strong></h3>
+<p><span style="font-weight: 400;">Despite its compact size, this 10ml pocket spray offers impressive projection and lasting aroma. From vibrant opening notes to warm, lingering depth, the fragrance evolves beautifully throughout the day.</span></p>
+<h3><strong>Perfect for Every Occasion</strong></h3>
+<p><span style="font-weight: 400;">Whether you\u2019re heading to an evening party, a casual outing, or traveling, this </span><strong>guilty midnight perfume for women</strong><span style="font-weight: 400;"> ensures your scent is always impactful. Its portability makes it the ultimate </span><strong>girls pocket perfume</strong><span style="font-weight: 400;"> for modern lifestyles.</span></p>
+<h3><strong>Why Choose EDA Perfumes</strong></h3>
+<p><span style="font-weight: 400;">EDA Perfumes combines modern elegance with convenience. This </span><strong>small pocket perfume</strong><span style="font-weight: 400;"> reflects their commitment to creating high-quality, memorable fragrances that are perfect for women on-the-go.</span></p>`,
+    'lusty-nights-premium-unisex-eau-de-parfum-10ml': `<p><span style="font-weight: 400;">Lusty Nights by EDA Perfumes is a </span><strong>pocket size perfume</strong><span style="font-weight: 400;"> crafted for modern fragrance lovers who desire a luxurious scent on the go. This 10ml pocket spray combines zesty citrus top notes with a warm, woody base, delivering a sophisticated and versatile aroma suitable for all occasions.</span></p>
+<h2><strong>Fragrance Profile</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Top Notes:</strong> Zesty citrus bursts for instant freshness</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Heart Notes:</strong> Subtle floral hints to add complexity and elegance</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Base Notes:</strong> Rich woody undertones for lasting depth and sophistication</span></li>
+</ul>
+<p><span style="font-weight: 400;">The result is a </span><strong>Woody Scent Premium Perfume</strong><span style="font-weight: 400;"> with </span><strong>premium unisex citrus perfume</strong><span style="font-weight: 400;"> qualities, ideal for those who want a confident and refined scent anytime.</span></p>
+<h2><strong>Travel-Ready Elegance</strong></h2>
+<p><span style="font-weight: 400;">Compact and portable, this </span><strong>pocket size perfume</strong><span style="font-weight: 400;"> is perfect as the </span><strong>best pocket perfume for men</strong><span style="font-weight: 400;"> or as a versatile unisex fragrance. Its 10ml design fits seamlessly in purses, backpacks, or pockets, making it ideal for quick touch-ups or travel.</span></p>
+<h2><strong>How to Use</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Apply on clean, dry skin for optimal performance</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Spray lightly on pulse points such as neck, wrists, and behind the ears</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Hold the bottle 3 to 5 inches away while applying</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Avoid rubbing after spraying to maintain the fragrance integrity</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Reapply lightly for longer-lasting wear</span></li>
+</ul>
+<h2><strong>Key Highlights</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Compact <strong>pocket size perfume</strong> \u2013 10ml</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Premium unisex citrus perfume</strong> with balanced woody undertones</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Travel-friendly <strong>best pocket perfume for men</strong></span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Long-lasting Eau de Parfum concentration</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Modern unisex appeal suitable for all occasions</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Crafted by EDA Perfumes with quality and performance</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Perfect for quick refreshes, travel, or gifting</span></li>
+</ul>
+<h3><strong>Sophisticated Citrus Meets Woody Depth</strong></h3>
+<p><span style="font-weight: 400;">This </span><strong>pocket size perfume</strong><span style="font-weight: 400;"> blends bright citrus freshness with rich woody tones, creating a modern, versatile fragrance experience. Its unisex composition makes it suitable for any gender while maintaining a bold, memorable presence.</span></p>
+<h3><strong>Long-Lasting Performance</strong></h3>
+<p><span style="font-weight: 400;">Despite its compact size, this 10ml spray provides long-lasting projection. From vibrant citrus openings to warm woody depth, the fragrance evolves beautifully throughout the day.</span></p>
+<h3><strong>Perfect for Every Occasion</strong></h3>
+<p><span style="font-weight: 400;">Whether at work, a dinner date, or a night out, this </span><strong>Woody Scent Premium Perfume</strong><span style="font-weight: 400;"> offers a convenient solution for maintaining a sophisticated, fresh aroma anytime. Its pocket size makes it an essential accessory for modern lifestyles.</span></p>
+<h3><strong>Why Choose EDA Perfumes</strong></h3>
+<p><span style="font-weight: 400;">EDA Perfumes delivers high-quality fragrances designed for portability, performance, and style. Lusty Nights </span><strong>pocket size perfume</strong><span style="font-weight: 400;"> reflects their commitment to blending modern elegance with convenience, giving you a premium scent experience wherever life takes you.</span></p>`,
+    'nude-poison-elegant-unisex-eau-de-parfum-10ml': `<p><span style="font-weight: 400;">Nude Poison by EDA Perfumes is a premium </span><strong>mini pocket perfume</strong><span style="font-weight: 400;"> crafted for individuals who appreciate modern sophistication and portability. This </span><strong>Elegant Unisex perfume</strong><span style="font-weight: 400;"> blends bright citrus top notes with soft jasmine and gentle sandalwood, delivering a harmonious fragrance that evolves beautifully throughout the day.</span></p>
+<h2><strong>Fragrance Profile</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Top Notes:</strong> Fresh lemon and citrus for instant brightness</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Heart Notes:</strong> Delicate jasmine and floral accents for elegance</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Base Notes:</strong> Warm sandalwood for depth and long-lasting presence</span></li>
+</ul>
+<p><span style="font-weight: 400;">Designed as a </span><strong>small pocket perfume</strong><span style="font-weight: 400;">, Nude Poison offers versatility for all occasions. Its compact size ensures you can carry luxury with you and refresh your scent on the go, making it an ideal </span><strong>best luxury perfume for her</strong><span style="font-weight: 400;"> while remaining appealing for men.</span></p>
+<h2><strong>Travel-Friendly Design</strong></h2>
+<p><span style="font-weight: 400;">The 10ml </span><strong>mini pocket perfume</strong><span style="font-weight: 400;"> easily fits into pockets, purses, or handbags, making it perfect for commuting, travel, or quick touch-ups. Its high-quality Eau de Parfum concentration ensures long-lasting scent performance in a convenient format.</span></p>
+<h2><strong>How to Use</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Apply on clean, dry skin for best results</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Spray lightly on pulse points such as neck, wrists, and behind the ears</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Hold the bottle 3\u20135 inches away while applying</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Avoid rubbing after spraying to preserve fragrance structure</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Reapply lightly for extended wear</span></li>
+</ul>
+<h2><strong>Key Highlights</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Mini pocket perfume</strong> \u2013 compact 10ml for on-the-go use</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Elegant Unisex perfume</strong> with versatile appeal</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Crisp citrus top notes and soft jasmine heart</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Warm sandalwood base for depth and longevity</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Convenient <strong>small pocket perfume</strong> ideal for travel</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Long-lasting Eau de Parfum concentration</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">One of the <strong>best luxury perfumes for her</strong></span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Crafted by EDA Perfumes for premium quality</span></li>
+</ul>
+<h3><strong>Citrus Freshness Meets Warm Elegance</strong></h3>
+<p><span style="font-weight: 400;">This </span><strong>mini pocket perfume</strong><span style="font-weight: 400;"> combines bright citrus with floral jasmine and subtle sandalwood, creating a harmonious and versatile </span><strong>Elegant Unisex perfume</strong><span style="font-weight: 400;">. Its compact size makes it perfect for maintaining sophistication anytime, anywhere.</span></p>
+<h3><strong>Long-Lasting Scent</strong></h3>
+<p><span style="font-weight: 400;">Despite its small 10ml size, Nude Poison delivers a rich, evolving fragrance. From crisp citrus openings to warm sandalwood depth, it ensures a memorable presence throughout the day.</span></p>
+<h3><strong>Perfect for Every Occasion</strong></h3>
+<p><span style="font-weight: 400;">Whether at work, social gatherings, or evening outings, this </span><strong>small pocket perfume</strong><span style="font-weight: 400;"> offers convenience without compromising luxury. Its unisex appeal makes it suitable for everyone while remaining elegant and distinctive.</span></p>
+<h3><strong>Why Choose EDA Perfumes</strong></h3>
+<p><span style="font-weight: 400;">EDA Perfumes creates fragrances that combine portability, performance, and modern sophistication. Nude Poison </span><strong>mini pocket perfume</strong><span style="font-weight: 400;"> reflects this commitment, delivering a high-quality </span><strong>Elegant Unisex perfume</strong><span style="font-weight: 400;"> experience in a travel-ready format.</span></p>`,
+    'bad-habits-eau-de-parfum-10ml': `<p><span style="font-weight: 400;">Bad Habits by EDA Perfumes is a versatile </span><strong>small pocket perfume</strong><span style="font-weight: 400;"> designed for modern women who value convenience without compromising on luxury. Its fragrance profile blends crisp citrus top notes with gentle floral and subtle musky undertones, delivering a vibrant and seductive scent experience.</span></p>
+<h2><strong>Fragrance Profile</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Top Notes:</strong> Fresh citrus for immediate energy and brightness</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Heart Notes:</strong> Soft floral notes for feminine allure</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Base Notes:</strong> Warm musky undertones for depth and longevity</span></li>
+</ul>
+<p><span style="font-weight: 400;">This </span><strong>pocket size perfume</strong><span style="font-weight: 400;"> is compact yet powerful, making it ideal for on-the-go fragrance needs. Its portable 10ml design ensures you can carry luxury with you wherever you go, while the rich Eau de Parfum concentration guarantees long-lasting performance.</span></p>
+<h2><strong>Travel-Ready Convenience</strong></h2>
+<p><span style="font-weight: 400;">The mini 10ml size of Bad Habits </span><strong>small pocket perfume</strong><span style="font-weight: 400;"> allows it to fit easily into pockets, handbags, or clutches. Perfect for daily commutes, business trips, or spontaneous adventures, it offers a quick refresh of seductive freshness anytime.</span></p>
+<h2><strong>How to Use</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Apply on clean, dry skin for best results</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Spray lightly on pulse points: neck, wrists, and behind the ears</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Hold the bottle 3\u20135 inches away while applying</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Avoid rubbing after spraying to maintain fragrance integrity</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Reapply lightly as needed for longer wear</span></li>
+</ul>
+<h2><strong>Key Highlights</strong></h2>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Small pocket perfume</strong> \u2013 compact 10ml for portability</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>Pocket size perfume</strong> ideal for travel and on-the-go freshness</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Fresh citrus top notes for instant vibrancy</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Seductive floral heart for feminine allure</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Musky base notes for depth and lasting presence</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Long-lasting Eau de Parfum concentration</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Perfect as a <strong>seductive perfume for women</strong></span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Crafted by EDA Perfumes with premium quality</span></li>
+</ul>
+<h3><strong>Fresh, Seductive, and Portable</strong></h3>
+<p><span style="font-weight: 400;">Bad Habits combines the energy of citrus with the elegance of floral notes and a sensual musky finish. This </span><strong>small pocket perfume</strong><span style="font-weight: 400;"> provides a refined, modern fragrance experience in a convenient travel-friendly size.</span></p>
+<h3><strong>Long-Lasting Aroma</strong></h3>
+<p><span style="font-weight: 400;">Despite its compact 10ml design, Bad Habits delivers rich projection and enduring scent. Its citrus and floral blend evolves beautifully on the skin, creating a memorable impression throughout the day or night.</span></p>
+<h3><strong>Perfect for Every Occasion</strong></h3>
+<p><span style="font-weight: 400;">From casual brunches to evening dates, this </span><strong>pocket size perfume</strong><span style="font-weight: 400;"> is ideal for women seeking a seductive yet fresh fragrance that fits seamlessly into their lifestyle.</span></p>
+<h3><strong>Why Choose EDA Perfumes</strong></h3>
+<p><span style="font-weight: 400;">EDA Perfumes designs high-quality fragrances that combine performance, portability, and modern sophistication. Bad Habits </span><strong>small pocket perfume</strong><span style="font-weight: 400;"> reflects this philosophy, offering a </span><strong>seductive perfume for women</strong><span style="font-weight: 400;"> in a convenient and luxurious mini format.</span></p>`,
     'nude-poison-elegant-unisex-eau-de-parfum-100ml': `<p><span style="font-weight: 400;">Nude Poison by EDA Perfumes is an elegant unisex perfume created for individuals who appreciate fresh citrus fragrances with a soft floral character. Designed as a premium Eau de Parfum, it delivers a balanced scent profile that feels light, modern, and long-lasting.</span></p>
 <p><span style="font-weight: 400;">The fragrance opens with the brightness of a</span><strong> fresh lemon perfume</strong><span style="font-weight: 400;"> accord, immediately creating a crisp and uplifting impression. This citrus introduction is complemented by vibrant </span><strong>grapefruit perfume</strong><span style="font-weight: 400;"> notes that add energy and a refreshing edge to the composition.</span></p>
 <p><span style="font-weight: 400;">As the fragrance evolves, the heart reveals a smooth </span><strong>jasmine perfume note</strong><span style="font-weight: 400;"> that introduces softness and elegance. This floral layer balances the citrus freshness, creating a fragrance that feels clean yet sophisticated.</span></p>

@@ -104,13 +104,42 @@ export async function generateMetadata(
     }
   }
 
+  // Slug-based SEO overrides (take priority over Yoast)
+  const seoOverrides: Record<string, { title: string; description: string }> = {
+    'oudh-shukran-eau-de-parfum-10ml': {
+      title: 'Oudh Shukran Pocket Spray Perfume – Luxury Arabic Attar in Travel Size',
+      description: 'Experience the rich oriental essence of Oudh Shukran in a convenient pocket spray perfume. A premium blend of oud, woody, and citrus notes, perfect for men & women.',
+    },
+    'bite-me-seductive-floral-citrus-eau-de-parfum-10ml': {
+      title: 'Bite Me Seductive Floral Citrus Pocket Size Perfume',
+      description: 'Discover Bite Me seductive floral citrus in a convenient pocket size perfume. This floral citrus perfume for her blends vibrant citrus for long-lasting freshness.',
+    },
+    'guilty-premium-eau-de-parfum-10ml': {
+      title: 'Guilty Premium Small Pocket Perfume – Bold & Expressive Fragrance',
+      description: 'Experience Guilty Premium small pocket perfume, a compact fragrance for women. Inspired by Guilty Midnight Shades perfume for bold, long-lasting.',
+    },
+    'lusty-nights-premium-unisex-eau-de-parfum-10ml': {
+      title: 'Lusty Nights Pocket Size Perfume – Premium Unisex Fragrance',
+      description: 'Experience Lusty Nights premium pocket perfume, a premium unisex citrus fragrance with woody undertones. Long-lasting elegant convenient travel friendly spray.',
+    },
+    'nude-poison-elegant-unisex-eau-de-parfum-10ml': {
+      title: 'Nude Poison Mini Pocket Perfume – Elegant Unisex Fragrance',
+      description: 'Experience Nude Poison mini pocket perfume, an Elegant Unisex perfume with fresh citrus, soft florals, and subtle sandalwood, perfect for travel and luxury gifting.',
+    },
+    'bad-habits-eau-de-parfum-10ml': {
+      title: 'Bad Habits Small Pocket Perfume – Seductive Fresh Citrus Fragrance',
+      description: 'Experience Bad Habits small pocket perfume, a compact fragrance with fresh citrus and seductive floral notes. Perfect for women, long-lasting and vibrant day.',
+    },
+  }
+
   const brand = 'EDA Perfumes'
+  const seoOverride = seoOverrides[product.slug]
   const fallbackTitle = `${product.name} | ${brand}`
   const fallbackDescription = `Shop ${product.name} at EDA Perfumes. Premium long-lasting Eau de Parfum crafted with luxury ingredients.`
   const fallbackCanonical = `https://www.edaperfumes.com/product/${product.slug}`
 
-  const title = yoast?.title || fallbackTitle
-  const description = yoast?.description || fallbackDescription
+  const title = seoOverride?.title || yoast?.title || fallbackTitle
+  const description = seoOverride?.description || yoast?.description || fallbackDescription
   const canonical = yoast?.canonical || fallbackCanonical
 
   const imageUrl = product.images?.[0]?.src || '/eda-perfumes-logo.jpeg'
