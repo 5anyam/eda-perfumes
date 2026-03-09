@@ -9,7 +9,7 @@ const BLOG_POSTS = [
     excerpt:
       'Discover how EDA Perfumes\' luxury perfume gift sets and office perfume for men elevate your presence. Find scents that boost confidence, and give the main character energy.',
     image:
-      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/IMG-20260307-WA0000.jpg',
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/Luxury-Perfume-Gift-Sets.jpeg',
     date: 'March 2026',
     tags: ['Office Perfumes for Men', 'Luxury Perfume Gift Sets'],
   },
