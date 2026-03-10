@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 const BLOG_POSTS = [
   {
@@ -56,6 +57,15 @@ const BLOG_POSTS = [
 ];
 
 export default function BlogListClient() {
+  const searchParams = useSearchParams();
+  const activeTag = searchParams.get('tag');
+
+  const filteredPosts = activeTag
+    ? BLOG_POSTS.filter((post) =>
+        post.tags.some((tag) => tag.toLowerCase() === activeTag.toLowerCase())
+      )
+    : BLOG_POSTS;
+
   return (
     <div className="bg-gradient-to-br from-gray-50 via-white to-rose-50 min-h-screen">
       {/* Hero Section */}
@@ -69,43 +79,63 @@ export default function BlogListClient() {
         </p>
       </div>
 
+      {/* Active Tag Filter */}
+      {activeTag && (
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-4 sm:mb-6 flex items-center gap-3">
+          <span className="text-sm text-gray-500">Filtered by:</span>
+          <span className="inline-block bg-rose-100 text-rose-600 px-3 py-1 rounded-full text-xs font-medium border border-rose-200">
+            {activeTag}
+          </span>
+          <Link
+            href="/blogs"
+            className="text-xs text-gray-400 hover:text-rose-500 transition-colors underline"
+          >
+            Clear filter
+          </Link>
+        </div>
+      )}
+
       {/* Blog Grid */}
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pb-12 sm:pb-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-          {BLOG_POSTS.map((post) => (
-            <Link
+          {filteredPosts.map((post) => (
+            <div
               key={post.slug}
-              href={`/blogs/${post.slug}`}
               className="group bg-white rounded-lg sm:rounded-xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 hover:-translate-y-1"
             >
               {/* Image */}
-              <div className="aspect-[16/9] overflow-hidden">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
+              <Link href={`/blogs/${post.slug}`}>
+                <div className="aspect-[16/9] overflow-hidden">
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+              </Link>
 
               {/* Content */}
               <div className="p-4 sm:p-5 md:p-6">
                 {/* Tags */}
                 <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-2 sm:mb-3">
                   {post.tags.map((tag) => (
-                    <span
+                    <Link
                       key={tag}
-                      className="inline-block bg-rose-50 text-rose-500 px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium border border-rose-100"
+                      href={`/blogs?tag=${encodeURIComponent(tag)}`}
+                      className="inline-block bg-rose-50 text-rose-500 px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium border border-rose-100 hover:bg-rose-100 hover:border-rose-200 transition-colors"
                     >
                       {tag}
-                    </span>
+                    </Link>
                   ))}
                 </div>
 
                 {/* Title */}
-                <h2 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-1.5 sm:mb-2 line-clamp-2 group-hover:text-rose-600 transition-colors duration-300">
-                  {post.title}
-                </h2>
+                <Link href={`/blogs/${post.slug}`}>
+                  <h2 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-1.5 sm:mb-2 line-clamp-2 group-hover:text-rose-600 transition-colors duration-300">
+                    {post.title}
+                  </h2>
+                </Link>
 
                 {/* Date */}
                 <p className="text-[10px] sm:text-xs text-gray-400 font-light mb-2 sm:mb-3">{post.date}</p>
@@ -116,12 +146,15 @@ export default function BlogListClient() {
                 </p>
 
                 {/* Read More */}
-                <span className="text-xs sm:text-sm text-rose-500 font-medium group-hover:text-rose-600 transition-colors inline-flex items-center gap-1">
+                <Link
+                  href={`/blogs/${post.slug}`}
+                  className="text-xs sm:text-sm text-rose-500 font-medium hover:text-rose-600 transition-colors inline-flex items-center gap-1"
+                >
                   Read More
                   <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                </span>
+                </Link>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
