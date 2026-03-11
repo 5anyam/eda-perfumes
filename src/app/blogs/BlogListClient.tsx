@@ -10,7 +10,7 @@ const BLOG_POSTS = [
     excerpt:
       'Transform your vibe & Explore the best perfume for men under 1000 in India—floral, citrus, and vanilla fragrances that elevate confidence, leave lasting impressions.',
     image:
-      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/Luxury-Perfume-Gift-Sets.jpeg',
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/Best-Perfume-For-Men-Under-1000.jpeg',
     date: 'March 2026',
     tags: ['Best Perfume For Men Under 1000', 'Floral Citrus Vanilla Perfume', 'Luxury Perfume Gift Set', 'Perfume For Men Combo'],
   },

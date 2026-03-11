@@ -34,6 +34,15 @@ export default function BlogArticle() {
           From Ordinary to Magnetic: Transform Your Vibe with the Right Notes
         </h1>
 
+        {/* Featured Image */}
+        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
+          <img
+            src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/Best-Perfume-For-Men-Under-1000.jpeg"
+            alt="From Ordinary to Magnetic: Best Perfume for Men Under 1000"
+            className="w-full h-auto object-cover"
+          />
+        </div>
+
         {/* Article Content */}
         <article className="prose prose-sm sm:prose-lg max-w-none text-gray-700 leading-7 sm:leading-8 space-y-4 sm:space-y-6">
           <p>
