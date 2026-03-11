@@ -10,7 +10,7 @@ const BLOG_POSTS = [
     excerpt:
       'Discover the elegance of Arabic attar perfumes for Ramadan gatherings. Explore long lasting oud, amber, and musk attars by EDA Perfumes, perfect for prayers, iftar, and evening celebrations.',
     image:
-      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/Best-Perfume-For-Men-Under-1000.jpeg',
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/arabic-attar-perfumes-for-ramadan.jpeg',
     date: 'March 2026',
     tags: ['Arabic Attar Perfumes for Ramadan', 'Attar Perfume For Men', 'Oud Pocket Perfume'],
   },
