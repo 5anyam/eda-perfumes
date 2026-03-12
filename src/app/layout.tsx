@@ -9,7 +9,7 @@ import AnnouncementBar from '../../components/anouncement';
 import { Suspense } from 'react';
 import Whatsapp from '../../components/Whatsapp';
 import CartDrawer from '../../components/CartDrawer';
-import HoliGulal from '../../components/HoliGulal';
+
 
 export const metadata = {
   title: 'EDA Perfumes - Where Desire Meets Sophisticated Fragrance',
@@ -245,7 +245,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
             <Whatsapp/>
             <CartDrawer />
-            <HoliGulal />
+
 
             {/* Facebook Pixel Route Tracking */}
             <Suspense fallback={null}>

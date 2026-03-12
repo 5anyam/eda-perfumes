@@ -31,6 +31,7 @@ const navItems = [
       { name: "Buy 1 (100ml) Get Free 1 Gift", to: "/buy-one-get-one-free", price: "399" },
       { name: "Buy 2 (100ml) Get Free 4 Gifts", to: "/buy-two-get-free", price: "899" },
       { name: "Buy 3 (100ml) Get Free 5 Gifts", to: "/buy-three-get-gifts", price: "1299" },
+      { name: "Eid Special Offer", to: "/eid-offers", price: "899" },
     ]
   },
   {
