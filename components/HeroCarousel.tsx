@@ -6,7 +6,7 @@ import Image from 'next/image';
 const IMAGES = [
   {
     src: 'https://cms.edaperfumes.com/wp-content/uploads/2026/02/Banner-2-EDA-1199.jpg-1.jpeg',
-    alt: 'Buy 3 Get 4 Gifts - EDA Perfumes Special Offer',
+    alt: 'Buy 3 Get 5 Gifts - EDA Perfumes Special Offer',
     link: '/buy-three-get-gifts',
   },
   {

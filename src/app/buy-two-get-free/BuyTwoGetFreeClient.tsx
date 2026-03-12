@@ -83,7 +83,7 @@ export default function BuyTwoGetFreeClient() {
   const handleSelectFree = (product: ExtendedProduct) => {
     if (selectedFree.find((p) => p.id === product.id)) {
       setSelectedFree(selectedFree.filter((p) => p.id !== product.id));
-    } else if (selectedFree.length < 3) {
+    } else if (selectedFree.length < 4) {
       setSelectedFree([...selectedFree, product]);
     }
     setAddedToCart(false);
@@ -96,7 +96,7 @@ export default function BuyTwoGetFreeClient() {
     setAddedToCart(true); // Set immediately to prevent double-clicks
 
     // Add main perfumes with proportional bundle pricing (total = ₹799)
-    const BUNDLE_PRICE = 799;
+    const BUNDLE_PRICE = 899;
     const totalActual = selectedMain.reduce((s, p) => s + (Number(p.price) || 0), 0);
     let assigned = 0;
     selectedMain.forEach((product, i) => {
@@ -135,7 +135,7 @@ export default function BuyTwoGetFreeClient() {
     return total;
   };
 
-  const savings = totalOriginalPrice() - 799;
+  const savings = totalOriginalPrice() - 899;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 via-white to-orange-50">
@@ -144,7 +144,7 @@ export default function BuyTwoGetFreeClient() {
         <a href="#selection-section" className="block cursor-pointer">
           <img
             src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/Banner-1-EDA.jpg.jpeg"
-            alt="Buy 2 @₹799 & Get 3 10ml FREE - Eda Perfumes"
+            alt="Buy 2 @₹899 & Get 4 10ml FREE - Eda Perfumes"
             className="w-full h-auto object-cover"
             loading="eager"
           />
@@ -173,11 +173,11 @@ export default function BuyTwoGetFreeClient() {
             <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden transition-transform duration-300 hover:scale-110">
               <img
                 src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/2.png"
-                alt="3× 10ml FREE Travel Sizes"
+                alt="4× 10ml FREE Travel Sizes"
                 className="w-full h-full object-cover"
               />
             </div>
-            <p className="text-xs md:text-sm font-bold text-gray-900">3× 10ml FREE</p>
+            <p className="text-xs md:text-sm font-bold text-gray-900">4× 10ml FREE</p>
             <p className="text-[10px] md:text-xs text-gray-500 font-medium">Travel Sizes</p>
           </div>
 
@@ -339,8 +339,8 @@ export default function BuyTwoGetFreeClient() {
                 {selectedFree.length >= 1 ? <Check className="w-5 h-5" /> : '2'}
               </div>
               <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Choose Up to 3 FREE Travel Sizes (10ml)
-                <span className="text-green-600 ml-2">({selectedFree.length}/3 selected)</span>
+                Choose Up to 4 FREE Travel Sizes (10ml)
+                <span className="text-green-600 ml-2">({selectedFree.length}/4 selected)</span>
               </h2>
               <span className="bg-green-500 text-white text-xs px-3 py-1 rounded-full font-medium">
                 FREE
@@ -361,7 +361,7 @@ export default function BuyTwoGetFreeClient() {
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {miniPerfumes.map((product) => {
                   const isSelected = selectedFree.find((p) => p.id === product.id);
-                  const isDisabled = selectedFree.length >= 3 && !isSelected;
+                  const isDisabled = selectedFree.length >= 4 && !isSelected;
 
                   return (
                     <div
@@ -456,15 +456,15 @@ export default function BuyTwoGetFreeClient() {
                       ? `${selectedMain.length} Signature Perfumes`
                       : 'Select 2 signature perfumes'}
                   </p>
-                  <p className="text-xs text-gray-500">2 × 100ml Bottles @ ₹799</p>
+                  <p className="text-xs text-gray-500">2 × 100ml Bottles @ ₹899</p>
                 </div>
                 {selectedMain.length === 2 && <Check className="w-5 h-5 text-green-500" />}
               </div>
 
               {/* Selected Free Perfumes */}
               <div className="flex items-center gap-4 p-3 bg-green-50 rounded-lg">
-                <div className="w-16 h-16 bg-green-100 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-3 gap-0.5 p-1">
-                  {[0, 1, 2].map((i) => (
+                <div className="w-16 h-16 bg-green-100 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-2 gap-0.5 p-1">
+                  {[0, 1, 2, 3].map((i) => (
                     <div key={i} className="bg-green-200 rounded overflow-hidden">
                       {selectedFree[i] && (
                         <img
@@ -480,9 +480,9 @@ export default function BuyTwoGetFreeClient() {
                   <p className="text-sm font-medium text-gray-900">
                     {selectedFree.length > 0
                       ? `${selectedFree.length} Travel Size${selectedFree.length > 1 ? 's' : ''}`
-                      : 'Select up to 3 travel sizes'}
+                      : 'Select up to 4 travel sizes'}
                   </p>
-                  <p className="text-xs text-green-600 font-medium">Up to 3 × 10ml Bottles - FREE!</p>
+                  <p className="text-xs text-green-600 font-medium">Up to 4 × 10ml Bottles - FREE!</p>
                 </div>
                 {selectedFree.length >= 1 && <Check className="w-5 h-5 text-green-500" />}
               </div>
@@ -499,7 +499,7 @@ export default function BuyTwoGetFreeClient() {
               </div>
               <div className="flex justify-between text-xl font-medium text-gray-900">
                 <span>Bundle Price:</span>
-                <span className="text-amber-600">₹799</span>
+                <span className="text-amber-600">₹899</span>
               </div>
             </div>
 
@@ -528,7 +528,7 @@ export default function BuyTwoGetFreeClient() {
                 }`}
               >
                 <ShoppingBag className="w-5 h-5" />
-                {isComplete ? 'Add Bundle to Cart - ₹799' : 'Complete Your Selection'}
+                {isComplete ? 'Add Bundle to Cart - ₹899' : 'Complete Your Selection'}
               </button>
             )}
 

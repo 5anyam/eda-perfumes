@@ -83,7 +83,7 @@ export default function BuyThreeGetGiftsClient() {
   const handleSelectGift = (product: ExtendedProduct) => {
     if (selectedGifts.find((p) => p.id === product.id)) {
       setSelectedGifts(selectedGifts.filter((p) => p.id !== product.id));
-    } else if (selectedGifts.length < 4) {
+    } else if (selectedGifts.length < 5) {
       setSelectedGifts([...selectedGifts, product]);
     }
     setAddedToCart(false);
@@ -96,7 +96,7 @@ export default function BuyThreeGetGiftsClient() {
     setAddedToCart(true); // Set immediately to prevent double-clicks
 
     // Add main perfumes with proportional bundle pricing (total = ₹999)
-    const BUNDLE_PRICE = 1199;
+    const BUNDLE_PRICE = 1299;
     const totalActual = selectedMain.reduce((s, p) => s + (Number(p.price) || 0), 0);
     let assigned = 0;
     selectedMain.forEach((product, i) => {
@@ -135,7 +135,7 @@ export default function BuyThreeGetGiftsClient() {
     return total;
   };
 
-  const savings = totalOriginalPrice() - 1199;
+  const savings = totalOriginalPrice() - 1299;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-violet-50 via-white to-purple-50">
@@ -143,7 +143,7 @@ export default function BuyThreeGetGiftsClient() {
       <section className="relative w-full cursor-pointer" onClick={() => window.scrollTo({ top: document.getElementById('selection-section')?.offsetTop ?? 500, behavior: 'smooth' })}>
         <img
           src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/Banner-2-EDA-1199.jpg-1.jpeg"
-          alt="Buy 3 Get 4 Gifts @ ₹999 - 3×100ml Perfumes + 4×10ml Travel Sizes FREE"
+          alt="Buy 3 Get 5 Gifts @ ₹1299 - 3×100ml Perfumes + 5×10ml Travel Sizes FREE"
           className="w-full h-auto object-cover"
         />
       </section>
@@ -170,11 +170,11 @@ export default function BuyThreeGetGiftsClient() {
             <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden transition-transform duration-300 hover:scale-110">
               <img
                 src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/edaperfumepng.png"
-                alt="4× 10ml Gift Perfumes"
+                alt="5× 10ml Gift Perfumes"
                 className="w-full h-full object-cover"
               />
             </div>
-            <p className="text-xs md:text-sm font-bold text-gray-900">4× 10ml FREE</p>
+            <p className="text-xs md:text-sm font-bold text-gray-900">5× 10ml FREE</p>
             <p className="text-[10px] md:text-xs text-gray-500 font-medium">Gift Perfumes</p>
           </div>
 
@@ -183,11 +183,11 @@ export default function BuyThreeGetGiftsClient() {
             <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden transition-transform duration-300 hover:scale-110">
               <img
                 src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/perfume2.png"
-                alt="7 Perfumes Total Collection"
+                alt="8 Perfumes Total Collection"
                 className="w-full h-full object-cover"
               />
             </div>
-            <p className="text-xs md:text-sm font-bold text-gray-900">7 Perfumes</p>
+            <p className="text-xs md:text-sm font-bold text-gray-900">8 Perfumes</p>
             <p className="text-[10px] md:text-xs text-gray-500 font-medium">Total Collection</p>
           </div>
 
@@ -350,8 +350,8 @@ export default function BuyThreeGetGiftsClient() {
                 {selectedGifts.length >= 1 ? <Check className="w-5 h-5" /> : '2'}
               </div>
               <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Choose Up to 4 FREE Gifts (10ml each)
-                <span className="text-green-600 ml-2">({selectedGifts.length}/4 selected)</span>
+                Choose Up to 5 FREE Gifts (10ml each)
+                <span className="text-green-600 ml-2">({selectedGifts.length}/5 selected)</span>
               </h2>
               <span className="bg-gradient-to-r from-emerald-500 to-green-500 text-white text-xs px-3 py-1 rounded-full font-medium flex items-center gap-1">
                 <Gift className="w-3 h-3" />
@@ -373,7 +373,7 @@ export default function BuyThreeGetGiftsClient() {
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {giftPerfumes.map((product) => {
                   const isSelected = selectedGifts.find((p) => p.id === product.id);
-                  const isDisabled = selectedGifts.length >= 4 && !isSelected;
+                  const isDisabled = selectedGifts.length >= 5 && !isSelected;
                   const selectionIndex = selectedGifts.findIndex((p) => p.id === product.id);
 
                   return (
@@ -472,15 +472,15 @@ export default function BuyThreeGetGiftsClient() {
                       ? `${selectedMain.length} Signature Perfumes`
                       : 'Select 3 signature perfumes'}
                   </p>
-                  <p className="text-xs text-gray-500">3 × 100ml Bottles @ ₹1199</p>
+                  <p className="text-xs text-gray-500">3 × 100ml Bottles @ ₹1299</p>
                 </div>
                 {selectedMain.length === 3 && <Check className="w-5 h-5 text-green-500" />}
               </div>
 
               {/* Selected Gift Perfumes */}
               <div className="flex items-center gap-4 p-3 bg-green-50 rounded-lg">
-                <div className="w-20 h-16 bg-green-100 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-4 gap-0.5 p-1">
-                  {[0, 1, 2, 3].map((i) => (
+                <div className="w-20 h-16 bg-green-100 rounded-lg overflow-hidden flex-shrink-0 grid grid-cols-3 gap-0.5 p-1">
+                  {[0, 1, 2, 3, 4].map((i) => (
                     <div key={i} className="bg-green-200 rounded overflow-hidden">
                       {selectedGifts[i] && (
                         <img
@@ -496,9 +496,9 @@ export default function BuyThreeGetGiftsClient() {
                   <p className="text-sm font-medium text-gray-900">
                     {selectedGifts.length > 0
                       ? `${selectedGifts.length} Gift Perfume${selectedGifts.length > 1 ? 's' : ''}`
-                      : 'Select up to 4 gift perfumes'}
+                      : 'Select up to 5 gift perfumes'}
                   </p>
-                  <p className="text-xs text-green-600 font-medium">Up to 4 × 10ml Bottles - FREE GIFTS!</p>
+                  <p className="text-xs text-green-600 font-medium">Up to 5 × 10ml Bottles - FREE GIFTS!</p>
                 </div>
                 {selectedGifts.length >= 1 && <Check className="w-5 h-5 text-green-500" />}
               </div>
@@ -506,7 +506,7 @@ export default function BuyThreeGetGiftsClient() {
 
             <div className="border-t border-gray-200 pt-4 mb-6">
               <div className="flex justify-between text-sm text-gray-500 mb-2">
-                <span>Original Price (7 perfumes):</span>
+                <span>Original Price (8 perfumes):</span>
                 <span className="line-through">₹{totalOriginalPrice().toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-sm text-green-600 mb-2">
@@ -515,10 +515,10 @@ export default function BuyThreeGetGiftsClient() {
               </div>
               <div className="flex justify-between text-xl font-medium text-gray-900">
                 <span>Bundle Price:</span>
-                <span className="text-violet-600">₹1,199</span>
+                <span className="text-violet-600">₹1,299</span>
               </div>
               <p className="text-xs text-center text-gray-500 mt-2">
-                That's just ₹171 per perfume!
+                That's just ₹162 per perfume!
               </p>
             </div>
 
@@ -547,7 +547,7 @@ export default function BuyThreeGetGiftsClient() {
                 }`}
               >
                 <Crown className="w-5 h-5" />
-                {isComplete ? 'Add Premium Bundle - ₹1,199' : 'Complete Your Selection'}
+                {isComplete ? 'Add Premium Bundle - ₹1,299' : 'Complete Your Selection'}
               </button>
             )}
 

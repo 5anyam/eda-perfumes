@@ -186,7 +186,7 @@ export default function Checkout(): React.ReactElement {
 
     // Validate offer price tiers: paid total should match known offer prices
     const paidTotal = paidItems.reduce((sum, i) => sum + parseFloat(i.price) * i.quantity, 0);
-    const validOfferTotals = [399, 799, 1199]; // Buy1, Buy2, Buy3 bundle prices
+    const validOfferTotals = [399, 899, 1299]; // Buy1, Buy2, Buy3 bundle prices
     const isOfferPrice = validOfferTotals.some(t => Math.abs(paidTotal - t) < 1);
     const isMultipleOfOffer = validOfferTotals.some(t => paidTotal > 0 && Math.abs(paidTotal % t) < 1);
 

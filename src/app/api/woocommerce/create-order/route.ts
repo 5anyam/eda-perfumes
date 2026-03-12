@@ -9,7 +9,7 @@ const WOOCOMMERCE_CONFIG = {
 };
 
 // Known offer bundle totals — must match offer page prices exactly
-const VALID_OFFER_TOTALS = [399, 799, 1099, 1199];
+const VALID_OFFER_TOTALS = [399, 899, 1099, 1299];
 
 interface LineItem {
   product_id: number;
