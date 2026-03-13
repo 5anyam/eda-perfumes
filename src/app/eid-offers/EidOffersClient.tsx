@@ -171,30 +171,16 @@ export default function EidOffersClient() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 via-white to-green-50">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 text-white py-12 px-4">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-4 left-8 text-6xl">&#9734;</div>
-          <div className="absolute top-12 right-12 text-4xl">&#9790;</div>
-          <div className="absolute bottom-8 left-1/3 text-5xl">&#9734;</div>
-        </div>
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Moon className="w-8 h-8" />
-            <span className="text-emerald-200 text-lg font-medium">Eid Mubarak</span>
-            <Moon className="w-8 h-8" />
-          </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            Eid Special Offer
-          </h1>
-          <p className="text-lg sm:text-xl text-emerald-100 mb-6">
-            Oudh Shukran + Any 100ml + Any 10ml Travel Size
-          </p>
-          <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm rounded-full px-8 py-3">
-            <span className="text-2xl font-bold">All at just</span>
-            <span className="text-4xl font-black">₹899</span>
-          </div>
-        </div>
+      {/* Hero Banner */}
+      <section className="w-full">
+        <a href="#selection-section" className="block cursor-pointer">
+          <img
+            src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/EDA-899-Static-ad-12-mar.jpg.jpeg"
+            alt="Eid Special Offer @₹899 - EDA Perfumes"
+            className="w-full h-auto object-cover"
+            loading="eager"
+          />
+        </a>
       </section>
 
       {/* Static Oudh Shukran Section */}
