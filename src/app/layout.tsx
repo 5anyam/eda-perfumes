@@ -249,7 +249,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* Facebook Pixel Route Tracking */}
             <Suspense fallback={null}>
-              <FacebookPixel pixelId={1648859765778662} />
+              <FacebookPixel pixelId={2061667547953165} />
             </Suspense>
           </CartProvider>
         </ReactQueryProvider>

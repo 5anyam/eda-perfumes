@@ -438,7 +438,15 @@ export default function Checkout(): React.ReactElement {
         price: parseFloat(item.price), 
         quantity: item.quantity
       }));
-      trackPurchase(orderItems, finalTotal, String(wooOrder.id));
+      trackPurchase(orderItems, finalTotal, String(wooOrder.id), {
+        email: form.email,
+        phone: form.phone,
+        firstName: form.name.split(' ')[0],
+        lastName: form.name.split(' ').slice(1).join(' '),
+        city: form.city,
+        state: form.state,
+        zipCode: form.pincode,
+      });
 
       clear();
 
@@ -473,8 +481,16 @@ export default function Checkout(): React.ReactElement {
         price: parseFloat(item.price), 
         quantity: item.quantity
       }));
-      trackPurchase(orderItems, finalTotal, response.razorpay_payment_id);
-  
+      trackPurchase(orderItems, finalTotal, response.razorpay_payment_id, {
+        email: form.email,
+        phone: form.phone,
+        firstName: form.name.split(' ')[0],
+        lastName: form.name.split(' ').slice(1).join(' '),
+        city: form.city,
+        state: form.state,
+        zipCode: form.pincode,
+      });
+
       clear();
   
       toast({

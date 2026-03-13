@@ -1,6 +1,7 @@
 
 // app/api/woocommerce/create-order/route.ts
 import { NextRequest, NextResponse } from "next/server";
+import { trackCAPIPurchase, CAPIUserData } from "../../../../../lib/meta-capi";
 
 const WOOCOMMERCE_CONFIG = {
   BASE_URL: process.env.API_BASE || 'https://cms.edaperfumes.com/wp-json/wc/v3',
@@ -149,6 +150,35 @@ export async function POST(request: NextRequest) {
       id: order.id,
       status: order.status,
     });
+
+    // Fire server-side CAPI Purchase event
+    try {
+      const billing = orderData.billing || {};
+      const capiUser: CAPIUserData = {
+        email: billing.email,
+        phone: billing.phone,
+        firstName: billing.first_name,
+        lastName: billing.last_name,
+        city: billing.city,
+        state: billing.state,
+        zipCode: billing.postcode,
+        country: billing.country || 'IN',
+        clientIpAddress: request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || request.headers.get('x-real-ip') || '',
+        clientUserAgent: request.headers.get('user-agent') || '',
+      };
+
+      const items = (orderData.line_items || []).map((li: LineItem) => ({
+        id: li.product_id.toString(),
+        quantity: li.quantity,
+        price: parseFloat(li.total) / li.quantity,
+      }));
+
+      const total = items.reduce((s: number, i: { price: number; quantity: number }) => s + i.price * i.quantity, 0);
+
+      trackCAPIPurchase(capiUser, items, total, String(order.id)).catch(() => {});
+    } catch (capiErr) {
+      console.warn('[WC-API] CAPI Purchase tracking failed:', capiErr);
+    }
 
     return NextResponse.json(order);
   } catch (error) {

@@ -1,8 +1,8 @@
 // types/facebook-pixel.d.ts
 declare global {
     interface Window {
-      fbq: (action: string, eventName: string, parameters?: Record<string, unknown>) => void;
-      _fbq?: (action: string, eventName: string, parameters?: Record<string, unknown>) => void;
+      fbq: (action: string, eventName: string, parameters?: Record<string, unknown>, options?: Record<string, unknown>) => void;
+      _fbq?: (action: string, eventName: string, parameters?: Record<string, unknown>, options?: Record<string, unknown>) => void;
       gtag: (command: string, ...args: unknown[]) => void;
       dataLayer: unknown[];
     }
