@@ -24,7 +24,7 @@ export default function BuyOneGetOneFreeClient() {
   const [selectedCategory2, setSelectedCategory2] = useState<string>('All');
   const [addedProducts, setAddedProducts] = useState<Set<number>>(new Set());
 
-  const OFFER_PRICE = 399;
+  const OFFER_PRICE = 499;
 
   const { data, isLoading } = useQuery<ExtendedProduct[]>({
     queryKey: ['buy1get1-products'],
@@ -143,7 +143,7 @@ export default function BuyOneGetOneFreeClient() {
         <a href="#selection-section" className="block cursor-pointer">
           <img
             src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/Artboard-2-copy.jpg-1.jpeg"
-            alt="Buy 1 Get 1 FREE @ ₹399 - Eda Perfumes"
+            alt="Buy 1 Get 2 FREE @ ₹499 - Eda Perfumes"
             className="w-full h-auto object-cover"
             loading="eager"
           />
