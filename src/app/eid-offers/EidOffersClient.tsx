@@ -104,30 +104,36 @@ export default function EidOffersClient() {
     if (!isComplete || addedToCart) return;
     setAddedToCart(true);
 
-    // Oudh Shukran keeps its original price, remaining bundle amount goes to selected 100ml
+    // Split bundle price proportionally, but store original prices in regular_price for display
     const suffreenPrice = Number(oudSuffreen.price) || 0;
-    const mainShare = BUNDLE_PRICE - suffreenPrice;
+    const mainPrice = Number(selected100ml.price) || 0;
+    const totalActual = suffreenPrice + mainPrice;
+
+    const suffreenShare = totalActual > 0
+      ? Math.round(BUNDLE_PRICE * suffreenPrice / totalActual)
+      : Math.round(BUNDLE_PRICE / 2);
+    const mainShare = BUNDLE_PRICE - suffreenShare;
 
     // Remove any individually-added versions of these products first
     removeFromCart(oudSuffreen.id);
     removeFromCart(selected100ml.id);
     removeFromCart(selected10ml.id);
 
-    // Add Oudh Shukran at original price
+    // Add Oudh Shukran (price for totals, regular_price for display)
     addToCart({
       id: -(oudSuffreen.id),
       name: `${oudSuffreen.name} (Eid Bundle)`,
-      price: oudSuffreen.price,
-      regular_price: oudSuffreen.regular_price || oudSuffreen.price,
+      price: suffreenShare.toString(),
+      regular_price: oudSuffreen.price,
       images: oudSuffreen.images?.map((img: { src: string }) => ({ src: img.src })) || [],
     });
 
-    // Add selected 100ml with remaining bundle amount
+    // Add selected 100ml (price for totals, regular_price for display)
     addToCart({
       id: -(selected100ml.id),
       name: `${selected100ml.name} (Eid Bundle)`,
       price: mainShare.toString(),
-      regular_price: selected100ml.regular_price || selected100ml.price,
+      regular_price: selected100ml.price,
       images: selected100ml.images?.map((img: { src: string }) => ({ src: img.src })) || [],
     });
 

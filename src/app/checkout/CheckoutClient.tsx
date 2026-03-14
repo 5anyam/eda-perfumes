@@ -841,7 +841,7 @@ export default function Checkout(): React.ReactElement {
                             </div>
                           </div>
                           <span className="text-sm font-medium text-gray-900 ml-4">
-                            ₹{(parseFloat(item.price) * item.quantity).toFixed(0)}
+                            ₹{((hasOfferItems && item.regular_price && parseFloat(item.regular_price) > 0 ? parseFloat(item.regular_price) : parseFloat(item.price)) * item.quantity).toFixed(0)}
                           </span>
                         </div>
                       ))}

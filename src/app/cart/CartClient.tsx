@@ -115,9 +115,9 @@ export default function CartClient() {
                               {/* Price */}
                               <div className="flex flex-col">
                                 <div className="text-base font-light text-gray-900">
-                                  ₹{parseFloat(item.price).toLocaleString()}
+                                  ₹{(isOfferCart && hasDiscount ? parseFloat(itemRegularPrice) : parseFloat(item.price)).toLocaleString()}
                                 </div>
-                                {hasDiscount && (
+                                {hasDiscount && !isOfferCart && (
                                   <div className="flex items-center gap-2">
                                     <span className="text-xs text-gray-500 line-through font-light">
                                       ₹{parseFloat(itemRegularPrice).toLocaleString()}
@@ -178,7 +178,7 @@ export default function CartClient() {
                               <div className="flex justify-between">
                                 <span className="text-xs text-gray-600 font-light uppercase tracking-widest">Subtotal</span>
                                 <span className="text-base font-light text-gray-900">
-                                  ₹{(parseFloat(item.price) * item.quantity).toLocaleString()}
+                                  ₹{((isOfferCart && hasDiscount ? parseFloat(itemRegularPrice) : parseFloat(item.price)) * item.quantity).toLocaleString()}
                                 </span>
                               </div>
                             </div>
