@@ -19,8 +19,8 @@ const BUNDLE_PRICE = 899;
 
 export default function EidOffersClient() {
   const router = useRouter();
-  const { addToCart } = useCart();
-  const [selected100ml, setSelected100ml] = useState<ExtendedProduct[]>([]);
+  const { addToCart, removeFromCart } = useCart();
+  const [selected100ml, setSelected100ml] = useState<ExtendedProduct | null>(null);
   const [selected10ml, setSelected10ml] = useState<ExtendedProduct | null>(null);
   const [addedToCart, setAddedToCart] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -81,11 +81,10 @@ export default function EidOffersClient() {
   };
 
   const handleSelect100ml = (product: ExtendedProduct) => {
-    const alreadySelected = selected100ml.find(p => p.id === product.id);
-    if (alreadySelected) {
-      setSelected100ml(selected100ml.filter(p => p.id !== product.id));
-    } else if (selected100ml.length < 2) {
-      setSelected100ml([...selected100ml, product]);
+    if (selected100ml?.id === product.id) {
+      setSelected100ml(null);
+    } else {
+      setSelected100ml(product);
     }
     setAddedToCart(false);
   };
@@ -99,60 +98,53 @@ export default function EidOffersClient() {
     setAddedToCart(false);
   };
 
-  const isComplete = oudSuffreen && selected100ml.length === 2 && selected10ml;
+  const isComplete = oudSuffreen && selected100ml && selected10ml;
 
   const handleAddToCart = () => {
     if (!isComplete || addedToCart) return;
     setAddedToCart(true);
 
-    // Split bundle price proportionally between Oudh Shukran and 2 selected 100ml
+    // Split bundle price proportionally between Oudh Shukran and selected 100ml
     const suffreenPrice = Number(oudSuffreen.price) || 0;
-    const main1Price = Number(selected100ml[0].price) || 0;
-    const main2Price = Number(selected100ml[1].price) || 0;
-    const totalActual = suffreenPrice + main1Price + main2Price;
+    const mainPrice = Number(selected100ml.price) || 0;
+    const totalActual = suffreenPrice + mainPrice;
 
     const suffreenShare = totalActual > 0
       ? Math.round(BUNDLE_PRICE * suffreenPrice / totalActual)
-      : Math.round(BUNDLE_PRICE / 3);
-    const main1Share = totalActual > 0
-      ? Math.round(BUNDLE_PRICE * main1Price / totalActual)
-      : Math.round(BUNDLE_PRICE / 3);
-    const main2Share = BUNDLE_PRICE - suffreenShare - main1Share;
+      : Math.round(BUNDLE_PRICE / 2);
+    const mainShare = BUNDLE_PRICE - suffreenShare;
 
-    // Add Oudh Shukran
+    // Remove any individually-added versions of these products first
+    removeFromCart(oudSuffreen.id);
+    removeFromCart(selected100ml.id);
+    removeFromCart(selected10ml.id);
+
+    // Add bundle items with negative IDs so checkout converts via Math.abs()
+    // Add Oudh Shukran (Eid Bundle)
     addToCart({
-      id: oudSuffreen.id,
-      name: oudSuffreen.name,
+      id: -(oudSuffreen.id),
+      name: `${oudSuffreen.name} (Eid Bundle)`,
       price: suffreenShare.toString(),
       regular_price: oudSuffreen.regular_price || oudSuffreen.price,
-      images: oudSuffreen.images?.map(img => ({ src: img.src })) || [],
+      images: oudSuffreen.images?.map((img: { src: string }) => ({ src: img.src })) || [],
     });
 
-    // Add selected 100ml #1
+    // Add selected 100ml (Eid Bundle)
     addToCart({
-      id: selected100ml[0].id,
-      name: selected100ml[0].name,
-      price: main1Share.toString(),
-      regular_price: selected100ml[0].regular_price || selected100ml[0].price,
-      images: selected100ml[0].images?.map(img => ({ src: img.src })) || [],
+      id: -(selected100ml.id),
+      name: `${selected100ml.name} (Eid Bundle)`,
+      price: mainShare.toString(),
+      regular_price: selected100ml.regular_price || selected100ml.price,
+      images: selected100ml.images?.map((img: { src: string }) => ({ src: img.src })) || [],
     });
 
-    // Add selected 100ml #2
-    addToCart({
-      id: selected100ml[1].id,
-      name: selected100ml[1].name,
-      price: main2Share.toString(),
-      regular_price: selected100ml[1].regular_price || selected100ml[1].price,
-      images: selected100ml[1].images?.map(img => ({ src: img.src })) || [],
-    });
-
-    // Add selected 10ml as FREE
+    // Add selected 10ml as FREE (Eid Bundle)
     addToCart({
       id: -(selected10ml.id),
       name: `${selected10ml.name} (FREE Gift)`,
       price: '0',
       regular_price: selected10ml.regular_price || selected10ml.price,
-      images: selected10ml.images?.map(img => ({ src: img.src })) || [],
+      images: selected10ml.images?.map((img: { src: string }) => ({ src: img.src })) || [],
     });
 
     router.push('/cart');
@@ -160,7 +152,7 @@ export default function EidOffersClient() {
 
   const totalOriginalPrice = () => {
     let total = Number(oudSuffreen?.price) || 0;
-    selected100ml.forEach(p => { total += Number(p.price) || 0; });
+    if (selected100ml) total += Number(selected100ml.price) || 0;
     if (selected10ml) total += Number(selected10ml.price) || 0;
     return total;
   };
@@ -189,7 +181,7 @@ export default function EidOffersClient() {
       <section className="w-full">
         <a href="#selection-section" className="block cursor-pointer">
           <img
-            src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/eidoffer.jpeg"
+            src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/Artboard-2.jpg"
             alt="Eid Special Offer @₹899 - EDA Perfumes"
             className="w-full h-auto object-cover"
             loading="eager"
@@ -236,7 +228,7 @@ export default function EidOffersClient() {
                       id: oudSuffreen.id,
                       name: oudSuffreen.name,
                       price: oudSuffreen.price,
-                      images: oudSuffreen.images?.map(img => ({ src: img.src })) || [],
+                      images: oudSuffreen.images?.map((img: { src: string }) => ({ src: img.src })) || [],
                       quantity: 1,
                     });
                     setAddedProducts(prev => new Set(prev).add(oudSuffreen.id));
@@ -265,17 +257,17 @@ export default function EidOffersClient() {
       </section>
 
       {/* Step 2: Select 1 x 100ml */}
-      <section className="py-8 px-4">
+      <section id="selection-section" className="py-8 px-4">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
             <div className="flex items-center gap-3 mb-6">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selected100ml.length === 2 ? 'bg-green-500' : 'bg-emerald-500'}`}>
-                {selected100ml.length === 2 ? <Check className="w-5 h-5" /> : '2'}
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${selected100ml ? 'bg-green-500' : 'bg-emerald-500'}`}>
+                {selected100ml ? <Check className="w-5 h-5" /> : '2'}
               </div>
               <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Choose 2 Signature Perfumes (100ml)
-                <span className={`ml-2 text-lg ${selected100ml.length === 2 ? 'text-green-600' : 'text-emerald-600'}`}>
-                  ({selected100ml.length}/2 selected)
+                Choose 1 Signature Perfume (100ml)
+                <span className={`ml-2 text-lg ${selected100ml ? 'text-green-600' : 'text-emerald-600'}`}>
+                  ({selected100ml ? '1/1 selected' : '0/1 selected'})
                 </span>
               </h2>
             </div>
@@ -301,8 +293,8 @@ export default function EidOffersClient() {
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {filteredMainPerfumes.map((product) => {
-                const isSelected = selected100ml.some(p => p.id === product.id);
-                const isDisabled = selected100ml.length >= 2 && !isSelected;
+                const isSelected = selected100ml?.id === product.id;
+                const isDisabled = selected100ml && !isSelected;
 
                 return (
                   <div
@@ -462,36 +454,20 @@ export default function EidOffersClient() {
                 <Check className="w-5 h-5 text-green-500" />
               </div>
 
-              {/* Selected 100ml #1 */}
+              {/* Selected 100ml */}
               <div className="flex items-center gap-4 p-3 bg-emerald-50 rounded-lg">
                 <div className="w-16 h-16 bg-emerald-100 rounded-lg overflow-hidden flex-shrink-0">
-                  {selected100ml[0] && (
-                    <img src={selected100ml[0].images?.[0]?.src || '/placeholder.png'} alt="" className="w-full h-full object-cover" />
+                  {selected100ml && (
+                    <img src={selected100ml.images?.[0]?.src || '/placeholder.png'} alt="" className="w-full h-full object-cover" />
                   )}
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-900">
-                    {selected100ml[0] ? selected100ml[0].name : 'Select 1st signature perfume'}
+                    {selected100ml ? selected100ml.name : 'Select a signature perfume'}
                   </p>
                   <p className="text-xs text-gray-500">100ml Bottle</p>
                 </div>
-                {selected100ml[0] && <Check className="w-5 h-5 text-green-500" />}
-              </div>
-
-              {/* Selected 100ml #2 */}
-              <div className="flex items-center gap-4 p-3 bg-emerald-50 rounded-lg">
-                <div className="w-16 h-16 bg-emerald-100 rounded-lg overflow-hidden flex-shrink-0">
-                  {selected100ml[1] && (
-                    <img src={selected100ml[1].images?.[0]?.src || '/placeholder.png'} alt="" className="w-full h-full object-cover" />
-                  )}
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">
-                    {selected100ml[1] ? selected100ml[1].name : 'Select 2nd signature perfume'}
-                  </p>
-                  <p className="text-xs text-gray-500">100ml Bottle</p>
-                </div>
-                {selected100ml[1] && <Check className="w-5 h-5 text-green-500" />}
+                {selected100ml && <Check className="w-5 h-5 text-green-500" />}
               </div>
 
               {/* Selected 10ml */}
@@ -513,7 +489,7 @@ export default function EidOffersClient() {
 
             <div className="border-t border-gray-200 pt-4 mb-6">
               <div className="flex justify-between text-sm text-gray-500 mb-2">
-                <span>Original Price (4 perfumes):</span>
+                <span>Original Price (3 perfumes):</span>
                 <span className="line-through">₹{totalOriginalPrice().toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-sm text-green-600 mb-2">
@@ -557,10 +533,10 @@ export default function EidOffersClient() {
 
             {!isComplete && (
               <p className="text-center text-sm text-gray-500 mt-4">
-                {selected100ml.length < 2 && !selected10ml
-                  ? `Select ${2 - selected100ml.length} more signature perfume${2 - selected100ml.length > 1 ? 's' : ''} and 1 free travel size`
-                  : selected100ml.length < 2
-                  ? `Select ${2 - selected100ml.length} more signature perfume${2 - selected100ml.length > 1 ? 's' : ''} (100ml)`
+                {!selected100ml && !selected10ml
+                  ? 'Select 1 signature perfume and 1 free travel size'
+                  : !selected100ml
+                  ? 'Select 1 signature perfume (100ml)'
                   : 'Select 1 free travel size (10ml)'}
               </p>
             )}
