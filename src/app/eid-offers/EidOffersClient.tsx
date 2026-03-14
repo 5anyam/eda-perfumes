@@ -228,8 +228,8 @@ export default function EidOffersClient() {
                       id: oudSuffreen.id,
                       name: oudSuffreen.name,
                       price: oudSuffreen.price,
+                      regular_price: oudSuffreen.regular_price || oudSuffreen.price,
                       images: oudSuffreen.images?.map((img: { src: string }) => ({ src: img.src })) || [],
-                      quantity: 1,
                     });
                     setAddedProducts(prev => new Set(prev).add(oudSuffreen.id));
                   }}
