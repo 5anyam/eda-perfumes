@@ -17,7 +17,7 @@ export default function BuyOneGetOneFreeClient() {
   const router = useRouter();
   const { addToCart } = useCart();
   const [selectedMain, setSelectedMain] = useState<ExtendedProduct | null>(null);
-  const [selectedSecond, setSelectedSecond] = useState<ExtendedProduct | null>(null);
+  const [selectedSecond, setSelectedSecond] = useState<ExtendedProduct[]>([]);
   const [addedToCart, setAddedToCart] = useState(false);
   const [step, setStep] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -83,15 +83,20 @@ export default function BuyOneGetOneFreeClient() {
   };
 
   const handleSecondSelect = (product: ExtendedProduct) => {
-    setSelectedSecond(product);
+    const alreadySelected = selectedSecond.find(p => p.id === product.id);
+    if (alreadySelected) {
+      setSelectedSecond(selectedSecond.filter(p => p.id !== product.id));
+    } else if (selectedSecond.length < 2) {
+      setSelectedSecond([...selectedSecond, product]);
+    }
     setAddedToCart(false);
   };
 
   const handleAddToCart = () => {
-    if (!selectedMain || !selectedSecond || addedToCart) return;
-    setAddedToCart(true); // Set immediately to prevent double-clicks
+    if (!selectedMain || selectedSecond.length !== 2 || addedToCart) return;
+    setAddedToCart(true);
 
-    // Add 100ml at bundle price ₹399, free 10ml at ₹0
+    // Add 100ml at bundle price
     addToCart({
       id: selectedMain.id,
       name: selectedMain.name,
@@ -99,12 +104,16 @@ export default function BuyOneGetOneFreeClient() {
       regular_price: selectedMain.regular_price || selectedMain.price,
       images: selectedMain.images?.map(img => ({ src: img.src })) || [],
     });
-    addToCart({
-      id: -(selectedSecond.id), // Negative ID to avoid collision with regular products
-      name: `${selectedSecond.name} (FREE Gift)`,
-      price: '0',
-      regular_price: selectedSecond.regular_price || selectedSecond.price,
-      images: selectedSecond.images?.map(img => ({ src: img.src })) || [],
+
+    // Add both 10ml as FREE
+    selectedSecond.forEach((product, index) => {
+      addToCart({
+        id: -(product.id + index * 100000),
+        name: `${product.name} (FREE Gift)`,
+        price: '0',
+        regular_price: product.regular_price || product.price,
+        images: product.images?.map(img => ({ src: img.src })) || [],
+      });
     });
 
     router.push('/cart');
@@ -112,12 +121,12 @@ export default function BuyOneGetOneFreeClient() {
 
   const resetSelection = () => {
     setSelectedMain(null);
-    setSelectedSecond(null);
+    setSelectedSecond([]);
     setStep(1);
     setAddedToCart(false);
   };
 
-  const isComplete = selectedMain && selectedSecond;
+  const isComplete = selectedMain && selectedSecond.length === 2;
 
   if (isLoading) {
     return (
@@ -133,7 +142,7 @@ export default function BuyOneGetOneFreeClient() {
       <section className="w-full">
         <a href="#selection-section" className="block cursor-pointer">
           <img
-            src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/buy1get1banneerreda.jpeg"
+            src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/Artboard-2-copy.jpg-1.jpeg"
             alt="Buy 1 Get 1 FREE @ ₹399 - Eda Perfumes"
             className="w-full h-auto object-cover"
             loading="eager"
@@ -163,13 +172,13 @@ export default function BuyOneGetOneFreeClient() {
             {/* Step 2 */}
             <div className="flex items-center gap-3">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
-                selectedSecond ? 'bg-teal-500 text-white' : step === 2 ? 'bg-teal-500 text-white' : 'bg-gray-200 text-gray-500'
+                selectedSecond.length === 2 ? 'bg-teal-500 text-white' : step === 2 ? 'bg-teal-500 text-white' : 'bg-gray-200 text-gray-500'
               }`}>
-                {selectedSecond ? <Check className="w-5 h-5" /> : '2'}
+                {selectedSecond.length === 2 ? <Check className="w-5 h-5" /> : '2'}
               </div>
               <div className="hidden md:block">
-                <p className="font-semibold text-gray-800">Free Travel Size</p>
-                <p className="text-xs text-gray-500">10ml FREE</p>
+                <p className="font-semibold text-gray-800">2 Free Travel Sizes</p>
+                <p className="text-xs text-gray-500">10ml x 2 FREE</p>
               </div>
             </div>
           </div>
@@ -180,8 +189,12 @@ export default function BuyOneGetOneFreeClient() {
               {selectedMain ? `✓ ${selectedMain.name.split(' ').slice(0, 3).join(' ')}` : '○ Select first perfume'}
             </span>
             <span className="text-gray-300">+</span>
-            <span className={selectedSecond ? 'text-teal-600 font-medium' : 'text-gray-400'}>
-              {selectedSecond ? `✓ ${selectedSecond.name.split(' ').slice(0, 3).join(' ')} (FREE)` : '○ Select free 10ml'}
+            <span className={selectedSecond.length > 0 ? 'text-teal-600 font-medium' : 'text-gray-400'}>
+              {selectedSecond.length === 2
+                ? `✓ ${selectedSecond[0].name.split(' ').slice(0, 2).join(' ')} + ${selectedSecond[1].name.split(' ').slice(0, 2).join(' ')} (FREE)`
+                : selectedSecond.length === 1
+                ? `✓ ${selectedSecond[0].name.split(' ').slice(0, 3).join(' ')} (1/2 FREE)`
+                : '○ Select 2 free 10ml'}
             </span>
           </div>
         </div>
@@ -272,7 +285,7 @@ export default function BuyOneGetOneFreeClient() {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
                 <Gift className="w-6 h-6 text-teal-500" />
-                Step 2: Choose Your FREE Travel Size (10ml)
+                Step 2: Choose 2 FREE Travel Sizes (10ml)
               </h2>
               <button
                 onClick={() => { setStep(1); setSelectedMain(null); }}
@@ -325,7 +338,13 @@ export default function BuyOneGetOneFreeClient() {
                 <div
                   key={product.id}
                   onClick={() => handleSecondSelect(product)}
-                  className="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl border-2 border-transparent hover:border-teal-400"
+                  className={`bg-white rounded-xl shadow-md overflow-hidden cursor-pointer transform transition-all duration-300 ${
+                    selectedSecond.some(p => p.id === product.id)
+                      ? 'ring-2 ring-green-500 shadow-lg scale-[1.02]'
+                      : selectedSecond.length >= 2
+                      ? 'opacity-50 cursor-not-allowed'
+                      : 'hover:scale-105 hover:shadow-xl border-2 border-transparent hover:border-teal-400'
+                  }`}
                 >
                   <div className="relative aspect-square bg-gray-100">
                     {product.images && product.images[0] && (
@@ -335,7 +354,12 @@ export default function BuyOneGetOneFreeClient() {
                         className="w-full h-full object-cover"
                       />
                     )}
-                    <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    {selectedSecond.some(p => p.id === product.id) ? (
+                      <div className="absolute top-2 right-2 bg-green-500 text-white p-1.5 rounded-full">
+                        <Check className="w-3 h-3" />
+                      </div>
+                    ) : null}
+                    <div className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                       FREE
                     </div>
                   </div>
@@ -348,12 +372,12 @@ export default function BuyOneGetOneFreeClient() {
                       <button
                         onClick={(e) => { handleQuickAddToCart(e, product); handleSecondSelect(product); }}
                         className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                          addedProducts.has(product.id)
+                          selectedSecond.some(p => p.id === product.id)
                             ? 'bg-green-500 text-white'
                             : 'bg-teal-500 text-white hover:bg-teal-600'
                         }`}
                       >
-                        {addedProducts.has(product.id) ? (
+                        {selectedSecond.some(p => p.id === product.id) ? (
                           <>
                             <Check className="w-3 h-3" />
                             Added
@@ -404,20 +428,39 @@ export default function BuyOneGetOneFreeClient() {
                   <Check className="w-6 h-6 text-teal-500" />
                 </div>
 
-                {/* Second Perfume */}
-                <div className="flex items-center gap-4 p-4 bg-teal-50 rounded-xl mb-6">
+                {/* Free 10ml #1 */}
+                <div className="flex items-center gap-4 p-4 bg-teal-50 rounded-xl mb-4">
                   <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
-                    {selectedSecond.images && selectedSecond.images[0] && (
+                    {selectedSecond[0]?.images && selectedSecond[0].images[0] && (
                       <img
-                        src={selectedSecond.images[0].src}
-                        alt={selectedSecond.name}
+                        src={selectedSecond[0].images[0].src}
+                        alt={selectedSecond[0].name}
                         className="w-full h-full object-cover"
                       />
                     )}
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs text-green-600 font-semibold mb-1">FREE TRAVEL SIZE</p>
-                    <h3 className="font-semibold text-gray-800">{selectedSecond.name}</h3>
+                    <p className="text-xs text-green-600 font-semibold mb-1">FREE TRAVEL SIZE #1</p>
+                    <h3 className="font-semibold text-gray-800">{selectedSecond[0]?.name}</h3>
+                    <p className="text-sm text-green-600 font-medium">10ml - FREE!</p>
+                  </div>
+                  <Check className="w-6 h-6 text-teal-500" />
+                </div>
+
+                {/* Free 10ml #2 */}
+                <div className="flex items-center gap-4 p-4 bg-teal-50 rounded-xl mb-6">
+                  <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                    {selectedSecond[1]?.images && selectedSecond[1].images[0] && (
+                      <img
+                        src={selectedSecond[1].images[0].src}
+                        alt={selectedSecond[1].name}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs text-green-600 font-semibold mb-1">FREE TRAVEL SIZE #2</p>
+                    <h3 className="font-semibold text-gray-800">{selectedSecond[1]?.name}</h3>
                     <p className="text-sm text-green-600 font-medium">10ml - FREE!</p>
                   </div>
                   <Check className="w-6 h-6 text-teal-500" />
@@ -430,7 +473,7 @@ export default function BuyOneGetOneFreeClient() {
                     <span className="text-gray-400 line-through">₹{selectedMain.price}</span>
                   </div>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-gray-600">Free Travel Size (10ml)</span>
+                    <span className="text-gray-600">2 Free Travel Sizes (10ml)</span>
                     <span className="text-green-600 font-medium">FREE</span>
                   </div>
                   <div className="flex justify-between items-center text-xl font-bold border-t pt-4">
