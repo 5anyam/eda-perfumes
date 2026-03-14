@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 const BLOG_POSTS = [
   {
     title: 'Heritage in Every Drop: Arabic Attar Perfume for Men for Eid 2026',
-    slug: 'arabic-attar-perfume-men-for-eid-2026',
+    slug: 'arabic-attar-perfume-for-men-for-eid-2026',
     excerpt:
       'This Eid 2026, elevate your presence with Arabic attar perfumes for men from EDA Perfumes. Enjoy heritage, luxury, and long-lasting fragrance in every drop.',
     image:
@@ -146,7 +146,7 @@ export default function BlogListClient() {
               </Link>
 
               {/* Content */}
-              <div className="p-4 sm:p-5 md:p-6">
+              <div className="px-3 sm:px-4 md:px-5 py-3 sm:py-4">
                 {/* Tags */}
                 <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-2 sm:mb-3">
                   {post.tags.map((tag) => (
