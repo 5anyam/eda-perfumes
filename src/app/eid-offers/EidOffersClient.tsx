@@ -183,38 +183,67 @@ export default function EidOffersClient() {
         </a>
       </section>
 
-      {/* Static Oudh Shukran Section */}
+      {/* Oudh Shukran Section */}
       <section className="py-8 px-4">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white font-medium">
-                <Check className="w-5 h-5" />
-              </div>
-              <h2 className="text-2xl md:text-3xl font-light text-gray-900">
-                Oudh Shukran (100ml)
-                <span className="text-emerald-600 ml-2 text-lg">Included</span>
+            <div className="text-center mb-6">
+              <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-2">
+                Oudh Shukran — Our Signature Oud Perfume
               </h2>
+              <p className="text-gray-500 text-sm max-w-lg mx-auto">
+                A luxurious 100ml Eau de Parfum with rich oud notes. Buy it individually or get it FREE in the Eid bundle below.
+              </p>
             </div>
 
-            <div className="max-w-sm mx-auto bg-white rounded-2xl overflow-hidden shadow-lg ring-2 ring-emerald-500">
+            <div className="max-w-md mx-auto bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-200">
               <div className="relative aspect-square bg-gray-50">
                 <img
                   src={oudSuffreen.images?.[0]?.src || '/placeholder.png'}
                   alt={oudSuffreen.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-3 left-3 bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                  Included in Bundle
-                </div>
                 <div className="absolute bottom-3 left-3 bg-black/70 text-white px-2 py-1 rounded text-xs">
-                  100ml
+                  100ml EDP
                 </div>
               </div>
-              <div className="p-5 text-center">
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">{oudSuffreen.name}</h3>
-                <p className="text-sm text-gray-500 line-through">₹{Number(oudSuffreen.price).toLocaleString()}</p>
-                <p className="text-emerald-600 font-bold text-sm mt-1">Part of Eid Bundle</p>
+              <div className="p-5">
+                <h3 className="text-lg font-semibold text-gray-900 text-center mb-3">{oudSuffreen.name}</h3>
+
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <span className="text-2xl font-bold text-gray-900">₹{Number(oudSuffreen.price).toLocaleString()}</span>
+                </div>
+
+                {/* Buy individually */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    addToCart({
+                      id: oudSuffreen.id,
+                      name: oudSuffreen.name,
+                      price: oudSuffreen.price,
+                      images: oudSuffreen.images?.map(img => ({ src: img.src })) || [],
+                      quantity: 1,
+                    });
+                    setAddedProducts(prev => new Set(prev).add(oudSuffreen.id));
+                  }}
+                  className={`w-full py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+                    addedProducts.has(oudSuffreen.id)
+                      ? 'bg-emerald-100 text-emerald-700 border border-emerald-300'
+                      : 'bg-black text-white hover:bg-gray-800'
+                  }`}
+                >
+                  <ShoppingCart className="w-4 h-4" />
+                  {addedProducts.has(oudSuffreen.id) ? 'Added to Cart' : 'Add to Cart'}
+                </button>
+
+                {/* Or get free in bundle */}
+                <div className="mt-3 text-center">
+                  <div className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-2 rounded-full text-xs font-medium">
+                    <Gift className="w-3.5 h-3.5" />
+                    Or get it FREE in the Eid Bundle @ ₹899 — select perfumes below
+                  </div>
+                </div>
               </div>
             </div>
           </ScrollReveal>
