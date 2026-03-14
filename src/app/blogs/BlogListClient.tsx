@@ -5,6 +5,16 @@ import { useSearchParams } from 'next/navigation';
 
 const BLOG_POSTS = [
   {
+    title: 'Heritage in Every Drop: Arabic Attar Perfume for Men for Eid 2026',
+    slug: 'arabic-attar-perfume-men-for-eid-2026',
+    excerpt:
+      'This Eid 2026, elevate your presence with Arabic attar perfumes for men from EDA Perfumes. Enjoy heritage, luxury, and long-lasting fragrance in every drop.',
+    image:
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/arabic-attar-perfumes-for-ramadan.jpeg',
+    date: 'March 2026',
+    tags: ['Arabic Attar Perfumes for Men', 'Attar Perfume For Men', 'Attar Perfumes For Eid'],
+  },
+  {
     title: 'Arabic Attar Perfumes for Ramadan Evening Gatherings and Iftar',
     slug: 'arabic-attar-perfumes-for-ramadan-evenings',
     excerpt:

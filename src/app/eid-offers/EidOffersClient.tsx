@@ -175,7 +175,7 @@ export default function EidOffersClient() {
       <section className="w-full">
         <a href="#selection-section" className="block cursor-pointer">
           <img
-            src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/EDA-899-Static-ad-12-mar.jpg.jpeg"
+            src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/eid-offer.jpeg"
             alt="Eid Special Offer @₹899 - EDA Perfumes"
             className="w-full h-auto object-cover"
             loading="eager"

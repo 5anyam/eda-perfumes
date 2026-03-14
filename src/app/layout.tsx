@@ -9,6 +9,7 @@ import AnnouncementBar from '../../components/anouncement';
 import { Suspense } from 'react';
 import Whatsapp from '../../components/Whatsapp';
 import CartDrawer from '../../components/CartDrawer';
+import StickyCheckoutBar from '../../components/StickyCheckoutBar';
 
 
 export const metadata = {
@@ -245,6 +246,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
             <Whatsapp/>
             <CartDrawer />
+            <StickyCheckoutBar />
 
 
             {/* Facebook Pixel Route Tracking */}

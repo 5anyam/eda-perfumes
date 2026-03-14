@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import React, { useState, useEffect, useRef, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "../../../lib/cart";
 import { toast } from "../../../hooks/use-toast";
 import { useFacebookPixel } from "../../../hooks/useFacebookPixel";
 import type { CartItem } from "../../../lib/facebook-pixel";
 import Script from "next/script";
-import { Gift } from "lucide-react";
+import { Gift, ChevronDown, ChevronUp, ShieldCheck, Truck, Lock, Package } from "lucide-react";
 
 const RAZORPAY_CONFIG = {
   KEY_ID: "rzp_live_ROhFH4ehWnRMKy",
@@ -75,7 +75,7 @@ interface RazorpayOptions {
 
 declare global {
   interface Window {
-    Razorpay?: new (options: RazorpayOptions) => { 
+    Razorpay?: new (options: RazorpayOptions) => {
       open: () => void;
       on: (event: string, callback: (response: RazorpayFailureResponse) => void) => void;
     };
@@ -146,6 +146,10 @@ export default function Checkout(): React.ReactElement {
   const { trackInitiateCheckout, trackAddPaymentInfo, trackPurchase } = useFacebookPixel();
 
   const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
+  const [orderSummaryOpen, setOrderSummaryOpen] = useState(false);
+
+  const deliveryRef = useRef<HTMLDivElement>(null);
+  const paymentRef = useRef<HTMLDivElement>(null);
 
   // Simple pricing calculation - no bulk discounts
   const total = items.reduce((sum, item) => sum + parseFloat(item.price) * item.quantity, 0);
@@ -172,27 +176,22 @@ export default function Checkout(): React.ReactElement {
 
     if (freeItems.length === 0) return { valid: true, error: '' };
 
-    // Total free quantity should not exceed total paid quantity
     const totalPaidQty = paidItems.reduce((sum, i) => sum + i.quantity, 0);
     const totalFreeQty = freeItems.reduce((sum, i) => sum + i.quantity, 0);
     if (totalFreeQty > totalPaidQty * freeItems.length) {
       return { valid: false, error: 'Cart has invalid free item quantities. Please clear cart and re-add from offer page.' };
     }
 
-    // Must have at least one paid item if there are free items
     if (paidItems.length === 0 && freeItems.length > 0) {
       return { valid: false, error: 'Free gifts require at least one paid item.' };
     }
 
-    // Validate offer price tiers: paid total should match known offer prices
     const paidTotal = paidItems.reduce((sum, i) => sum + parseFloat(i.price) * i.quantity, 0);
-    const validOfferTotals = [399, 899, 1299]; // Buy1, Buy2, Buy3 bundle prices
+    const validOfferTotals = [399, 899, 1299];
     const isOfferPrice = validOfferTotals.some(t => Math.abs(paidTotal - t) < 1);
     const isMultipleOfOffer = validOfferTotals.some(t => paidTotal > 0 && Math.abs(paidTotal % t) < 1);
 
     if (!isOfferPrice && !isMultipleOfOffer) {
-      // Allow normal (non-offer) purchases to pass through
-      // Only block if there are free items with a suspicious total
       if (freeItems.length > 0 && paidTotal < 399) {
         return { valid: false, error: 'Invalid offer bundle. Please re-add items from the offer page.' };
       }
@@ -202,7 +201,7 @@ export default function Checkout(): React.ReactElement {
   };
 
   const [form, setForm] = useState<FormData>({
-    name: "", email: "", phone: "", whatsapp: "", address: "", 
+    name: "", email: "", phone: "", whatsapp: "", address: "",
     pincode: "", city: "", state: "", notes: "",
   });
   const [loading, setLoading] = useState<boolean>(false);
@@ -210,7 +209,6 @@ export default function Checkout(): React.ReactElement {
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [razorpayLoaded, setRazorpayLoaded] = useState<boolean>(false);
 
-  // Check if Razorpay is already loaded (e.g. from previous page visit / client-side nav)
   useEffect(() => {
     if (typeof window !== 'undefined' && window.Razorpay) {
       setRazorpayLoaded(true);
@@ -246,8 +244,7 @@ export default function Checkout(): React.ReactElement {
     }
 
     return { valid: false, discount: 0, message: "Invalid coupon code" };
-};
-
+  };
 
   const handleApplyCoupon = (): void => {
     if (!couponCode.trim()) {
@@ -320,9 +317,9 @@ export default function Checkout(): React.ReactElement {
 
     if (isValid && items.length > 0) {
       const cartItems: CartItem[] = items.map(item => ({
-        id: item.id, 
-        name: item.name, 
-        price: parseFloat(item.price), 
+        id: item.id,
+        name: item.name,
+        price: parseFloat(item.price),
         quantity: item.quantity
       }));
       trackAddPaymentInfo(cartItems, finalTotal);
@@ -361,6 +358,8 @@ export default function Checkout(): React.ReactElement {
         description: "Check all required fields",
         variant: "destructive",
       });
+      // Scroll to delivery section if errors
+      deliveryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return;
     }
 
@@ -410,7 +409,7 @@ export default function Checkout(): React.ReactElement {
           code: appliedCoupon.toLowerCase(),
           discount: couponDiscount.toString(),
         }] : [],
-        customer_note: form.notes + (form.notes ? '\n\n' : '') + 
+        customer_note: form.notes + (form.notes ? '\n\n' : '') +
           `WhatsApp: ${form.whatsapp}\n` +
           `Full Address: ${fullAddress}\n` +
           (totalFreeGifts > 0 ? `FREE GIFT: ${totalFreeGifts} x 10ml perfume${totalFreeGifts > 1 ? 's' : ''}` : 'Offer bundle order') +
@@ -433,9 +432,9 @@ export default function Checkout(): React.ReactElement {
       const wooOrder = await createWooCommerceOrder(orderData);
 
       const orderItems: CartItem[] = items.map(item => ({
-        id: item.id, 
-        name: item.name, 
-        price: parseFloat(item.price), 
+        id: item.id,
+        name: item.name,
+        price: parseFloat(item.price),
         quantity: item.quantity
       }));
       trackPurchase(orderItems, finalTotal, String(wooOrder.id), {
@@ -474,11 +473,11 @@ export default function Checkout(): React.ReactElement {
   const handlePaymentSuccess = async (wooOrder: WooCommerceOrder, response: RazorpayHandlerResponse): Promise<void> => {
     try {
       await updateWooCommerceOrderStatus(wooOrder.id, 'processing', response);
-  
+
       const orderItems: CartItem[] = items.map(item => ({
-        id: item.id, 
-        name: item.name, 
-        price: parseFloat(item.price), 
+        id: item.id,
+        name: item.name,
+        price: parseFloat(item.price),
         quantity: item.quantity
       }));
       trackPurchase(orderItems, finalTotal, response.razorpay_payment_id, {
@@ -492,23 +491,23 @@ export default function Checkout(): React.ReactElement {
       });
 
       clear();
-  
+
       toast({
         title: "Payment Successful",
         description: `Order #${wooOrder.id} confirmed. Redirecting...`,
       });
-  
+
       setTimeout(() => {
         router.push(`/order-confirmation?orderId=${response.razorpay_payment_id}&wcOrderId=${wooOrder.id}`);
       }, 1000);
-  
+
     } catch (error) {
       console.error('Error updating order:', error);
       toast({
         title: "Payment Completed",
         description: "Your payment was successful. We'll contact you soon.",
       });
-      
+
       setTimeout(() => {
         router.push(`/order-confirmation?orderId=${response.razorpay_payment_id}&wcOrderId=${wooOrder.id}`);
       }, 2000);
@@ -528,7 +527,7 @@ export default function Checkout(): React.ReactElement {
     }
 
     const errorMessage = response?.error?.description || "Payment was not successful";
-    
+
     toast({
       title: "Payment Failed",
       description: errorMessage,
@@ -608,6 +607,7 @@ export default function Checkout(): React.ReactElement {
           description: "Check all required fields",
           variant: "destructive",
         });
+        deliveryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
       }
 
@@ -657,7 +657,7 @@ export default function Checkout(): React.ReactElement {
           code: appliedCoupon.toLowerCase(),
           discount: couponDiscount.toString(),
         }] : [],
-        customer_note: form.notes + (form.notes ? '\n\n' : '') + 
+        customer_note: form.notes + (form.notes ? '\n\n' : '') +
           `WhatsApp: ${form.whatsapp}\n` +
           `Full Address: ${fullAddress}\n` +
           (totalFreeGifts > 0 ? `FREE GIFT: ${totalFreeGifts} x 10ml perfume${totalFreeGifts > 1 ? 's' : ''}` : 'Offer bundle order') +
@@ -692,13 +692,13 @@ export default function Checkout(): React.ReactElement {
             handlePaymentDismiss(wooOrder);
           },
         },
-        prefill: { 
-          name: form.name, 
-          email: form.email, 
-          contact: form.phone 
+        prefill: {
+          name: form.name,
+          email: form.email,
+          contact: form.phone
         },
-        theme: { 
-          color: RAZORPAY_CONFIG.THEME_COLOR 
+        theme: {
+          color: RAZORPAY_CONFIG.THEME_COLOR
         },
         retry: {
           enabled: true,
@@ -734,6 +734,9 @@ export default function Checkout(): React.ReactElement {
     }
   }
 
+  // Check which sections are filled
+  const isDeliveryFilled = form.name && form.email && form.phone && form.whatsapp && form.address && form.pincode && form.city && form.state;
+
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-white">
@@ -767,419 +770,463 @@ export default function Checkout(): React.ReactElement {
         }}
       />
 
-      <div className="min-h-screen bg-white pb-10">
-        <div className="max-w-2xl mx-auto py-12 px-4">
-
-          <div className="text-center mb-12 pb-8 border-b border-gray-200">
-            <h1 className="text-3xl lg:text-4xl font-light text-gray-900 mb-2 tracking-wide">
-              Checkout
-            </h1>
-            <p className="text-gray-600 text-sm font-light">Complete your purchase securely</p>
+      <div className="min-h-screen bg-gray-50 pb-32 lg:pb-10">
+        {/* Step Progress Bar */}
+        <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+          <div className="max-w-5xl mx-auto px-4 py-3">
+            <div className="flex items-center justify-center gap-2 sm:gap-4">
+              <div className="flex items-center gap-1.5">
+                <div className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center text-xs font-medium">1</div>
+                <span className="text-xs font-medium text-gray-900 hidden sm:inline">Cart</span>
+              </div>
+              <div className="w-6 sm:w-10 h-px bg-gray-300" />
+              <div className="flex items-center gap-1.5">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${isDeliveryFilled ? 'bg-black text-white' : 'bg-gray-200 text-gray-600'}`}>2</div>
+                <span className={`text-xs hidden sm:inline ${isDeliveryFilled ? 'font-medium text-gray-900' : 'text-gray-500'}`}>Details</span>
+              </div>
+              <div className="w-6 sm:w-10 h-px bg-gray-300" />
+              <div className="flex items-center gap-1.5">
+                <div className="w-6 h-6 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-xs font-medium">3</div>
+                <span className="text-xs text-gray-500 hidden sm:inline">Payment</span>
+              </div>
+            </div>
           </div>
+        </div>
 
-          <div className="border border-gray-200 p-6 mb-6">
-            <h2 className="text-base font-light text-gray-900 mb-6 uppercase tracking-widest text-xs">Order Summary</h2>
-            <div className="space-y-3">
-              {items.map((item) => (
-                <div key={item.id}>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <div>
-                      <span className="font-light text-sm text-gray-900">{item.name}</span>
-                      <span className="text-gray-500 text-xs ml-2">×{item.quantity}</span>
-                      {!hasOfferItems && parseFloat(item.price) > 0 && (
-                        <span className="ml-2 text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-medium inline-flex items-center gap-1">
-                          <Gift className="w-3 h-3" />
-                          +{item.quantity} FREE 10ml
-                        </span>
-                      )}
-                      {parseFloat(item.price) === 0 && (
-                        <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded font-medium">
-                          FREE GIFT
-                        </span>
-                      )}
+        <form onSubmit={handleCheckout} className="max-w-5xl mx-auto px-4 py-6 lg:py-8">
+          <div className="lg:grid lg:grid-cols-5 lg:gap-8">
+            {/* Left Column — Form sections */}
+            <div className="lg:col-span-3 space-y-4">
+
+              {/* Section 1: Order Summary (collapsible on mobile, always open on desktop) */}
+              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => setOrderSummaryOpen(!orderSummaryOpen)}
+                  className="w-full flex items-center justify-between p-4 lg:hidden"
+                >
+                  <div className="flex items-center gap-2">
+                    <Package className="w-4 h-4 text-gray-600" />
+                    <span className="text-sm font-medium text-gray-900">Order Summary ({items.length} item{items.length > 1 ? 's' : ''})</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-gray-900">₹{finalTotal.toFixed(0)}</span>
+                    {orderSummaryOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                  </div>
+                </button>
+
+                <div className={`${orderSummaryOpen ? 'block' : 'hidden'} lg:block`}>
+                  <div className="p-4 pt-0 lg:pt-4">
+                    <div className="hidden lg:flex items-center gap-2 mb-4">
+                      <Package className="w-4 h-4 text-gray-600" />
+                      <span className="text-sm font-medium text-gray-900">Order Summary</span>
                     </div>
-                    <span className="font-light text-sm text-gray-900">
-                      ₹{(parseFloat(item.price) * item.quantity).toFixed(2)}
-                    </span>
+
+                    <div className="space-y-2">
+                      {items.map((item) => (
+                        <div key={item.id} className="flex justify-between items-center py-2 border-b border-gray-50 last:border-0">
+                          <div className="flex-1 min-w-0">
+                            <span className="text-sm text-gray-900 block truncate">{item.name}</span>
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <span className="text-xs text-gray-500">Qty: {item.quantity}</span>
+                              {!hasOfferItems && parseFloat(item.price) > 0 && (
+                                <span className="text-xs bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded inline-flex items-center gap-0.5">
+                                  <Gift className="w-3 h-3" />
+                                  +{item.quantity} FREE 10ml
+                                </span>
+                              )}
+                              {parseFloat(item.price) === 0 && (
+                                <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded">FREE</span>
+                              )}
+                            </div>
+                          </div>
+                          <span className="text-sm font-medium text-gray-900 ml-4">
+                            ₹{(parseFloat(item.price) * item.quantity).toFixed(0)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              ))}
-              
-              <div className="flex justify-between text-sm text-gray-900 items-center py-2 font-light">
-                <span>Subtotal</span>
-                <span>₹{total.toFixed(2)}</span>
               </div>
 
-              {appliedCoupon && (
-                <div className="flex justify-between text-sm text-gray-600 items-center py-2 font-light">
-                  <div className="flex items-center gap-2">
-                    <span>Coupon ({appliedCoupon})</span>
+              {/* Coupon Code (only for non-offer orders) */}
+              {!hasOfferItems && (
+                <div className="bg-white rounded-lg border border-gray-200 p-4">
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <input
+                      type="text"
+                      placeholder="Coupon code"
+                      value={couponCode}
+                      onChange={(e) => { setCouponCode(e.target.value); setCouponError(""); }}
+                      className="flex-1 px-3 py-2.5 border border-gray-300 rounded-md focus:border-black focus:outline-none text-sm text-gray-900"
+                      disabled={!!appliedCoupon}
+                    />
                     <button
-                      onClick={handleRemoveCoupon}
-                      className="text-xs text-gray-500 hover:text-black underline"
+                      type="button"
+                      onClick={appliedCoupon ? handleRemoveCoupon : handleApplyCoupon}
+                      disabled={isApplyingCoupon}
+                      className={`px-5 py-2.5 text-xs font-medium tracking-wider uppercase rounded-md transition-colors ${
+                        appliedCoupon
+                          ? 'bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300'
+                          : 'bg-black hover:bg-gray-800 text-white'
+                      } ${isApplyingCoupon ? 'opacity-60 cursor-not-allowed' : ''}`}
                     >
-                      Remove
+                      {isApplyingCoupon ? 'Applying...' : appliedCoupon ? 'Remove' : 'Apply'}
                     </button>
                   </div>
-                  <span>-₹{couponDiscount.toFixed(2)}</span>
+                  {couponError && <p className="text-red-500 text-xs mt-1.5">{couponError}</p>}
+                  {appliedCoupon && <p className="text-emerald-600 text-xs mt-1.5">Coupon {appliedCoupon} applied — you save ₹{couponDiscount}</p>}
                 </div>
               )}
 
-              <div className="flex justify-between text-sm text-gray-900 items-center py-2 font-light">
-                <div>
-                  <span>Delivery</span>
-                  {total >= 500 && <span className="text-gray-600 text-xs ml-1">(Free above ₹500)</span>}
+              {/* Section 2: Delivery Information */}
+              <div ref={deliveryRef} className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6">
+                <div className="flex items-center gap-2 mb-5">
+                  <Truck className="w-4 h-4 text-gray-600" />
+                  <h2 className="text-sm font-medium text-gray-900">Delivery Details</h2>
                 </div>
-                <span>{deliveryCharges === 0 ? 'Free' : `₹${deliveryCharges}`}</span>
-              </div>
 
-              {/* Free gifts summary — only for regular (non-offer) orders */}
-              {!hasOfferItems && totalFreeGifts > 0 && (
-                <div className="p-3 bg-emerald-50 border border-emerald-100 rounded-sm">
-                  <div className="flex items-center gap-2 text-emerald-800">
-                    <Gift className="w-4 h-4" />
-                    <span className="text-xs font-medium">
-                      You will receive {totalFreeGifts} FREE 10ml perfume{totalFreeGifts > 1 ? 's' : ''} with this order!
-                    </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-xs text-gray-600 mb-1.5">Full Name *</label>
+                    <input
+                      name="name"
+                      required
+                      className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 transition-colors focus:outline-none ${
+                        errors.name ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-black'
+                      }`}
+                      placeholder="Full name"
+                      value={form.name}
+                      onChange={onChange}
+                    />
+                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+                  </div>
+
+                  <div>
+                    <label className="block text-xs text-gray-600 mb-1.5">Email *</label>
+                    <input
+                      name="email"
+                      type="email"
+                      required
+                      className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 transition-colors focus:outline-none ${
+                        errors.email ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-black'
+                      }`}
+                      placeholder="your@email.com"
+                      value={form.email}
+                      onChange={onChange}
+                    />
+                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                  </div>
+
+                  <div>
+                    <label className="block text-xs text-gray-600 mb-1.5">Phone *</label>
+                    <input
+                      name="phone"
+                      type="tel"
+                      pattern="[0-9]{10}"
+                      required
+                      className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 transition-colors focus:outline-none ${
+                        errors.phone ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-black'
+                      }`}
+                      placeholder="10-digit number"
+                      value={form.phone}
+                      onChange={onChange}
+                    />
+                    {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+                  </div>
+
+                  <div>
+                    <label className="block text-xs text-gray-600 mb-1.5">
+                      WhatsApp *
+                      <button
+                        type="button"
+                        onClick={copyPhoneToWhatsApp}
+                        className="ml-2 text-[10px] bg-gray-900 text-white px-2 py-0.5 rounded hover:bg-gray-700 transition-colors"
+                      >
+                        Same as phone
+                      </button>
+                    </label>
+                    <input
+                      name="whatsapp"
+                      type="tel"
+                      pattern="[0-9]{10}"
+                      required
+                      className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 transition-colors focus:outline-none ${
+                        errors.whatsapp ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-black'
+                      }`}
+                      placeholder="WhatsApp number"
+                      value={form.whatsapp}
+                      onChange={onChange}
+                    />
+                    {errors.whatsapp && <p className="text-red-500 text-xs mt-1">{errors.whatsapp}</p>}
                   </div>
                 </div>
-              )}
-              
-              <div className="flex justify-between items-center py-3 border-t border-gray-200">
-                <span className="text-sm text-gray-900 font-light uppercase tracking-widest">Total</span>
-                <div className="text-right">
-                  <span className="text-lg font-light text-gray-900">₹{finalTotal.toFixed(2)}</span>
-                  {couponDiscount > 0 && (
-                    <div className="text-xs text-green-600 mt-1">
-                      You saved ₹{couponDiscount.toFixed(2)}
-                    </div>
-                  )}
+
+                <div className="mb-4">
+                  <label className="block text-xs text-gray-600 mb-1.5">Address *</label>
+                  <textarea
+                    name="address"
+                    rows={2}
+                    required
+                    className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 transition-colors focus:outline-none resize-none ${
+                      errors.address ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-black'
+                    }`}
+                    placeholder="House no., Street, Landmark"
+                    value={form.address}
+                    onChange={onChange}
+                  />
+                  {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
+                </div>
+
+                <div className="grid grid-cols-3 gap-3 mb-4">
+                  <div>
+                    <label className="block text-xs text-gray-600 mb-1.5">Pincode *</label>
+                    <input
+                      name="pincode"
+                      type="text"
+                      pattern="[0-9]{6}"
+                      required
+                      className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 transition-colors focus:outline-none ${
+                        errors.pincode ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-black'
+                      }`}
+                      placeholder="6-digit"
+                      value={form.pincode}
+                      onChange={onChange}
+                    />
+                    {errors.pincode && <p className="text-red-500 text-xs mt-1">{errors.pincode}</p>}
+                  </div>
+
+                  <div>
+                    <label className="block text-xs text-gray-600 mb-1.5">City *</label>
+                    <input
+                      name="city"
+                      required
+                      className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 transition-colors focus:outline-none ${
+                        errors.city ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-black'
+                      }`}
+                      placeholder="City"
+                      value={form.city}
+                      onChange={onChange}
+                    />
+                    {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
+                  </div>
+
+                  <div>
+                    <label className="block text-xs text-gray-600 mb-1.5">State *</label>
+                    <select
+                      name="state"
+                      required
+                      className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 transition-colors focus:outline-none ${
+                        errors.state ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-black'
+                      }`}
+                      value={form.state}
+                      onChange={onChange}
+                    >
+                      <option value="">Select</option>
+                      <option value="Delhi">Delhi</option>
+                      <option value="Maharashtra">Maharashtra</option>
+                      <option value="Karnataka">Karnataka</option>
+                      <option value="Tamil Nadu">Tamil Nadu</option>
+                      <option value="Uttar Pradesh">Uttar Pradesh</option>
+                      <option value="West Bengal">West Bengal</option>
+                      <option value="Rajasthan">Rajasthan</option>
+                      <option value="Gujarat">Gujarat</option>
+                      <option value="Madhya Pradesh">Madhya Pradesh</option>
+                      <option value="Punjab">Punjab</option>
+                      <option value="Haryana">Haryana</option>
+                      <option value="Bihar">Bihar</option>
+                      <option value="Odisha">Odisha</option>
+                      <option value="Telangana">Telangana</option>
+                      <option value="Andhra Pradesh">Andhra Pradesh</option>
+                      <option value="Kerala">Kerala</option>
+                      <option value="Assam">Assam</option>
+                      <option value="Jharkhand">Jharkhand</option>
+                      <option value="Chhattisgarh">Chhattisgarh</option>
+                      <option value="Uttarakhand">Uttarakhand</option>
+                      <option value="Himachal Pradesh">Himachal Pradesh</option>
+                      <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                      <option value="Goa">Goa</option>
+                    </select>
+                    {errors.state && <p className="text-red-500 text-xs mt-1">{errors.state}</p>}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs text-gray-600 mb-1.5">Order Notes (optional)</label>
+                  <textarea
+                    name="notes"
+                    rows={2}
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:border-black focus:outline-none transition-colors text-sm text-gray-900 resize-none"
+                    placeholder="Special instructions"
+                    value={form.notes}
+                    onChange={onChange}
+                  />
                 </div>
               </div>
-            </div>
-          </div>
 
-          {!hasOfferItems && (
-          <div className="border border-gray-200 p-6 mb-6">
-            <h2 className="text-base font-light text-gray-900 mb-4 uppercase tracking-widest text-xs">Coupon Code</h2>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <div className="flex-1">
-                <input
-                  type="text"
-                  placeholder="Enter coupon code"
-                  value={couponCode}
-                  onChange={(e) => {
-                    setCouponCode(e.target.value);
-                    setCouponError("");
-                  }}
-                  className="w-full p-3 border border-gray-300 focus:border-black focus:outline-none transition-colors text-sm font-light text-gray-900"
-                  disabled={!!appliedCoupon}
-                />
-                {couponError && (
-                  <p className="text-red-500 text-xs mt-1 font-light">{couponError}</p>
-                )}
-                {appliedCoupon && (
-                  <p className="text-gray-600 text-xs mt-1 font-light">
-                    Coupon {appliedCoupon} applied
-                  </p>
-                )}
-              </div>
-              <button
-                onClick={appliedCoupon ? handleRemoveCoupon : handleApplyCoupon}
-                disabled={isApplyingCoupon}
-                className={`px-6 py-3 text-xs font-light tracking-widest uppercase transition-colors ${
-                  appliedCoupon
-                    ? 'bg-gray-200 hover:bg-gray-300 text-gray-900'
-                    : 'bg-black hover:bg-gray-800 text-white'
-                } ${isApplyingCoupon ? 'opacity-60 cursor-not-allowed' : ''}`}
-              >
-                {isApplyingCoupon ? 'Applying...' : appliedCoupon ? 'Remove' : 'Apply'}
-              </button>
-            </div>
-          </div>
-          )}
+              {/* Section 3: Payment Method */}
+              <div ref={paymentRef} className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Lock className="w-4 h-4 text-gray-600" />
+                  <h2 className="text-sm font-medium text-gray-900">Payment Method</h2>
+                </div>
 
-          <form onSubmit={handleCheckout} className="border border-gray-200 p-8">
-            <h2 className="text-base font-light text-gray-900 mb-8 uppercase tracking-widest text-xs">Delivery Information</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div>
-                <label className="block text-xs font-light text-gray-600 mb-2 uppercase tracking-widest">Name *</label>
-                <input
-                  name="name"
-                  required
-                  className={`w-full p-3 border text-sm font-light text-gray-900 transition-colors focus:outline-none ${
-                    errors.name 
-                      ? 'border-red-300 focus:border-red-500' 
-                      : 'border-gray-300 focus:border-black'
-                  }`}
-                  placeholder="Full name"
-                  value={form.name}
-                  onChange={onChange}
-                />
-                {errors.name && <p className="text-red-500 text-xs mt-1 font-light">{errors.name}</p>}
-              </div>
-
-              <div>
-                <label className="block text-xs font-light text-gray-600 mb-2 uppercase tracking-widest">Email *</label>
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  className={`w-full p-3 border text-sm font-light text-gray-900 transition-colors focus:outline-none ${
-                    errors.email 
-                      ? 'border-red-300 focus:border-red-500' 
-                      : 'border-gray-300 focus:border-black'
-                  }`}
-                  placeholder="your@email.com"
-                  value={form.email}
-                  onChange={onChange}
-                />
-                {errors.email && <p className="text-red-500 text-xs mt-1 font-light">{errors.email}</p>}
-              </div>
-
-              <div>
-                <label className="block text-xs font-light text-gray-600 mb-2 uppercase tracking-widest">Phone *</label>
-                <input
-                  name="phone"
-                  type="tel"
-                  pattern="[0-9]{10}"
-                  required
-                  className={`w-full p-3 border text-sm font-light text-gray-900 transition-colors focus:outline-none ${
-                    errors.phone 
-                      ? 'border-red-300 focus:border-red-500' 
-                      : 'border-gray-300 focus:border-black'
-                  }`}
-                  placeholder="10-digit number"
-                  value={form.phone}
-                  onChange={onChange}
-                />
-                {errors.phone && <p className="text-red-500 text-xs mt-1 font-light">{errors.phone}</p>}
-              </div>
-
-              <div>
-                <label className="block text-xs font-light text-gray-600 mb-2 uppercase tracking-widest">
-                  WhatsApp * 
+                <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
-                    onClick={copyPhoneToWhatsApp}
-                    className="ml-2 text-xs bg-black text-white px-2 py-1 hover:bg-gray-800 transition-colors font-light"
+                    onClick={() => setPaymentMethod('razorpay')}
+                    className={`p-3 sm:p-4 border rounded-lg text-center transition-all ${
+                      paymentMethod === 'razorpay'
+                        ? 'border-black bg-gray-950 text-white ring-1 ring-black'
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
+                    }`}
                   >
-                    Same as phone
+                    <span className="text-xs sm:text-sm font-medium block">Online Payment</span>
+                    <span className="text-[10px] sm:text-xs opacity-70 block mt-0.5">UPI / Card / NetBanking</span>
                   </button>
-                </label>
-                <input
-                  name="whatsapp"
-                  type="tel"
-                  pattern="[0-9]{10}"
-                  required
-                  className={`w-full p-3 border text-sm font-light text-gray-900 transition-colors focus:outline-none ${
-                    errors.whatsapp 
-                      ? 'border-red-300 focus:border-red-500' 
-                      : 'border-gray-300 focus:border-black'
-                  }`}
-                  placeholder="WhatsApp number"
-                  value={form.whatsapp}
-                  onChange={onChange}
-                />
-                {errors.whatsapp && <p className="text-red-500 text-xs mt-1 font-light">{errors.whatsapp}</p>}
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-xs font-light text-gray-600 mb-2 uppercase tracking-widest">Address *</label>
-              <textarea
-                name="address"
-                rows={3}
-                required
-                className={`w-full p-3 border text-sm font-light text-gray-900 transition-colors focus:outline-none resize-none ${
-                  errors.address 
-                    ? 'border-red-300 focus:border-red-500' 
-                    : 'border-gray-300 focus:border-black'
-                }`}
-                placeholder="Complete address"
-                value={form.address}
-                onChange={onChange}
-              />
-              {errors.address && <p className="text-red-500 text-xs mt-1 font-light">{errors.address}</p>}
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              <div>
-                <label className="block text-xs font-light text-gray-600 mb-2 uppercase tracking-widest">Pincode *</label>
-                <input
-                  name="pincode"
-                  type="text"
-                  pattern="[0-9]{6}"
-                  required
-                  className={`w-full p-3 border text-sm font-light text-gray-900 transition-colors focus:outline-none ${
-                    errors.pincode 
-                      ? 'border-red-300 focus:border-red-500' 
-                      : 'border-gray-300 focus:border-black'
-                  }`}
-                  placeholder="6-digit"
-                  value={form.pincode}
-                  onChange={onChange}
-                />
-                {errors.pincode && <p className="text-red-500 text-xs mt-1 font-light">{errors.pincode}</p>}
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('cod')}
+                    className={`p-3 sm:p-4 border rounded-lg text-center transition-all ${
+                      paymentMethod === 'cod'
+                        ? 'border-black bg-gray-950 text-white ring-1 ring-black'
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    <span className="text-xs sm:text-sm font-medium block">Cash on Delivery</span>
+                    <span className="text-[10px] sm:text-xs opacity-70 block mt-0.5">Pay when delivered</span>
+                  </button>
+                </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-light text-gray-600 mb-2 uppercase tracking-widest">City *</label>
-                <input
-                  name="city"
-                  required
-                  className={`w-full p-3 border text-sm font-light text-gray-900 transition-colors focus:outline-none ${
-                    errors.city 
-                      ? 'border-red-300 focus:border-red-500' 
-                      : 'border-gray-300 focus:border-black'
-                  }`}
-                  placeholder="City"
-                  value={form.city}
-                  onChange={onChange}
-                />
-                {errors.city && <p className="text-red-500 text-xs mt-1 font-light">{errors.city}</p>}
-              </div>
-
-              <div>
-                <label className="block text-xs font-light text-gray-600 mb-2 uppercase tracking-widest">State *</label>
-                <select
-                  name="state"
-                  required
-                  className={`w-full p-3 border text-sm font-light text-gray-900 transition-colors focus:outline-none ${
-                    errors.state 
-                      ? 'border-red-300 focus:border-red-500' 
-                      : 'border-gray-300 focus:border-black'
-                  }`}
-                  value={form.state}
-                  onChange={onChange}
-                >
-                  <option value="">Select State</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Maharashtra">Maharashtra</option>
-                  <option value="Karnataka">Karnataka</option>
-                  <option value="Tamil Nadu">Tamil Nadu</option>
-                  <option value="Uttar Pradesh">Uttar Pradesh</option>
-                  <option value="West Bengal">West Bengal</option>
-                  <option value="Rajasthan">Rajasthan</option>
-                  <option value="Gujarat">Gujarat</option>
-                  <option value="Madhya Pradesh">Madhya Pradesh</option>
-                  <option value="Punjab">Punjab</option>
-                  <option value="Haryana">Haryana</option>
-                  <option value="Bihar">Bihar</option>
-                  <option value="Odisha">Odisha</option>
-                  <option value="Telangana">Telangana</option>
-                  <option value="Andhra Pradesh">Andhra Pradesh</option>
-                  <option value="Kerala">Kerala</option>
-                  <option value="Assam">Assam</option>
-                  <option value="Jharkhand">Jharkhand</option>
-                  <option value="Chhattisgarh">Chhattisgarh</option>
-                  <option value="Uttarakhand">Uttarakhand</option>
-                  <option value="Himachal Pradesh">Himachal Pradesh</option>
-                  <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                  <option value="Goa">Goa</option>
-                </select>
-                {errors.state && <p className="text-red-500 text-xs mt-1 font-light">{errors.state}</p>}
-              </div>
-            </div>
-
-            <div className="mb-8">
-              <label className="block text-xs font-light text-gray-600 mb-2 uppercase tracking-widest">Notes</label>
-              <textarea
-                name="notes"
-                rows={2}
-                className="w-full p-3 border border-gray-300 focus:border-black focus:outline-none transition-colors text-sm font-light text-gray-900 resize-none"
-                placeholder="Special instructions"
-                value={form.notes}
-                onChange={onChange}
-              />
-            </div>
-
-            <div className="bg-gray-50 p-6 mb-8 border border-gray-200">
-              <h3 className="text-xs font-light text-gray-600 mb-3 uppercase tracking-widest">Payment Method</h3>
-              <div className="flex gap-3">
+              {/* Place Order Button — visible on desktop in left column */}
+              <div className="hidden lg:block">
                 <button
-                  type="button"
-                  onClick={() => setPaymentMethod('razorpay')}
-                  className={`flex-1 p-3 border text-xs font-light uppercase tracking-widest transition-colors ${
-                    paymentMethod === 'razorpay'
-                      ? 'bg-black text-white border-black'
-                      : 'bg-white text-gray-900 border-gray-300 hover:border-black'
+                  type="submit"
+                  className={`w-full bg-black hover:bg-gray-800 text-white py-4 rounded-lg text-sm font-medium tracking-wide transition-colors ${
+                    loading || step === "processing" || (paymentMethod === 'razorpay' && !razorpayLoaded)
+                      ? "opacity-60 pointer-events-none"
+                      : ""
                   }`}
+                  disabled={loading || step === "processing" || (paymentMethod === 'razorpay' && !razorpayLoaded)}
                 >
-                  Online Payment
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPaymentMethod('cod')}
-                  className={`flex-1 p-3 border text-xs font-light uppercase tracking-widest transition-colors ${
-                    paymentMethod === 'cod'
-                      ? 'bg-black text-white border-black'
-                      : 'bg-white text-gray-900 border-gray-300 hover:border-black'
-                  }`}
-                >
-                  Cash on Delivery
-                </button>
-              </div>
-            </div>
-
-            <div className="bg-gray-50 p-6 mb-8 border border-gray-200">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-900 font-light uppercase tracking-widest">Amount</span>
-                <div className="text-right">
-                  <span className="text-xl font-light text-gray-900">
-                    ₹{finalTotal.toFixed(2)}
-                  </span>
-                  {couponDiscount > 0 && (
-                    <p className="text-xs text-gray-600 mt-1 font-light">
-                      Saved ₹{couponDiscount.toFixed(2)}
-                    </p>
+                  {loading || step === "processing" ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Processing...
+                    </div>
+                  ) : paymentMethod === 'razorpay' && !razorpayLoaded ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Loading Payment...
+                    </div>
+                  ) : paymentMethod === 'cod' ? (
+                    `Place Order — ₹${finalTotal.toFixed(0)} (COD)`
+                  ) : (
+                    `Pay ₹${finalTotal.toFixed(0)}`
                   )}
+                </button>
+
+                {step === "processing" && (
+                  <p className="text-center text-gray-500 text-xs mt-2">
+                    {paymentMethod === 'cod' ? 'Creating your order...' : 'Creating order and processing payment...'}
+                  </p>
+                )}
+
+                <div className="flex items-center justify-center gap-4 mt-4 text-gray-400 text-xs">
+                  <span className="flex items-center gap-1"><ShieldCheck className="w-3 h-3" /> SSL Secured</span>
+                  <span className="flex items-center gap-1"><Lock className="w-3 h-3" /> Encrypted</span>
+                  <span className="flex items-center gap-1"><Truck className="w-3 h-3" /> Fast Delivery</span>
                 </div>
               </div>
             </div>
 
+            {/* Right Column — Sticky Order Total (desktop only) */}
+            <div className="hidden lg:block lg:col-span-2">
+              <div className="sticky top-16">
+                <div className="bg-white rounded-lg border border-gray-200 p-5">
+                  <h3 className="text-sm font-medium text-gray-900 mb-4">Price Details</h3>
+
+                  <div className="space-y-2.5 text-sm">
+                    <div className="flex justify-between text-gray-600">
+                      <span>Subtotal ({items.reduce((s, i) => s + i.quantity, 0)} items)</span>
+                      <span>₹{total.toFixed(0)}</span>
+                    </div>
+
+                    {appliedCoupon && (
+                      <div className="flex justify-between text-emerald-600">
+                        <span>Coupon ({appliedCoupon})</span>
+                        <span>-₹{couponDiscount.toFixed(0)}</span>
+                      </div>
+                    )}
+
+                    <div className="flex justify-between text-gray-600">
+                      <span>Delivery</span>
+                      <span className={deliveryCharges === 0 ? 'text-emerald-600' : ''}>
+                        {deliveryCharges === 0 ? 'FREE' : `₹${deliveryCharges}`}
+                      </span>
+                    </div>
+
+                    {!hasOfferItems && totalFreeGifts > 0 && (
+                      <div className="flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-3 py-2 rounded-md text-xs">
+                        <Gift className="w-3.5 h-3.5" />
+                        <span>{totalFreeGifts} FREE 10ml perfume{totalFreeGifts > 1 ? 's' : ''} included</span>
+                      </div>
+                    )}
+
+                    <div className="border-t border-gray-200 pt-3 flex justify-between items-center">
+                      <span className="font-medium text-gray-900">Total</span>
+                      <div className="text-right">
+                        <span className="text-xl font-semibold text-gray-900">₹{finalTotal.toFixed(0)}</span>
+                        {couponDiscount > 0 && (
+                          <p className="text-xs text-emerald-600 mt-0.5">You save ₹{couponDiscount}</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        {/* Mobile Sticky Bottom Bar — Place Order */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 lg:hidden z-30 shadow-[0_-4px_12px_rgba(0,0,0,0.08)]">
+          <div className="flex items-center gap-3">
+            <div className="flex-1">
+              <div className="text-lg font-semibold text-gray-900">₹{finalTotal.toFixed(0)}</div>
+              <div className="text-[10px] text-gray-500">
+                {items.reduce((s, i) => s + i.quantity, 0)} item{items.reduce((s, i) => s + i.quantity, 0) > 1 ? 's' : ''}
+                {couponDiscount > 0 && ` · Save ₹${couponDiscount}`}
+              </div>
+            </div>
             <button
               type="submit"
-              className={`w-full bg-black hover:bg-gray-800 text-white py-4 text-xs font-light tracking-widest uppercase transition-colors ${
+              form="checkout-form-id"
+              onClick={(e) => {
+                e.preventDefault();
+                const formEl = document.querySelector('form') as HTMLFormElement;
+                if (formEl) formEl.requestSubmit();
+              }}
+              className={`px-6 py-3 bg-black text-white rounded-lg text-sm font-medium transition-colors ${
                 loading || step === "processing" || (paymentMethod === 'razorpay' && !razorpayLoaded)
-                  ? "opacity-60 pointer-events-none" 
-                  : ""
+                  ? "opacity-60 pointer-events-none"
+                  : "hover:bg-gray-800"
               }`}
               disabled={loading || step === "processing" || (paymentMethod === 'razorpay' && !razorpayLoaded)}
             >
               {loading || step === "processing" ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Processing...
-                </div>
-              ) : paymentMethod === 'razorpay' && !razorpayLoaded ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Loading...
-                </div>
+                <span className="flex items-center gap-2">
+                  <span className="animate-spin rounded-full h-3.5 w-3.5 border-b-2 border-white"></span>
+                  Processing
+                </span>
               ) : paymentMethod === 'cod' ? (
-                `Place Order (COD ₹${finalTotal.toFixed(2)})`
+                'Place Order (COD)'
               ) : (
-                `Pay ₹${finalTotal.toFixed(2)}`
+                `Pay ₹${finalTotal.toFixed(0)}`
               )}
             </button>
-
-            {step === "processing" && (
-              <div className="text-center text-gray-600 text-xs mt-3 font-light">
-                {paymentMethod === 'cod' 
-                  ? 'Creating your order...'
-                  : 'Creating order and processing payment...'}
-              </div>
-            )}
-          </form>
-
-          <div className="mt-8 text-center">
-            <div className="flex items-center justify-center space-x-6 text-gray-500 text-xs font-light">
-              <span>• SSL Secured</span>
-              <span>• Encrypted</span>
-              <span>• Fast Delivery</span>
-            </div>
           </div>
         </div>
       </div>
