@@ -19,7 +19,7 @@ const BUNDLE_PRICE = 899;
 
 export default function EidOffersClient() {
   const router = useRouter();
-  const { addToCart, removeFromCart } = useCart();
+  const { addToCart, removeFromCart, items: cartItems } = useCart();
   const [selected100ml, setSelected100ml] = useState<ExtendedProduct | null>(null);
   const [selected10ml, setSelected10ml] = useState<ExtendedProduct | null>(null);
   const [addedToCart, setAddedToCart] = useState(false);
@@ -142,7 +142,7 @@ export default function EidOffersClient() {
       id: -(selected10ml.id),
       name: `${selected10ml.name} (FREE Gift)`,
       price: '0',
-      regular_price: selected10ml.regular_price || selected10ml.price,
+      regular_price: selected10ml.price,
       images: selected10ml.images?.map((img: { src: string }) => ({ src: img.src })) || [],
     });
 
@@ -220,27 +220,33 @@ export default function EidOffersClient() {
                 </div>
 
                 {/* Buy individually */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    addToCart({
-                      id: oudSuffreen.id,
-                      name: oudSuffreen.name,
-                      price: oudSuffreen.price,
-                      regular_price: oudSuffreen.regular_price || oudSuffreen.price,
-                      images: oudSuffreen.images?.map((img: { src: string }) => ({ src: img.src })) || [],
-                    });
-                    setAddedProducts(prev => new Set(prev).add(oudSuffreen.id));
-                  }}
-                  className={`w-full py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
-                    addedProducts.has(oudSuffreen.id)
-                      ? 'bg-emerald-100 text-emerald-700 border border-emerald-300'
-                      : 'bg-black text-white hover:bg-gray-800'
-                  }`}
-                >
-                  <ShoppingCart className="w-4 h-4" />
-                  {addedProducts.has(oudSuffreen.id) ? 'Added to Cart' : 'Add to Cart'}
-                </button>
+                {(() => {
+                  const isInCart = cartItems.some(item => item.id === oudSuffreen.id || item.id === -(oudSuffreen.id));
+                  return (
+                    <button
+                      type="button"
+                      disabled={isInCart}
+                      onClick={() => {
+                        if (isInCart) return;
+                        addToCart({
+                          id: oudSuffreen.id,
+                          name: oudSuffreen.name,
+                          price: oudSuffreen.price,
+                          regular_price: oudSuffreen.regular_price || oudSuffreen.price,
+                          images: oudSuffreen.images?.map((img: { src: string }) => ({ src: img.src })) || [],
+                        });
+                      }}
+                      className={`w-full py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+                        isInCart
+                          ? 'bg-emerald-100 text-emerald-700 border border-emerald-300 cursor-not-allowed'
+                          : 'bg-black text-white hover:bg-gray-800'
+                      }`}
+                    >
+                      <ShoppingCart className="w-4 h-4" />
+                      {isInCart ? 'Added to Cart' : 'Add to Cart'}
+                    </button>
+                  );
+                })()}
 
                 {/* Or get free in bundle */}
                 <div className="mt-3 text-center">
