@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { X, Tag } from 'lucide-react';
 
-// Only show on home page
-const ALLOWED_PATHS = ['/'];
+const HIDDEN_PATHS = ['/eid-offers', '/buy-one-get-one-free', '/buy-two-get-free', '/buy-three-get-gifts'];
 
 export default function AnnouncementBar() {
   const pathname = usePathname();
@@ -27,8 +26,7 @@ export default function AnnouncementBar() {
     }
   }, []);
 
-  if (!ALLOWED_PATHS.includes(pathname)) return null;
-
+  if (HIDDEN_PATHS.some(p => pathname.startsWith(p))) return null;
   if (!isVisible) return null;
 
   return (
