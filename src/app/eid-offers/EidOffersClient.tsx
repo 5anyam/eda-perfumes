@@ -146,7 +146,7 @@ export default function EidOffersClient() {
       images: selected10ml.images?.map((img: { src: string }) => ({ src: img.src })) || [],
     });
 
-    router.push('/cart');
+    router.push('/checkout');
   };
 
   const totalOriginalPrice = () => {
@@ -514,11 +514,11 @@ export default function EidOffersClient() {
                   <p className="font-medium">Added to Cart!</p>
                 </div>
                 <Link
-                  href="/cart"
+                  href="/checkout"
                   className="block w-full py-4 bg-black text-white text-center rounded-lg font-medium hover:bg-gray-800 transition-colors"
                 >
                   <ShoppingBag className="w-5 h-5 inline mr-2" />
-                  View Cart & Checkout
+                  Proceed to Checkout
                 </Link>
               </div>
             ) : (

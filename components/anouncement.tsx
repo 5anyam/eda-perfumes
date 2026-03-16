@@ -1,9 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { X, Tag } from 'lucide-react';
 
+// Only show on home page
+const ALLOWED_PATHS = ['/'];
+
 export default function AnnouncementBar() {
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(true);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -11,18 +16,18 @@ export default function AnnouncementBar() {
     setIsClosing(true);
     setTimeout(() => {
       setIsVisible(false);
-      // Store in localStorage so it doesn't show again in this session
       localStorage.setItem('announcementBarClosed', 'true');
     }, 300);
   };
 
   useEffect(() => {
-    // Check if user has already closed the bar
     const isClosed = localStorage.getItem('announcementBarClosed');
     if (isClosed) {
       setIsVisible(false);
     }
   }, []);
+
+  if (!ALLOWED_PATHS.includes(pathname)) return null;
 
   if (!isVisible) return null;
 

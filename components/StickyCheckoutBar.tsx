@@ -9,10 +9,16 @@ export default function StickyCheckoutBar() {
   const { items, isCartLoaded, openDrawer } = useCart();
   const pathname = usePathname();
 
-  // Hide on checkout, order-confirmation, and cart pages
+  // Hide on checkout, order-confirmation, cart pages
   const hiddenPaths = ['/checkout', '/order-confirmation', '/cart', '/payment-failed'];
   if (hiddenPaths.some(p => pathname.startsWith(p))) return null;
   if (!isCartLoaded || items.length === 0) return null;
+
+  // On offer pages, only enable checkout when the offer bundle is complete (has free items in cart)
+  const offerPaths = ['/eid-offers', '/buy-one-get-one-free', '/buy-two-get-free', '/buy-three-get-gifts'];
+  const isOfferPage = offerPaths.some(p => pathname.startsWith(p));
+  const hasCompletedOffer = items.some(item => parseFloat(item.price) === 0);
+  const isCheckoutDisabled = isOfferPage && !hasCompletedOffer;
 
   const subtotal = items.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -43,13 +49,19 @@ export default function StickyCheckoutBar() {
           </button>
 
           {/* Checkout button */}
-          <Link
-            href="/checkout"
-            className="flex items-center gap-2 bg-black hover:bg-gray-800 text-white px-5 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
-          >
-            Checkout
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          {isCheckoutDisabled ? (
+            <span className="flex items-center gap-2 bg-gray-300 text-gray-500 px-5 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold cursor-not-allowed">
+              Complete Selection
+            </span>
+          ) : (
+            <Link
+              href="/checkout"
+              className="flex items-center gap-2 bg-black hover:bg-gray-800 text-white px-5 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
+            >
+              Checkout
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          )}
         </div>
       </div>
     </div>

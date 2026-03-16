@@ -96,27 +96,27 @@ export default function BuyOneGetOneFreeClient() {
     if (!selectedMain || selectedSecond.length !== 2 || addedToCart) return;
     setAddedToCart(true);
 
-    // Add 100ml at bundle price
+    // Add 100ml at bundle price (negative ID to avoid cart merging with individually-added items)
     addToCart({
-      id: selectedMain.id,
-      name: selectedMain.name,
+      id: -(selectedMain.id),
+      name: `${selectedMain.name} (BOGO Bundle)`,
       price: OFFER_PRICE.toString(),
-      regular_price: selectedMain.regular_price || selectedMain.price,
+      regular_price: selectedMain.price,
       images: selectedMain.images?.map(img => ({ src: img.src })) || [],
     });
 
-    // Add both 10ml as FREE (use negative IDs to avoid cart merging with paid items)
+    // Add both 10ml as FREE (negative IDs to avoid cart merging)
     selectedSecond.forEach((product) => {
       addToCart({
         id: -(product.id),
         name: `${product.name} (FREE Gift)`,
         price: '0',
-        regular_price: product.regular_price || product.price,
+        regular_price: product.price,
         images: product.images?.map(img => ({ src: img.src })) || [],
       });
     });
 
-    router.push('/cart');
+    router.push('/checkout');
   };
 
   const resetSelection = () => {

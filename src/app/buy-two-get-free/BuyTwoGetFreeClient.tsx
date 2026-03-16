@@ -95,7 +95,7 @@ export default function BuyTwoGetFreeClient() {
     if (!isComplete || addedToCart) return;
     setAddedToCart(true); // Set immediately to prevent double-clicks
 
-    // Add main perfumes with proportional bundle pricing (total = ₹799)
+    // Add main perfumes with proportional bundle pricing (total = ₹899)
     const BUNDLE_PRICE = 899;
     const totalActual = selectedMain.reduce((s, p) => s + (Number(p.price) || 0), 0);
     let assigned = 0;
@@ -106,10 +106,10 @@ export default function BuyTwoGetFreeClient() {
         : Math.round(BUNDLE_PRICE * (Number(product.price) || 0) / (totalActual || 1));
       assigned += share;
       addToCart({
-        id: product.id,
-        name: product.name,
+        id: -(product.id),
+        name: `${product.name} (Buy 2 Bundle)`,
         price: share.toString(),
-        regular_price: product.regular_price || product.price,
+        regular_price: product.price,
         images: product.images?.map(img => ({ src: img.src })) || [],
       });
     });
@@ -120,12 +120,12 @@ export default function BuyTwoGetFreeClient() {
         id: -(product.id),
         name: `${product.name} (FREE Gift)`,
         price: '0',
-        regular_price: product.regular_price || product.price,
+        regular_price: product.price,
         images: product.images?.map(img => ({ src: img.src })) || [],
       });
     });
 
-    router.push('/cart');
+    router.push('/checkout');
   };
 
   const totalOriginalPrice = () => {
@@ -510,11 +510,11 @@ export default function BuyTwoGetFreeClient() {
                   <p className="font-medium">Added to Cart!</p>
                 </div>
                 <Link
-                  href="/cart"
+                  href="/checkout"
                   className="block w-full py-4 bg-black text-white text-center rounded-lg font-medium hover:bg-gray-800 transition-colors"
                 >
                   <ShoppingBag className="w-5 h-5 inline mr-2" />
-                  View Cart & Checkout
+                  Proceed to Checkout
                 </Link>
               </div>
             ) : (
