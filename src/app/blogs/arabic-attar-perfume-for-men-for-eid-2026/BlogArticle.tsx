@@ -37,7 +37,7 @@ export default function BlogArticle() {
         {/* Featured Image */}
         <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
           <img
-            src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/arabic-attar-perfumes-for-ramadan.jpeg"
+            src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/arabic-attar-perfume-for-men.jpeg"
             alt="Arabic Attar Perfume for Men Luxury Fragrances for Eid 2026"
             className="w-full h-auto object-cover"
           />

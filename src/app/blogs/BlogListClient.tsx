@@ -5,12 +5,22 @@ import { useSearchParams } from 'next/navigation';
 
 const BLOG_POSTS = [
   {
+    title: 'Eau de Parfum That Makes Romantic Evenings Truly Unforgettable',
+    slug: 'eau-de-parfum-fragrances-for-romantic-evenings',
+    excerpt:
+      'Discover the eau de parfum for men and eau de parfum meaning, how these rich fragrances create unforgettable romantic evenings. Explore elegant oud scents.',
+    image:
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/Eau-de-Parfum-Meaning.jpeg',
+    date: 'March 2026',
+    tags: ['Eau de Parfum', 'Eau de Parfum for Men', 'Eau de Parfum Meaning'],
+  },
+  {
     title: 'Heritage in Every Drop: Arabic Attar Perfume for Men for Eid 2026',
     slug: 'arabic-attar-perfume-for-men-for-eid-2026',
     excerpt:
       'This Eid 2026, elevate your presence with Arabic attar perfumes for men from EDA Perfumes. Enjoy heritage, luxury, and long-lasting fragrance in every drop.',
     image:
-      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/arabic-attar-perfumes-for-ramadan.jpeg',
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/arabic-attar-perfume-for-men.jpeg',
     date: 'March 2026',
     tags: ['Arabic Attar Perfumes for Men', 'Attar Perfume For Men', 'Attar Perfumes For Eid'],
   },

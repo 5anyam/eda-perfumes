@@ -105,10 +105,10 @@ export default function BuyOneGetOneFreeClient() {
       images: selectedMain.images?.map(img => ({ src: img.src })) || [],
     });
 
-    // Add both 10ml as FREE
-    selectedSecond.forEach((product, index) => {
+    // Add both 10ml as FREE (use negative IDs to avoid cart merging with paid items)
+    selectedSecond.forEach((product) => {
       addToCart({
-        id: -(product.id + index * 100000),
+        id: -(product.id),
         name: `${product.name} (FREE Gift)`,
         price: '0',
         regular_price: product.regular_price || product.price,

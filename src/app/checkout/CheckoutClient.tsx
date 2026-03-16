@@ -187,7 +187,7 @@ export default function Checkout(): React.ReactElement {
     }
 
     const paidTotal = paidItems.reduce((sum, i) => sum + parseFloat(i.price) * i.quantity, 0);
-    const validOfferTotals = [399, 899, 1299];
+    const validOfferTotals = [399, 499, 899, 1099, 1299];
     const isOfferPrice = validOfferTotals.some(t => Math.abs(paidTotal - t) < 1);
     const isMultipleOfOffer = validOfferTotals.some(t => paidTotal > 0 && Math.abs(paidTotal % t) < 1);
 
