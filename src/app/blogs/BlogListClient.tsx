@@ -10,7 +10,7 @@ const BLOG_POSTS = [
     excerpt:
       'Discover elegant couple perfume sets that turn everyday moments into lasting memories. Explore long-lasting fragrances by EDA Perfumes made for couples.',
     image:
-      'https://cms.edaperfumes.com/wp-content/uploads/2026/02/eda-perfumes-banner.jpg',
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/Couple-Perfume-Set.jpeg',
     date: 'March 2026',
     tags: ['Couple Perfume Set', 'Couple Perfume Gift Set'],
   },
