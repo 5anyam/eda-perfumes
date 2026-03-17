@@ -59,6 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/blogs/craft-a-mysterious-persona-through-scent`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
     { url: `${BASE_URL}/blogs/arabic-attar-perfume-for-men-for-eid-2026`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
     { url: `${BASE_URL}/blogs/eau-de-parfum-fragrances-for-romantic-evenings`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blogs/couple-perfume-set-fragrances-for-special-moments`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
 
     // Eid offers
     { url: `${BASE_URL}/eid-offers`, lastModified: now, changeFrequency: 'weekly', priority: 0.90 },

@@ -5,6 +5,16 @@ import { useSearchParams } from 'next/navigation';
 
 const BLOG_POSTS = [
   {
+    title: 'Couple Perfume Set: Fragrances for Special Moments',
+    slug: 'couple-perfume-set-fragrances-for-special-moments',
+    excerpt:
+      'Discover elegant couple perfume sets that turn everyday moments into lasting memories. Explore long-lasting fragrances by EDA Perfumes made for couples.',
+    image:
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/02/eda-perfumes-banner.jpg',
+    date: 'March 2026',
+    tags: ['Couple Perfume Set', 'Couple Perfume Gift Set'],
+  },
+  {
     title: 'Eau de Parfum That Makes Romantic Evenings Truly Unforgettable',
     slug: 'eau-de-parfum-fragrances-for-romantic-evenings',
     excerpt:
