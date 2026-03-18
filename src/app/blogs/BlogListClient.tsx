@@ -5,6 +5,16 @@ import { useSearchParams } from 'next/navigation';
 
 const BLOG_POSTS = [
   {
+    title: 'Elevate your Frequency with EDA Perfumes Top Brands of Perfume for Women',
+    slug: 'elevate-with-top-brands-of-perfume-for-women-eda-perfumes',
+    excerpt:
+      'Explore one of the top brands of perfume for women and discover elegant long lasting scents by EDA Perfumes to find your perfect signature perfume for women.',
+    image:
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/02/eda-perfumes-banner.jpg',
+    date: 'March 2026',
+    tags: ['Top Brands Of Perfume For Women'],
+  },
+  {
     title: 'Couple Perfume Set: Fragrances for Special Moments',
     slug: 'couple-perfume-set-fragrances-for-special-moments',
     excerpt:
