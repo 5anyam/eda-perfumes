@@ -34,6 +34,15 @@ export default function BlogArticle() {
           The Art of the Afterglow: Fragrances That Stay in the Mind Long After You Leave
         </h1>
 
+        {/* Featured Image */}
+        <div className="mb-8 rounded-xl overflow-hidden">
+          <img
+            src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/Woody-Perfume-For-Men.jpeg"
+            alt="Woody Perfume for Men - Lasting Afterglow"
+            className="w-full h-auto object-cover"
+          />
+        </div>
+
         {/* Article Content */}
         <article className="prose prose-sm sm:prose-lg max-w-none text-gray-700 leading-7 sm:leading-8 space-y-4 sm:space-y-6">
           <p>

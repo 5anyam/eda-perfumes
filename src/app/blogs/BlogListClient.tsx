@@ -10,7 +10,7 @@ const BLOG_POSTS = [
     excerpt:
       'Discover woody perfume for men that lasts all day. Learn about fragrance notes, longevity and how to choose a scent that leaves a lasting impression.',
     image:
-      'https://cms.edaperfumes.com/wp-content/uploads/2026/02/eda-perfumes-banner.jpg',
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/Woody-Perfume-For-Men.jpeg',
     date: 'March 2026',
     tags: ['Woody Perfume For Men', 'Best Woody Perfumes For Him'],
   },
