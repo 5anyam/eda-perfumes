@@ -61,6 +61,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/blogs/eau-de-parfum-fragrances-for-romantic-evenings`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
     { url: `${BASE_URL}/blogs/couple-perfume-set-fragrances-for-special-moments`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
     { url: `${BASE_URL}/blogs/elevate-with-top-brands-of-perfume-for-women-eda-perfumes`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blogs/woody-perfume-for-men-for-a-lasting-afterglow`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
 
     // Eid offers
     { url: `${BASE_URL}/eid-offers`, lastModified: now, changeFrequency: 'weekly', priority: 0.90 },

@@ -5,6 +5,16 @@ import { useSearchParams } from 'next/navigation';
 
 const BLOG_POSTS = [
   {
+    title: 'Woody Perfume for Men That Leaves a Lasting Afterglow',
+    slug: 'woody-perfume-for-men-for-a-lasting-afterglow',
+    excerpt:
+      'Discover woody perfume for men that lasts all day. Learn about fragrance notes, longevity and how to choose a scent that leaves a lasting impression.',
+    image:
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/02/eda-perfumes-banner.jpg',
+    date: 'March 2026',
+    tags: ['Woody Perfume For Men', 'Best Woody Perfumes For Him'],
+  },
+  {
     title: 'Elevate your Frequency with EDA Perfumes Top Brands of Perfume for Women',
     slug: 'elevate-with-top-brands-of-perfume-for-women-eda-perfumes',
     excerpt:
