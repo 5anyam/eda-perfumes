@@ -10,7 +10,7 @@ const BLOG_POSTS = [
     excerpt:
       'Explore one of the top brands of perfume for women and discover elegant long lasting scents by EDA Perfumes to find your perfect signature perfume for women.',
     image:
-      'https://cms.edaperfumes.com/wp-content/uploads/2026/02/eda-perfumes-banner.jpg',
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/high-impact-vive.jpeg',
     date: 'March 2026',
     tags: ['Top Brands Of Perfume For Women'],
   },
