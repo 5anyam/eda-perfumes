@@ -3,7 +3,27 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
-const BLOG_POSTS = [
+interface BlogPostItem {
+  title: string;
+  slug: string;
+  excerpt: string;
+  image: string;
+  date: string;
+  tags: string[];
+}
+
+// Fallback static posts (used when WordPress returns nothing)
+const STATIC_BLOG_POSTS: BlogPostItem[] = [
+  {
+    title: 'Perfume Set For Men To Command A Room With Sillage',
+    slug: 'perfume-set-for-men-to-command-a-room',
+    excerpt:
+      'Discover how a perfume set for men helps you build strong sillage. Learn fragrance tips, layering, and how to create a lasting impression.',
+    image:
+      'https://cms.edaperfumes.com/wp-content/uploads/2026/03/Perfume-Set-For-Men.jpeg',
+    date: 'March 2026',
+    tags: ['Perfume Set For Men', 'Best Perfume Of Men Under 1000'],
+  },
   {
     title: 'Woody Perfume for Men That Leaves a Lasting Afterglow',
     slug: 'woody-perfume-for-men-for-a-lasting-afterglow',
@@ -126,15 +146,26 @@ const BLOG_POSTS = [
   },
 ];
 
-export default function BlogListClient() {
+interface Props {
+  wpPosts?: BlogPostItem[];
+}
+
+export default function BlogListClient({ wpPosts }: Props) {
   const searchParams = useSearchParams();
   const activeTag = searchParams.get('tag');
 
+  // WordPress posts first, then static posts not already covered by WP
+  const wpSlugs = new Set((wpPosts || []).map((p) => p.slug));
+  const allPosts = [
+    ...(wpPosts || []),
+    ...STATIC_BLOG_POSTS.filter((p) => !wpSlugs.has(p.slug)),
+  ];
+
   const filteredPosts = activeTag
-    ? BLOG_POSTS.filter((post) =>
+    ? allPosts.filter((post) =>
         post.tags.some((tag) => tag.toLowerCase() === activeTag.toLowerCase())
       )
-    : BLOG_POSTS;
+    : allPosts;
 
   return (
     <div className="bg-gradient-to-br from-gray-50 via-white to-rose-50 min-h-screen">

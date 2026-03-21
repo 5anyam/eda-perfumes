@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { fetchAllBlogSlugs } from '../../lib/wordpress-blog';
 
 export const revalidate = 3600;
 
@@ -62,6 +63,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/blogs/couple-perfume-set-fragrances-for-special-moments`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
     { url: `${BASE_URL}/blogs/elevate-with-top-brands-of-perfume-for-women-eda-perfumes`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
     { url: `${BASE_URL}/blogs/woody-perfume-for-men-for-a-lasting-afterglow`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blogs/from-ordinary-to-magnetic-best-perfume-for-men-under-1000`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blogs/bottling-main-character-energy-with-luxury-perfume-gift-sets`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blogs/wear-your-invisible-crown-with-guilty-premium-perfume-for-men`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blogs/arabic-attar-perfumes-for-ramadan-evenings`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blogs/perfume-set-for-men-to-command-a-room`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
 
     // Luxury perfume
     { url: `${BASE_URL}/luxury-perfume`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
@@ -79,5 +85,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.64,
   }));
 
-  return [...staticPages, ...productPages];
+  // Dynamic blog pages from WordPress (merged with static blog entries above)
+  const wpBlogs = await fetchAllBlogSlugs();
+  const staticBlogSlugs = new Set([
+    'art-of-wearing-seductive-fragrance-with-confidence',
+    'how-to-choose-perfume-based-on-your-personality',
+    'craft-a-mysterious-persona-through-scent',
+    'arabic-attar-perfume-for-men-for-eid-2026',
+    'eau-de-parfum-fragrances-for-romantic-evenings',
+    'couple-perfume-set-fragrances-for-special-moments',
+    'elevate-with-top-brands-of-perfume-for-women-eda-perfumes',
+    'woody-perfume-for-men-for-a-lasting-afterglow',
+    'from-ordinary-to-magnetic-best-perfume-for-men-under-1000',
+    'bottling-main-character-energy-with-luxury-perfume-gift-sets',
+    'wear-your-invisible-crown-with-guilty-premium-perfume-for-men',
+    'arabic-attar-perfumes-for-ramadan-evenings',
+    'perfume-set-for-men-to-command-a-room',
+  ]);
+  const wpBlogPages: MetadataRoute.Sitemap = wpBlogs
+    .filter((b) => !staticBlogSlugs.has(b.slug))
+    .map((b) => ({
+      url: `${BASE_URL}/blogs/${b.slug}`,
+      lastModified: b.modified,
+      changeFrequency: 'monthly',
+      priority: 0.70,
+    }));
+
+  return [...staticPages, ...productPages, ...wpBlogPages];
 }

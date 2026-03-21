@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import BlogListClient from './BlogListClient';
+import { fetchBlogPosts } from '../../../lib/wordpress-blog';
 
 export const metadata: Metadata = {
   title: 'Blog | EDA Perfumes - Fragrance Tips & Guides',
@@ -17,10 +18,22 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.edaperfumes.com'),
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const wpPosts = await fetchBlogPosts();
+
+  // Format WP posts for the client component
+  const formattedPosts = wpPosts.map((post) => ({
+    title: post.title.replace(/<[^>]+>/g, ''),
+    slug: post.slug,
+    excerpt: post.excerpt,
+    image: post.image,
+    date: new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' }),
+    tags: post.tags,
+  }));
+
   return (
     <Suspense>
-      <BlogListClient />
+      <BlogListClient wpPosts={formattedPosts.length > 0 ? formattedPosts : undefined} />
     </Suspense>
   );
 }
