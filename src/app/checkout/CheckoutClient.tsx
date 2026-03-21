@@ -143,13 +143,14 @@ const updateWooCommerceOrderStatus = async (orderId: number, status: string, pay
 export default function Checkout(): React.ReactElement {
   const { items, clear } = useCart();
   const router = useRouter();
-  const { trackInitiateCheckout, trackAddPaymentInfo, trackPurchase } = useFacebookPixel();
+  const { trackEvent, trackInitiateCheckout, trackAddPaymentInfo, trackPurchase } = useFacebookPixel();
 
   const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
   const [orderSummaryOpen, setOrderSummaryOpen] = useState(false);
 
   const deliveryRef = useRef<HTMLDivElement>(null);
   const paymentRef = useRef<HTMLDivElement>(null);
+  const purchaseCompleted = useRef(false);
 
   // Simple pricing calculation - no bulk discounts
   const total = items.reduce((sum, item) => sum + parseFloat(item.price) * item.quantity, 0);
@@ -226,6 +227,46 @@ export default function Checkout(): React.ReactElement {
       trackInitiateCheckout(cartItems, finalTotal);
     }
   }, [items, finalTotal, trackInitiateCheckout]);
+
+  // Abandoned checkout tracking
+  useEffect(() => {
+    if (items.length === 0) return;
+
+    const fireAbandonEvent = () => {
+      if (purchaseCompleted.current) return;
+      const cartItems: CartItem[] = items.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: parseFloat(item.price),
+        quantity: item.quantity
+      }));
+      trackEvent('AbandonedCheckout', {
+        content_ids: cartItems.map(item => item.id.toString()),
+        content_type: 'product',
+        value: finalTotal,
+        currency: 'INR',
+        num_items: cartItems.reduce((sum, item) => sum + item.quantity, 0),
+        payment_method: paymentMethod,
+        form_filled: !!(form.name && form.phone && form.address),
+      }, {
+        email: form.email || undefined,
+        phone: form.phone || undefined,
+      });
+    };
+
+    const handleBeforeUnload = () => fireAbandonEvent();
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') fireAbandonEvent();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [items, finalTotal, paymentMethod, form.name, form.phone, form.email, form.address, trackEvent]);
 
   const validateCoupon = (code: string): { valid: boolean; discount: number; message: string } => {
     const upperCode = code.toUpperCase().trim();
@@ -447,6 +488,7 @@ export default function Checkout(): React.ReactElement {
         zipCode: form.pincode,
       });
 
+      purchaseCompleted.current = true;
       clear();
 
       toast({
@@ -490,6 +532,7 @@ export default function Checkout(): React.ReactElement {
         zipCode: form.pincode,
       });
 
+      purchaseCompleted.current = true;
       clear();
 
       toast({

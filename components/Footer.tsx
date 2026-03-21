@@ -155,7 +155,7 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600 font-light">
             <div>
               © {new Date().getFullYear()} EDA Perfumes. All rights reserved. Developed by{" "}
-              <Link href="https://www.dcrayons.com" className="text-black hover:underline transition-colors">
+              <Link href="https://dcrayons.app/" className="text-black hover:underline transition-colors">
                 Dcrayons
               </Link>
             </div>
