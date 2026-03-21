@@ -1072,13 +1072,30 @@ export default function Checkout(): React.ReactElement {
                   <h2 className="text-sm font-medium text-gray-900">Payment Method</h2>
                 </div>
 
-                <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
-                    className="p-3 sm:p-4 border rounded-lg text-center transition-all border-black bg-gray-950 text-white ring-1 ring-black"
+                    onClick={() => setPaymentMethod('razorpay')}
+                    className={`p-3 sm:p-4 border rounded-lg text-center transition-all ${
+                      paymentMethod === 'razorpay'
+                        ? 'border-black bg-gray-950 text-white ring-1 ring-black'
+                        : 'border-gray-200 hover:border-gray-400 bg-white text-gray-700'
+                    }`}
                   >
                     <span className="text-xs sm:text-sm font-medium block">Online Payment</span>
                     <span className="text-[10px] sm:text-xs opacity-70 block mt-0.5">UPI / Card / NetBanking</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('cod')}
+                    className={`p-3 sm:p-4 border rounded-lg text-center transition-all ${
+                      paymentMethod === 'cod'
+                        ? 'border-black bg-gray-950 text-white ring-1 ring-black'
+                        : 'border-gray-200 hover:border-gray-400 bg-white text-gray-700'
+                    }`}
+                  >
+                    <span className="text-xs sm:text-sm font-medium block">Cash on Delivery</span>
+                    <span className="text-[10px] sm:text-xs opacity-70 block mt-0.5">Pay when delivered</span>
                   </button>
                 </div>
               </div>
@@ -1104,6 +1121,8 @@ export default function Checkout(): React.ReactElement {
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                       Loading Payment...
                     </div>
+                  ) : paymentMethod === 'cod' ? (
+                    `Place Order — ₹${finalTotal.toFixed(0)} (COD)`
                   ) : (
                     `Pay ₹${finalTotal.toFixed(0)}`
                   )}
@@ -1111,7 +1130,7 @@ export default function Checkout(): React.ReactElement {
 
                 {step === "processing" && (
                   <p className="text-center text-gray-500 text-xs mt-2">
-                    Creating order and processing payment...
+                    {paymentMethod === 'cod' ? 'Creating your COD order...' : 'Creating order and processing payment...'}
                   </p>
                 )}
 
@@ -1202,6 +1221,8 @@ export default function Checkout(): React.ReactElement {
                   <span className="animate-spin rounded-full h-3.5 w-3.5 border-b-2 border-white"></span>
                   Processing
                 </span>
+              ) : paymentMethod === 'cod' ? (
+                `Place Order (COD)`
               ) : (
                 `Pay ₹${finalTotal.toFixed(0)}`
               )}

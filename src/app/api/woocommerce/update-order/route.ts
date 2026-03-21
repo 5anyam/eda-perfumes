@@ -16,7 +16,7 @@ export async function PUT(request: NextRequest) {
 
     const auth = Buffer.from(`${WOOCOMMERCE_CONFIG.CONSUMER_KEY}:${WOOCOMMERCE_CONFIG.CONSUMER_SECRET}`).toString('base64');
 
-    const response = await fetch(`${WOOCOMMERCE_CONFIG.BASE_URL}/wp-json/wc/v3/orders/${orderId}`, {
+    const response = await fetch(`${WOOCOMMERCE_CONFIG.BASE_URL}/orders/${orderId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
