@@ -120,6 +120,42 @@ export async function fetchSeoMeta(slug: string): Promise<SeoMeta | null> {
   }
 }
 
+export interface WPPage {
+  id: number;
+  slug: string;
+  title: string;
+  content: string;
+  excerpt: string;
+  date: string;
+  modified: string;
+  image: string;
+}
+
+export async function fetchWPPageBySlug(slug: string): Promise<WPPage | null> {
+  try {
+    const res = await fetch(
+      `${WP_URL}/wp-json/wp/v2/pages?slug=${encodeURIComponent(slug)}&_embed`,
+      { cache: 'no-store' }
+    );
+    if (!res.ok) return null;
+    const pages: WPPost[] = await res.json();
+    if (pages.length === 0) return null;
+    const page = pages[0];
+    return {
+      id: page.id,
+      slug: page.slug,
+      title: page.title.rendered,
+      content: page.content.rendered,
+      excerpt: page.excerpt.rendered.replace(/<[^>]+>/g, '').trim(),
+      date: page.date,
+      modified: page.modified,
+      image: page._embedded?.['wp:featuredmedia']?.[0]?.source_url || '',
+    };
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchAllBlogSlugs(): Promise<{ slug: string; modified: string }[]> {
   try {
     const res = await fetch(
