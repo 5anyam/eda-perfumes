@@ -9,11 +9,7 @@ import Link from 'next/link';
 import { Star, Gift, Check, ShoppingBag, ShoppingCart, Moon } from 'lucide-react';
 import { ScrollReveal, HeroText } from '../../../components/motion';
 
-interface ExtendedProduct extends Product {
-  slug?: string;
-  regular_price?: string;
-  categories?: { id: number; name: string; slug?: string }[];
-}
+type ExtendedProduct = Product;
 
 const BUNDLE_PRICE = 899;
 

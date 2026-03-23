@@ -7,11 +7,7 @@ import { useCart } from '../../../lib/cart';
 import Link from 'next/link';
 import { Sparkles, ShoppingBag, Check, Gift, ArrowRight, ShoppingCart } from 'lucide-react';
 
-interface ExtendedProduct extends Product {
-  slug?: string;
-  regular_price?: string;
-  categories?: { id: number; name: string; slug?: string }[];
-}
+type ExtendedProduct = Product;
 
 export default function BuyOneGetOneFreeClient() {
   const router = useRouter();

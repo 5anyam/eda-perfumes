@@ -10,11 +10,7 @@ import Link from 'next/link';
 import { Tag, Gift, Zap, Check, ShoppingBag, Star, Package, ShoppingCart } from 'lucide-react';
 import { ScrollReveal, HeroText } from '../../../components/motion';
 
-interface ExtendedProduct extends Product {
-  slug?: string;
-  regular_price?: string;
-  categories?: { id: number; name: string; slug?: string }[];
-}
+type ExtendedProduct = Product;
 
 export default function BuyTwoGetFreeClient() {
   const router = useRouter();
