@@ -24,7 +24,7 @@ interface Props {
 
 export default function WordPressPageContent({ page, products }: Props) {
   // Remove [products ...] shortcode from displayed content
-  const cleanContent = page.content.replace(/\[products[^\]]*\]/gi, '').trim();
+  const cleanContent = page.content.replace(/\[eda_products[^\]]*\]/gi, '').trim();
 
   return (
     <div className="bg-white min-h-screen">

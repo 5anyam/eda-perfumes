@@ -41,8 +41,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 function parseProductsShortcode(content: string): { category?: string; limit?: number } | null {
-  // Match [products], [products category="x"], [products limit="4"], or both
-  const match = content.match(/\[products([^\]]*)\]/i);
+  // Use [eda_products] to avoid conflict with WooCommerce's [products] shortcode
+  const match = content.match(/\[eda_products([^\]]*)\]/i);
   if (!match) return null;
   const attrs = match[1] || '';
   const catMatch = attrs.match(/category=["']([^"']*)["']/i);
