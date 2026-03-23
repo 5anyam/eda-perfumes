@@ -1,6 +1,6 @@
 // lib/wordpress-blog.ts
 
-const WP_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://cms.edaperfumes.com';
+const WP_URL = process.env.WORDPRESS_BLOG_URL || 'https://cms.edaperfumes.com';
 const WP_USER = process.env.WORDPRESS_APP_USER || '';
 const WP_APP_PASSWORD = process.env.WORDPRESS_APP_PASSWORD || '';
 
