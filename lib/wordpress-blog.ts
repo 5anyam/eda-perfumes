@@ -86,6 +86,40 @@ export async function fetchBlogPostBySlug(slug: string): Promise<BlogPost | null
   }
 }
 
+export interface SeoMeta {
+  title: string;
+  description: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+}
+
+export async function fetchSeoMeta(slug: string): Promise<SeoMeta | null> {
+  try {
+    const res = await fetch(`${WP_URL}/${slug}/`, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; NextJS)' },
+      cache: 'no-store',
+    });
+    if (!res.ok) return null;
+    const html = await res.text();
+
+    const extract = (pattern: RegExp): string => {
+      const m = html.match(pattern);
+      return m ? m[1].replace(/&amp;/g, '&').replace(/&#039;/g, "'").replace(/&quot;/g, '"') : '';
+    };
+
+    return {
+      title: extract(/<meta\s+property=["']og:title["']\s+content=["']([^"']*)["']/) || extract(/<title>([^<]*)<\/title>/),
+      description: extract(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/),
+      ogTitle: extract(/<meta\s+property=["']og:title["']\s+content=["']([^"']*)["']/),
+      ogDescription: extract(/<meta\s+property=["']og:description["']\s+content=["']([^"']*)["']/),
+      ogImage: extract(/<meta\s+property=["']og:image["']\s+content=["']([^"']*)["']/),
+    };
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchAllBlogSlugs(): Promise<{ slug: string; modified: string }[]> {
   try {
     const res = await fetch(
