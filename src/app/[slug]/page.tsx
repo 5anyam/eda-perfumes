@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { fetchWPPageBySlug, fetchSeoMeta } from '../../../lib/wordpress-blog';
-import { fetchProducts, fetchProductsByCategory, resolveCategoryBySlug, Product } from '../../../lib/woocommerceApi';
+import { fetchProducts, fetchProduct, fetchProductsByCategory, resolveCategoryBySlug, Product } from '../../../lib/woocommerceApi';
 import WordPressPageContent from './WordPressPageContent';
 
 export const dynamic = 'force-dynamic';
@@ -46,7 +46,7 @@ function decodeWPContent(html: string): string {
     .replace(/&quot;/g, '"').replace(/&amp;/g, '&');
 }
 
-function parseProductsShortcode(content: string): { category?: string; limit?: number } | null {
+function parseProductsShortcode(content: string): { category?: string; limit?: number; ids?: number[] } | null {
   const decoded = decodeWPContent(content);
   const match = decoded.match(/\[eda_products([^\]]*)\]/i);
   if (!match) return null;
@@ -54,9 +54,11 @@ function parseProductsShortcode(content: string): { category?: string; limit?: n
   // Match any quote type (straight, curly, prime) or no quotes
   const catMatch = attrs.match(/category\s*=\s*\W?(\w[\w-]*)\W?/i);
   const limitMatch = attrs.match(/limit\s*=\s*\W?(\d+)/i);
+  const idsMatch = attrs.match(/ids\s*=\s*\W?([\d,\s]+)/i);
   return {
     category: catMatch?.[1] || undefined,
     limit: limitMatch ? parseInt(limitMatch[1], 10) : undefined,
+    ids: idsMatch ? idsMatch[1].split(',').map(id => parseInt(id.trim(), 10)).filter(Boolean) : undefined,
   };
 }
 
@@ -74,13 +76,20 @@ export default async function WordPressPage({ params }: Props) {
 
   if (shortcode) {
     try {
-      const perPage = shortcode.limit || 100;
-      if (shortcode.category) {
+      if (shortcode.ids && shortcode.ids.length > 0) {
+        // Fetch specific products by IDs
+        const fetched = await Promise.all(
+          shortcode.ids.map(id => fetchProduct(id).catch(() => null))
+        );
+        products = fetched.filter((p): p is Product => p !== null);
+      } else if (shortcode.category) {
+        const perPage = shortcode.limit || 100;
         const cat = await resolveCategoryBySlug(shortcode.category);
         if (cat) {
           products = await fetchProductsByCategory(cat.id, 1, perPage);
         }
       } else {
+        const perPage = shortcode.limit || 100;
         products = await fetchProducts(1, perPage);
       }
     } catch {}
