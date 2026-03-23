@@ -23,9 +23,9 @@ interface Props {
 }
 
 export default function WordPressPageContent({ page, products }: Props) {
-  // Remove [eda_products ...] shortcode from displayed content (handle WordPress HTML entities + curly quotes)
+  // Decode HTML entities then remove [eda_products ...] shortcode from displayed content
   const cleanContent = page.content
-    .replace(/&#91;/g, '[').replace(/&#93;/g, ']')
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
     .replace(/\[eda_products[^\]]*\]/gi, '')
     .trim();
 

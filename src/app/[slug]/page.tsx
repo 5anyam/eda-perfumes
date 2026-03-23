@@ -40,15 +40,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// Decode HTML entities WordPress may add (&#91; &#93; &#8220; &#8221; &quot; etc.)
+// Decode all HTML entities WordPress adds via wptexturize
 function decodeWPContent(html: string): string {
-  return html
-    .replace(/&#91;/g, '[').replace(/&#93;/g, ']')
-    .replace(/&#8220;/g, '"').replace(/&#8221;/g, '"')
-    .replace(/&#8216;/g, "'").replace(/&#8217;/g, "'")
-    .replace(/&quot;/g, '"').replace(/&amp;/g, '&')
-    .replace(/\u201c/g, '"').replace(/\u201d/g, '"')
-    .replace(/\u2018/g, "'").replace(/\u2019/g, "'");
+  return html.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
+    .replace(/&quot;/g, '"').replace(/&amp;/g, '&');
 }
 
 function parseProductsShortcode(content: string): { category?: string; limit?: number } | null {
