@@ -23,11 +23,8 @@ interface Props {
 }
 
 export default function WordPressPageContent({ page, products }: Props) {
-  // Decode HTML entities then remove [eda_products ...] shortcode from displayed content
-  const cleanContent = page.content
-    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
-    .replace(/\[eda_products[^\]]*\]/gi, '')
-    .trim();
+  // Content is already cleaned by the server component
+  const cleanContent = page.content;
 
   return (
     <div className="bg-white min-h-screen">

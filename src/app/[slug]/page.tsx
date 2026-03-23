@@ -85,5 +85,10 @@ export default async function WordPressPage({ params }: Props) {
     } catch {}
   }
 
-  return <WordPressPageContent page={page} products={products} />;
+  // Strip shortcode from content on server side before passing to client
+  const cleanedContent = decodeWPContent(page.content)
+    .replace(/\[eda_products[^\]]*\]/gi, '')
+    .trim();
+
+  return <WordPressPageContent page={{ ...page, content: cleanedContent }} products={products} />;
 }
