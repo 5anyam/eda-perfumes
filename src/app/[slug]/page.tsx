@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { fetchWPPageBySlug, fetchSeoMeta } from '../../../lib/wordpress-blog';
+import { fetchProducts, Product } from '../../../lib/woocommerceApi';
 import WordPressPageContent from './WordPressPageContent';
 
 export const dynamic = 'force-dynamic';
@@ -41,11 +42,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function WordPressPage({ params }: Props) {
   const { slug } = await params;
-  const page = await fetchWPPageBySlug(slug);
+
+  let products: Product[] = [];
+  const [page] = await Promise.all([
+    fetchWPPageBySlug(slug),
+    fetchProducts(1, 100).then((p) => { products = p; }).catch(() => {}),
+  ]);
 
   if (!page) {
     notFound();
   }
 
-  return <WordPressPageContent page={page} />;
+  return <WordPressPageContent page={page} products={products} />;
 }
