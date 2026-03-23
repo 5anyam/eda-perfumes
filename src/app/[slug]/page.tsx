@@ -40,9 +40,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+// Decode HTML entities WordPress may add (&#91; &#93; &#8220; &#8221; &quot; etc.)
+function decodeWPContent(html: string): string {
+  return html
+    .replace(/&#91;/g, '[').replace(/&#93;/g, ']')
+    .replace(/&#8220;/g, '"').replace(/&#8221;/g, '"')
+    .replace(/&#8216;/g, "'").replace(/&#8217;/g, "'")
+    .replace(/&quot;/g, '"').replace(/&amp;/g, '&')
+    .replace(/\u201c/g, '"').replace(/\u201d/g, '"')
+    .replace(/\u2018/g, "'").replace(/\u2019/g, "'");
+}
+
 function parseProductsShortcode(content: string): { category?: string; limit?: number } | null {
-  // Use [eda_products] to avoid conflict with WooCommerce's [products] shortcode
-  const match = content.match(/\[eda_products([^\]]*)\]/i);
+  const decoded = decodeWPContent(content);
+  const match = decoded.match(/\[eda_products([^\]]*)\]/i);
   if (!match) return null;
   const attrs = match[1] || '';
   const catMatch = attrs.match(/category=["']([^"']*)["']/i);
