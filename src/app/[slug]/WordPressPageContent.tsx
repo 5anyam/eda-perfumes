@@ -23,6 +23,9 @@ interface Props {
 }
 
 export default function WordPressPageContent({ page, products }: Props) {
+  // Remove [products ...] shortcode from displayed content
+  const cleanContent = page.content.replace(/\[products[^\]]*\]/gi, '').trim();
+
   return (
     <div className="bg-white min-h-screen">
       {/* Page Header */}
@@ -53,7 +56,7 @@ export default function WordPressPageContent({ page, products }: Props) {
         )}
 
         {/* WordPress Content */}
-        {page.content && page.content.trim() !== '' && (
+        {cleanContent && cleanContent.replace(/<[^>]+>/g, '').trim() !== '' && (
           <article
             className="prose prose-sm sm:prose-lg max-w-none text-gray-700 leading-7 sm:leading-8 mb-12
               prose-headings:text-gray-900 prose-headings:font-semibold
@@ -65,7 +68,7 @@ export default function WordPressPageContent({ page, products }: Props) {
               prose-strong:text-gray-900
               prose-a:text-rose-600 prose-a:underline prose-a:decoration-rose-300 hover:prose-a:decoration-rose-500
               prose-img:rounded-lg"
-            dangerouslySetInnerHTML={{ __html: page.content }}
+            dangerouslySetInnerHTML={{ __html: cleanContent }}
           />
         )}
 

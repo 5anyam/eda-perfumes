@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { fetchWPPageBySlug, fetchSeoMeta } from '../../../lib/wordpress-blog';
-import { fetchProducts, Product } from '../../../lib/woocommerceApi';
+import { fetchProducts, fetchProductsByCategory, resolveCategoryBySlug, Product } from '../../../lib/woocommerceApi';
 import WordPressPageContent from './WordPressPageContent';
 
 export const dynamic = 'force-dynamic';
@@ -40,17 +40,43 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+function parseProductsShortcode(content: string): { category?: string; limit?: number } | null {
+  // Match [products], [products category="x"], [products limit="4"], or both
+  const match = content.match(/\[products([^\]]*)\]/i);
+  if (!match) return null;
+  const attrs = match[1] || '';
+  const catMatch = attrs.match(/category=["']([^"']*)["']/i);
+  const limitMatch = attrs.match(/limit=["']?(\d+)["']?/i);
+  return {
+    category: catMatch?.[1] || undefined,
+    limit: limitMatch ? parseInt(limitMatch[1], 10) : undefined,
+  };
+}
+
 export default async function WordPressPage({ params }: Props) {
   const { slug } = await params;
-
-  let products: Product[] = [];
-  const [page] = await Promise.all([
-    fetchWPPageBySlug(slug),
-    fetchProducts(1, 100).then((p) => { products = p; }).catch(() => {}),
-  ]);
+  const page = await fetchWPPageBySlug(slug);
 
   if (!page) {
     notFound();
+  }
+
+  // Only fetch products if [products] shortcode exists in content
+  let products: Product[] = [];
+  const shortcode = parseProductsShortcode(page.content);
+
+  if (shortcode) {
+    try {
+      const perPage = shortcode.limit || 100;
+      if (shortcode.category) {
+        const cat = await resolveCategoryBySlug(shortcode.category);
+        if (cat) {
+          products = await fetchProductsByCategory(cat.id, 1, perPage);
+        }
+      } else {
+        products = await fetchProducts(1, perPage);
+      }
+    } catch {}
   }
 
   return <WordPressPageContent page={page} products={products} />;
