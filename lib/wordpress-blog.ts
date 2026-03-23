@@ -61,7 +61,7 @@ export async function fetchBlogPosts(perPage = 50): Promise<BlogPost[]> {
   try {
     const res = await fetch(
       `${WP_URL}/wp-json/wp/v2/posts?per_page=${perPage}&orderby=date&order=desc&_embed`,
-      { headers: getAuthHeaders(), next: { revalidate: 60 } }
+      { headers: getAuthHeaders(), cache: 'no-store' }
     );
     if (!res.ok) return [];
     const posts: WPPost[] = await res.json();
@@ -75,7 +75,7 @@ export async function fetchBlogPostBySlug(slug: string): Promise<BlogPost | null
   try {
     const res = await fetch(
       `${WP_URL}/wp-json/wp/v2/posts?slug=${encodeURIComponent(slug)}&_embed`,
-      { headers: getAuthHeaders(), next: { revalidate: 60 } }
+      { headers: getAuthHeaders(), cache: 'no-store' }
     );
     if (!res.ok) return null;
     const posts: WPPost[] = await res.json();
