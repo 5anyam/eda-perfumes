@@ -51,8 +51,9 @@ function parseProductsShortcode(content: string): { category?: string; limit?: n
   const match = decoded.match(/\[eda_products([^\]]*)\]/i);
   if (!match) return null;
   const attrs = match[1] || '';
-  const catMatch = attrs.match(/category=["']([^"']*)["']/i);
-  const limitMatch = attrs.match(/limit=["']?(\d+)["']?/i);
+  // Match any quote type (straight, curly, prime) or no quotes
+  const catMatch = attrs.match(/category\s*=\s*\W?(\w[\w-]*)\W?/i);
+  const limitMatch = attrs.match(/limit\s*=\s*\W?(\d+)/i);
   return {
     category: catMatch?.[1] || undefined,
     limit: limitMatch ? parseInt(limitMatch[1], 10) : undefined,
