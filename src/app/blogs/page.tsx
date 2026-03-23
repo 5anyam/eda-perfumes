@@ -3,6 +3,8 @@ import { Suspense } from 'react';
 import BlogListClient from './BlogListClient';
 import { fetchBlogPosts } from '../../../lib/wordpress-blog';
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: 'Blog | EDA Perfumes - Fragrance Tips & Guides',
   description: 'Explore expert fragrance tips, perfume guides, and the art of wearing luxury scents with confidence. Discover the world of EDA Perfumes.',

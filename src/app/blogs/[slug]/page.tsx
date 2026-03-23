@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { fetchBlogPostBySlug } from '../../../../lib/wordpress-blog';
 import WordPressBlogArticle from './WordPressBlogArticle';
 
+export const dynamic = 'force-dynamic';
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
