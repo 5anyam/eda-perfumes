@@ -10,23 +10,26 @@ interface Props {
 
 export default function WordPressPageContent({ page }: Props) {
   return (
-    <div className="bg-gradient-to-br from-gray-50 via-white to-rose-50 py-8 sm:py-16 px-3 sm:px-8 md:px-20 lg:px-40">
-      <div className="max-w-4xl mx-auto bg-white p-4 sm:p-8 lg:p-12 shadow-2xl rounded-2xl border border-gray-200">
-        {/* Breadcrumb */}
-        <nav className="text-sm text-gray-500 mb-6">
-          <Link href="/" className="hover:text-rose-600 transition-colors">Home</Link>
-          <span className="mx-2">/</span>
-          <span className="text-gray-700">{page.title}</span>
-        </nav>
+    <div className="bg-white min-h-screen">
+      {/* Page Header */}
+      <div className="bg-gray-900 text-white py-12 sm:py-16 px-4 sm:px-8">
+        <div className="max-w-5xl mx-auto">
+          <nav className="text-sm text-gray-400 mb-4">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            <span className="mx-2">/</span>
+            <span className="text-gray-300">{page.title}</span>
+          </nav>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
+            {page.title}
+          </h1>
+        </div>
+      </div>
 
-        {/* Title */}
-        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-pink-600 to-purple-600 mb-6 leading-tight">
-          {page.title}
-        </h1>
-
+      {/* Page Body */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
         {/* Featured Image */}
         {page.image && (
-          <div className="mb-8 rounded-xl overflow-hidden">
+          <div className="mb-10 rounded-lg overflow-hidden">
             <img
               src={page.image}
               alt={page.title}
@@ -37,7 +40,16 @@ export default function WordPressPageContent({ page }: Props) {
 
         {/* Content */}
         <article
-          className="prose prose-sm sm:prose-lg max-w-none text-gray-700 leading-7 sm:leading-8 space-y-4 sm:space-y-6"
+          className="prose prose-sm sm:prose-lg max-w-none text-gray-700 leading-7 sm:leading-8
+            prose-headings:text-gray-900 prose-headings:font-semibold
+            prose-h2:text-2xl prose-h2:sm:text-3xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-2
+            prose-h3:text-xl prose-h3:sm:text-2xl prose-h3:mt-8 prose-h3:mb-3
+            prose-p:mb-4
+            prose-ul:list-disc prose-ul:pl-6 prose-ul:space-y-1
+            prose-ol:list-decimal prose-ol:pl-6 prose-ol:space-y-1
+            prose-strong:text-gray-900
+            prose-a:text-rose-600 prose-a:underline prose-a:decoration-rose-300 hover:prose-a:decoration-rose-500
+            prose-img:rounded-lg"
           dangerouslySetInnerHTML={{ __html: page.content }}
         />
       </div>
