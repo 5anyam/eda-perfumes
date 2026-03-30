@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import HomeClient from './HomeClient';
+import { fetchWPPageOptions } from '../../lib/wordpress-blog';
+
+export const dynamic = 'force-dynamic';
 
 async function fetchHomeYoastSeo() {
   try {
@@ -54,6 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function HomePage() {
-  return <HomeClient />;
+export default async function HomePage() {
+  const options = await fetchWPPageOptions('home');
+  return <HomeClient options={options} />;
 }

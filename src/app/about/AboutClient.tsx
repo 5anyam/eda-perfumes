@@ -62,36 +62,37 @@ function ConsultationModal() {
   );
 }
 
-export default function AboutClient() {
+export default function AboutClient({ options = {} }: { options?: Record<string, string> }) {
+  const o = options;
   return (
     <main className="bg-white">
       <div className="max-w-6xl mx-auto px-4 py-20 space-y-20">
         {/* Hero Section */}
         <section className="text-center border-b border-gray-200 pb-20">
           <h1 className="text-4xl lg:text-5xl font-light mb-6 text-gray-900 tracking-wide">
-            About EDA Perfumes
+            {o.hero_title || 'About EDA Perfumes'}
           </h1>
           <div className="w-16 h-px bg-gray-300 mx-auto mb-8"></div>
           <p className="text-base lg:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed font-light">
-            Crafting sophisticated fragrances for those who appreciate luxury and elegance
+            {o.hero_subtitle || 'Crafting sophisticated fragrances for those who appreciate luxury and elegance'}
           </p>
         </section>
-        
+
         {/* Mission Section */}
         <section className="grid md:grid-cols-2 gap-16 items-center">
           <div className="aspect-square overflow-hidden">
             <img
-              src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/ChatGPT-Image-Feb-20-2026-04_15_06-PM.png"
+              src={o.vision_image || 'https://cms.edaperfumes.com/wp-content/uploads/2026/02/ChatGPT-Image-Feb-20-2026-04_15_06-PM.png'}
               alt="Our Vision - EDA Perfumes"
               className="w-full h-full object-cover"
             />
           </div>
           <div>
             <h2 className="text-3xl lg:text-4xl font-light mb-6 text-gray-900 tracking-wide">
-              The Art of Fragrance
+              {o.mission_title || 'The Art of Fragrance'}
             </h2>
             <p className="text-base text-gray-600 mb-6 leading-relaxed font-light">
-              We believe that fragrance is more than scent – it is an expression of identity and style. Our collection embodies sophistication and elegance, crafted for those who appreciate the finer things.
+              {o.mission_text || 'We believe that fragrance is more than scent – it is an expression of identity and style. Our collection embodies sophistication and elegance, crafted for those who appreciate the finer things.'}
             </p>
           </div>
         </section>
@@ -100,23 +101,23 @@ export default function AboutClient() {
         <section className="grid md:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="text-3xl lg:text-4xl font-light mb-6 text-gray-900 tracking-wide">
-              Our Philosophy
+              {o.philosophy_title || 'Our Philosophy'}
             </h2>
             <p className="text-base text-gray-600 mb-6 leading-relaxed font-light">
-              We craft each fragrance with meticulous attention to detail. Every scent is a carefully composed blend designed to create lasting impressions.
+              {o.philosophy_text || 'We craft each fragrance with meticulous attention to detail. Every scent is a carefully composed blend designed to create lasting impressions.'}
             </p>
             <div className="bg-gray-50 p-6 border-l-2 border-gray-900">
               <h3 className="font-light text-sm text-gray-900 mb-2 uppercase tracking-widest">
                 Our Commitment
               </h3>
               <p className="text-gray-600 text-sm font-light">
-                Each fragrance represents our dedication to quality and sophistication, designed to complement individual style.
+                {o.commitment_text || 'Each fragrance represents our dedication to quality and sophistication, designed to complement individual style.'}
               </p>
             </div>
           </div>
           <div className="aspect-square overflow-hidden">
             <img
-              src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/ChatGPT-Image-Feb-20-2026-04_22_42-PM.png"
+              src={o.quality_image || 'https://cms.edaperfumes.com/wp-content/uploads/2026/02/ChatGPT-Image-Feb-20-2026-04_22_42-PM.png'}
               alt="Premium Quality - EDA Perfumes"
               className="w-full h-full object-cover"
             />
@@ -190,17 +191,17 @@ export default function AboutClient() {
         <section className="grid md:grid-cols-2 gap-16 items-center">
           <div className="aspect-square overflow-hidden">
             <img
-              src="https://cms.edaperfumes.com/wp-content/uploads/2026/02/ChatGPT-Image-Feb-20-2026-04_30_30-PM.png"
+              src={o.excellence_image || 'https://cms.edaperfumes.com/wp-content/uploads/2026/02/ChatGPT-Image-Feb-20-2026-04_30_30-PM.png'}
               alt="Crafted Excellence - EDA Perfumes"
               className="w-full h-full object-cover"
             />
           </div>
           <div>
             <h2 className="text-3xl lg:text-4xl font-light mb-6 text-gray-900 tracking-wide">
-              The Difference
+              {o.difference_title || 'The Difference'}
             </h2>
             <p className="text-base text-gray-600 mb-6 leading-relaxed font-light">
-              We create experiences through carefully crafted fragrances. Each scent embodies quality and sophistication.
+              {o.difference_text || 'We create experiences through carefully crafted fragrances. Each scent embodies quality and sophistication.'}
             </p>
             <div className="space-y-4">
               <div className="flex items-start border-l-2 border-gray-200 pl-4">
@@ -222,11 +223,11 @@ export default function AboutClient() {
         {/* CTA Section */}
         <section className="text-center border-t border-gray-200 pt-20 pb-8">
           <h2 className="text-3xl lg:text-4xl font-light mb-6 text-gray-900 tracking-wide">
-            Discover Your Signature Scent
+            {o.cta_title || 'Discover Your Signature Scent'}
           </h2>
           <div className="w-16 h-px bg-gray-300 mx-auto mb-8"></div>
           <p className="text-base mb-8 text-gray-600 max-w-2xl mx-auto font-light">
-            Explore our collection of sophisticated fragrances
+            {o.cta_subtitle || 'Explore our collection of sophisticated fragrances'}
           </p>
           <ConsultationModal />
         </section>

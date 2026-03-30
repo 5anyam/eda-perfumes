@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.edaperfumes.com'),
 };
 
-export default function AboutPage() {
-  return <AboutClient />;
+import { fetchWPPageOptions } from '../../../lib/wordpress-blog';
+
+export const dynamic = 'force-dynamic';
+
+export default async function AboutPage() {
+  const options = await fetchWPPageOptions('about');
+  return <AboutClient options={options} />;
 }

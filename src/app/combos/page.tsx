@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.edaperfumes.com'),
 };
 
-export default function CombosPage() {
-  return <CombosPageClient />;
+import { fetchWPPageOptions } from '../../../lib/wordpress-blog';
+
+export const dynamic = 'force-dynamic';
+
+export default async function CombosPage() {
+  const options = await fetchWPPageOptions('combos');
+  return <CombosPageClient options={options} />;
 }

@@ -50,7 +50,8 @@ const ProductSkeleton = () => (
   </div>
 );
 
-export default function HomeClient() {
+export default function HomeClient({ options = {} }: { options?: Record<string, string> }) {
+  const o = options;
   const sliderRef = useRef<HTMLDivElement>(null);
 
   // Fixed React Query configuration
@@ -107,11 +108,11 @@ export default function HomeClient() {
         <div className="max-w-7xl mx-auto">
           <ScrollReveal className="text-center mb-12">
             <h1 className="text-3xl md:text-4xl font-light text-gray-900 mb-3 tracking-wide">
-              Signature Collection
+              {o.signature_title || 'Signature Collection'}
             </h1>
             <div className="w-16 h-px bg-gray-300 mx-auto mb-4"></div>
             <p className="text-gray-600 text-base max-w-2xl mx-auto font-light">
-              Discover our most coveted fragrances that capture desire and sophistication
+              {o.signature_subtitle || 'Discover our most coveted fragrances that capture desire and sophistication'}
             </p>
           </ScrollReveal>
 
@@ -155,11 +156,11 @@ export default function HomeClient() {
           <div className="max-w-7xl mx-auto">
             <ScrollReveal className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3 tracking-wide">
-                Travel Size Collection
+                {o.travel_title || 'Travel Size Collection'}
               </h2>
               <div className="w-16 h-px bg-gray-300 mx-auto mb-4"></div>
               <p className="text-gray-600 text-base max-w-2xl mx-auto font-light">
-                Perfect for on-the-go luxury. Try before you commit.
+                {o.travel_subtitle || 'Perfect for on-the-go luxury. Try before you commit.'}
               </p>
             </ScrollReveal>
 
@@ -201,11 +202,11 @@ export default function HomeClient() {
           <div className="max-w-7xl mx-auto">
             <ScrollReveal className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3 tracking-wide">
-                Curated Duos
+                {o.combos_title || 'Curated Duos'}
               </h2>
               <div className="w-16 h-px bg-gray-300 mx-auto mb-4"></div>
               <p className="text-gray-600 text-base max-w-2xl mx-auto font-light">
-                Hand-picked fragrance combinations for day-to-night versatility
+                {o.combos_subtitle || 'Hand-picked fragrance combinations for day-to-night versatility'}
               </p>
             </ScrollReveal>
 

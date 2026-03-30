@@ -156,6 +156,28 @@ export async function fetchWPPageBySlug(slug: string): Promise<WPPage | null> {
   }
 }
 
+// Key-value options stored in WordPress page content as [key]value[/key]
+export type PageOptions = Record<string, string>;
+
+export async function fetchWPPageOptions(slug: string): Promise<PageOptions> {
+  try {
+    const page = await fetchWPPageBySlug(slug);
+    if (!page) return {};
+    const decoded = page.content.replace(/&#(\d+);/g, (_, c) => String.fromCharCode(Number(c)));
+    const options: PageOptions = {};
+    const regex = /\[(\w+)\]([\s\S]*?)\[\/\1\]/g;
+    let match;
+    while ((match = regex.exec(decoded)) !== null) {
+      options[match[1]] = match[2].replace(/<[^>]+>/g, '').trim();
+    }
+    // Also include featured image if present
+    if (page.image) options['featured_image'] = page.image;
+    return options;
+  } catch {
+    return {};
+  }
+}
+
 export async function fetchAllBlogSlugs(): Promise<{ slug: string; modified: string }[]> {
   try {
     const res = await fetch(

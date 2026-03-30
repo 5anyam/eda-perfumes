@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.edaperfumes.com'),
 };
 
-export default function EidOffersPage() {
-  return <EidOffersClient />;
+import { fetchWPPageOptions } from '../../../lib/wordpress-blog';
+
+export const dynamic = 'force-dynamic';
+
+export default async function EidOffersPage() {
+  const options = await fetchWPPageOptions('eid-offers');
+  return <EidOffersClient options={options} />;
 }

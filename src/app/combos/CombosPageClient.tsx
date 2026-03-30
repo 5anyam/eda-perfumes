@@ -31,7 +31,8 @@ const ProductSkeleton = () => (
   </div>
 );
 
-export default function CombosPageClient() {
+export default function CombosPageClient({ options = {} }: { options?: Record<string, string> }) {
+  const o = options;
   const [searchTerm, setSearchTerm] = useState('');
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [sortBy, setSortBy] = useState('name');
@@ -121,16 +122,16 @@ export default function CombosPageClient() {
             <div className="flex items-center justify-center gap-3 mb-4">
               <Package className="h-8 w-8 text-gray-900" />
               <h1 className="text-4xl md:text-5xl font-light text-gray-900 tracking-wide">
-                Fragrance Combos
+                {o.page_title || 'Fragrance Combos'}
               </h1>
             </div>
             <div className="w-16 h-px bg-gray-300 mx-auto mb-6"></div>
             <p className="text-base text-gray-600 max-w-2xl mx-auto font-light">
-              Curated perfume combinations at special bundle prices
+              {o.page_subtitle || 'Curated perfume combinations at special bundle prices'}
             </p>
             {!isLoading && products.length > 0 && (
               <p className="text-sm text-gray-500 mt-3 font-light">
-                Save up to 30% with our exclusive combo offers
+                {o.offer_text || 'Save up to 30% with our exclusive combo offers'}
               </p>
             )}
           </HeroText>

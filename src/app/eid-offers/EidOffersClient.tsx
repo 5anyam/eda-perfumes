@@ -13,7 +13,9 @@ type ExtendedProduct = Product;
 
 const BUNDLE_PRICE = 899;
 
-export default function EidOffersClient() {
+export default function EidOffersClient({ options = {} }: { options?: Record<string, string> }) {
+  const o = options;
+  const BUNDLE_PRICE_VALUE = o.bundle_price ? parseInt(o.bundle_price, 10) : BUNDLE_PRICE;
   const router = useRouter();
   const { addToCart, removeFromCart, items: cartItems } = useCart();
   const [selected100ml, setSelected100ml] = useState<ExtendedProduct | null>(null);
@@ -106,9 +108,9 @@ export default function EidOffersClient() {
     const totalActual = suffreenPrice + mainPrice;
 
     const suffreenShare = totalActual > 0
-      ? Math.round(BUNDLE_PRICE * suffreenPrice / totalActual)
-      : Math.round(BUNDLE_PRICE / 2);
-    const mainShare = BUNDLE_PRICE - suffreenShare;
+      ? Math.round(BUNDLE_PRICE_VALUE * suffreenPrice / totalActual)
+      : Math.round(BUNDLE_PRICE_VALUE / 2);
+    const mainShare = BUNDLE_PRICE_VALUE - suffreenShare;
 
     // Remove any individually-added versions of these products first
     removeFromCart(oudSuffreen.id);
@@ -152,7 +154,7 @@ export default function EidOffersClient() {
     return total;
   };
 
-  const savings = totalOriginalPrice() - BUNDLE_PRICE;
+  const savings = totalOriginalPrice() - BUNDLE_PRICE_VALUE;
 
   if (isLoading) {
     return (
@@ -176,7 +178,7 @@ export default function EidOffersClient() {
       <section className="w-full">
         <a href="#selection-section" className="block cursor-pointer">
           <img
-            src="https://cms.edaperfumes.com/wp-content/uploads/2026/03/Artboard-2.jpg"
+            src={o.banner_image || 'https://cms.edaperfumes.com/wp-content/uploads/2026/03/Artboard-2.jpg'}
             alt="Eid Special Offer @₹899 - EDA Perfumes"
             className="w-full h-auto object-cover"
             loading="eager"
@@ -190,10 +192,10 @@ export default function EidOffersClient() {
           <ScrollReveal>
             <div className="text-center mb-6">
               <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-2">
-                Oudh Shukran — Our Signature Oud Perfume
+                {o.hero_title || 'Oudh Shukran — Our Signature Oud Perfume'}
               </h2>
               <p className="text-gray-500 text-sm max-w-lg mx-auto">
-                A luxurious 100ml Eau de Parfum with rich oud notes. Buy it individually or get it FREE in the Eid bundle below.
+                {o.hero_subtitle || 'A luxurious 100ml Eau de Parfum with rich oud notes. Buy it individually or get it FREE in the Eid bundle below.'}
               </p>
             </div>
 
@@ -248,7 +250,7 @@ export default function EidOffersClient() {
                 <div className="mt-3 text-center">
                   <div className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-2 rounded-full text-xs font-medium">
                     <Gift className="w-3.5 h-3.5" />
-                    Or get it FREE in the Eid Bundle @ ₹899 — select perfumes below
+                    Or get it FREE in the Eid Bundle @ ₹{BUNDLE_PRICE_VALUE} — select perfumes below
                   </div>
                 </div>
               </div>
@@ -499,7 +501,7 @@ export default function EidOffersClient() {
               </div>
               <div className="flex justify-between text-xl font-medium text-gray-900">
                 <span>Eid Bundle Price:</span>
-                <span className="text-emerald-600">₹899</span>
+                <span className="text-emerald-600">₹{BUNDLE_PRICE_VALUE}</span>
               </div>
             </div>
 
@@ -528,7 +530,7 @@ export default function EidOffersClient() {
                 }`}
               >
                 <Moon className="w-5 h-5" />
-                {isComplete ? 'Add Eid Bundle to Cart - ₹899' : 'Complete Your Selection'}
+                {isComplete ? `Add Eid Bundle to Cart - ₹${BUNDLE_PRICE_VALUE}` : 'Complete Your Selection'}
               </button>
             )}
 
