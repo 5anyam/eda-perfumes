@@ -1,25 +1,29 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import CombosPageClient from './CombosPageClient';
-
-export const metadata: Metadata = {
-  title: 'Fragrance Combos - Eda Perfumes',
-  description: 'Curated perfume combinations at special bundle prices',
-  alternates: { canonical: 'https://www.edaperfumes.com/combos' },
-  openGraph: {
-    title: 'Fragrance Combos - Eda Perfumes',
-    description: 'Curated perfume combinations at special bundle prices',
-    type: 'website',
-    url: 'https://www.edaperfumes.com/combos',
-  },
-  robots: { index: true, follow: true },
-  metadataBase: new URL('https://www.edaperfumes.com'),
-};
-
-import { fetchWPPageOptions } from '../../../lib/wordpress-blog';
+import PageSchemas from '../../../components/PageSchemas';
+import { fetchWPPageOptions, fetchPageSeo } from '../../../lib/wordpress-blog';
 
 export const dynamic = 'force-dynamic';
 
+export async function generateMetadata(): Promise<Metadata> {
+  const yoast = await fetchPageSeo('combos');
+  const title = yoast?.title || 'Fragrance Combos - Eda Perfumes';
+  const description = yoast?.description || 'Curated perfume combinations at special bundle prices';
+  const canonical = yoast?.canonical || 'https://www.edaperfumes.com/combos';
+  return {
+    title, description,
+    alternates: { canonical },
+    openGraph: {
+      title: yoast?.og_title || title, description: yoast?.og_description || description,
+      type: 'website', url: canonical,
+      ...(yoast?.og_image?.[0]?.url && { images: [{ url: yoast.og_image[0].url }] }),
+    },
+    robots: { index: true, follow: true },
+    metadataBase: new URL('https://www.edaperfumes.com'),
+  };
+}
+
 export default async function CombosPage() {
   const options = await fetchWPPageOptions('combos');
-  return <CombosPageClient options={options} />;
+  return <><PageSchemas slug="combos" /><CombosPageClient options={options} /></>;
 }

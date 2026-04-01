@@ -1,25 +1,12 @@
 import type { Metadata } from 'next';
 import HomeClient from './HomeClient';
-import { fetchWPPageOptions } from '../../lib/wordpress-blog';
+import PageSchemas from '../../components/PageSchemas';
+import { fetchWPPageOptions, fetchPageSeo } from '../../lib/wordpress-blog';
 
 export const dynamic = 'force-dynamic';
 
-async function fetchHomeYoastSeo() {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://cms.edaperfumes.com'}/wp-json/wp/v2/pages?slug=home&_fields=yoast_head_json`,
-      { next: { revalidate: 3600 } }
-    )
-    if (!res.ok) return null
-    const data = await res.json()
-    return data?.[0]?.yoast_head_json ?? null
-  } catch {
-    return null
-  }
-}
-
 export async function generateMetadata(): Promise<Metadata> {
-  const yoast = await fetchHomeYoastSeo()
+  const yoast = await fetchPageSeo('home')
 
   const brand = 'EDA Perfumes'
   const fallbackTitle = 'EDA Perfumes Luxury Long Lasting Unisex Fragrances'
@@ -59,5 +46,5 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function HomePage() {
   const options = await fetchWPPageOptions('home');
-  return <HomeClient options={options} />;
+  return <><PageSchemas slug="home" /><HomeClient options={options} /></>;
 }

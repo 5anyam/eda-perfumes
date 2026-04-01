@@ -102,7 +102,8 @@ export default function EidOffersClient({ options = {} }: { options?: Record<str
     if (!isComplete || addedToCart) return;
     setAddedToCart(true);
 
-    // Split bundle price proportionally, but store original prices in regular_price for display
+    // Split bundle price proportionally so cart total = ₹899 (required for server validation).
+    // original prices are stored in regular_price so cart/checkout UI shows them correctly.
     const suffreenPrice = Number(oudSuffreen.price) || 0;
     const mainPrice = Number(selected100ml.price) || 0;
     const totalActual = suffreenPrice + mainPrice;
@@ -117,7 +118,7 @@ export default function EidOffersClient({ options = {} }: { options?: Record<str
     removeFromCart(selected100ml.id);
     removeFromCart(selected10ml.id);
 
-    // Add Oudh Shukran (price for totals, regular_price for display)
+    // Add Oudh Shukran (proportional price for cart total, original in regular_price for display)
     addToCart({
       id: -(oudSuffreen.id),
       name: `${oudSuffreen.name} (Eid Bundle)`,
@@ -126,7 +127,7 @@ export default function EidOffersClient({ options = {} }: { options?: Record<str
       images: oudSuffreen.images?.map((img: { src: string }) => ({ src: img.src })) || [],
     });
 
-    // Add selected 100ml (price for totals, regular_price for display)
+    // Add selected 100ml (proportional price for cart total, original in regular_price for display)
     addToCart({
       id: -(selected100ml.id),
       name: `${selected100ml.name} (Eid Bundle)`,

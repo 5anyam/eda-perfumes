@@ -1,7 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+
+function slugify(text: string): string {
+  return text.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
 
 interface BlogPostItem {
   title: string;
@@ -148,11 +151,11 @@ const STATIC_BLOG_POSTS: BlogPostItem[] = [
 
 interface Props {
   wpPosts?: BlogPostItem[];
+  activeTagSlug?: string;
 }
 
-export default function BlogListClient({ wpPosts }: Props) {
-  const searchParams = useSearchParams();
-  const activeTag = searchParams.get('tag');
+export default function BlogListClient({ wpPosts, activeTagSlug }: Props) {
+  const activeTag = activeTagSlug || null;
 
   // WordPress posts first, then static posts not already covered by WP
   const wpSlugs = new Set((wpPosts || []).map((p) => p.slug));
@@ -163,7 +166,7 @@ export default function BlogListClient({ wpPosts }: Props) {
 
   const filteredPosts = activeTag
     ? allPosts.filter((post) =>
-        post.tags.some((tag) => tag.toLowerCase() === activeTag.toLowerCase())
+        post.tags.some((tag) => slugify(tag) === activeTag)
       )
     : allPosts;
 
@@ -185,7 +188,7 @@ export default function BlogListClient({ wpPosts }: Props) {
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-4 sm:mb-6 flex items-center gap-3">
           <span className="text-sm text-gray-500">Filtered by:</span>
           <span className="inline-block bg-rose-100 text-rose-600 px-3 py-1 rounded-full text-xs font-medium border border-rose-200">
-            {activeTag}
+            {activeTag.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
           </span>
           <Link
             href="/blogs"
@@ -223,7 +226,7 @@ export default function BlogListClient({ wpPosts }: Props) {
                   {post.tags.map((tag) => (
                     <Link
                       key={tag}
-                      href={`/blogs?tag=${encodeURIComponent(tag)}`}
+                      href={`/blogs/tagged/${slugify(tag)}`}
                       className="inline-block bg-rose-50 text-rose-500 px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium border border-rose-100 hover:bg-rose-100 hover:border-rose-200 transition-colors"
                     >
                       {tag}

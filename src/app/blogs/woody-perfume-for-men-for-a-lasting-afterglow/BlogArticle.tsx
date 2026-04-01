@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+function slugify(text: string): string {  return text.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');}
 
 const TAGS = ['Woody Perfume For Men', 'Best Woody Perfumes For Him'];
 
@@ -21,7 +22,7 @@ export default function BlogArticle() {
           {TAGS.map((tag) => (
             <Link
               key={tag}
-              href={`/blogs?tag=${encodeURIComponent(tag)}`}
+              href={`/blogs/tagged/${slugify(tag)}`}
               className="inline-block bg-rose-100 text-rose-600 px-3 py-1 rounded-full text-xs font-medium border border-rose-200 hover:bg-rose-200 transition-colors"
             >
               {tag}

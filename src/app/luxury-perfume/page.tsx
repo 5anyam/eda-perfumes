@@ -1,23 +1,29 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { fetchProducts } from "../../../lib/woocommerceApi";
+import { fetchPageSeo } from '../../../lib/wordpress-blog';
+import PageSchemas from '../../../components/PageSchemas';
 import LuxuryPerfumeClient from "./LuxuryPerfumeClient";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: 'Luxury Perfume Experience Timeless Elegance with EDA Perfumes',
-  description: 'Experience the elegance of luxury perfume with EDA Perfumes. Explore our premium fragrances, gift sets, and beautifully crafted scents for unforgettable moments.',
-  alternates: { canonical: 'https://www.edaperfumes.com/luxury-perfume' },
-  openGraph: {
-    title: 'Luxury Perfume Experience Timeless Elegance with EDA Perfumes',
-    description: 'Experience the elegance of luxury perfume with EDA Perfumes. Explore our premium fragrances, gift sets, and beautifully crafted scents for unforgettable moments.',
-    type: 'website',
-    url: 'https://www.edaperfumes.com/luxury-perfume',
-    siteName: 'EDA Perfumes',
-  },
-  robots: { index: true, follow: true },
-  metadataBase: new URL('https://www.edaperfumes.com'),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const yoast = await fetchPageSeo('luxury-perfume');
+  const title = yoast?.title || 'Luxury Perfume Experience Timeless Elegance with EDA Perfumes';
+  const description = yoast?.description || 'Experience the elegance of luxury perfume with EDA Perfumes. Explore our premium fragrances, gift sets, and beautifully crafted scents for unforgettable moments.';
+  const canonical = yoast?.canonical || 'https://www.edaperfumes.com/luxury-perfume';
+  return {
+    title, description,
+    alternates: { canonical },
+    openGraph: {
+      title: yoast?.og_title || title, description: yoast?.og_description || description,
+      type: 'website', url: canonical,
+      siteName: yoast?.og_site_name || 'EDA Perfumes',
+      ...(yoast?.og_image?.[0]?.url && { images: [{ url: yoast.og_image[0].url }] }),
+    },
+    robots: { index: true, follow: true },
+    metadataBase: new URL('https://www.edaperfumes.com'),
+  };
+}
 
 export interface Product {
   id: number;
@@ -41,5 +47,5 @@ export default async function LuxuryPerfumePage() {
     products = [];
   }
 
-  return <LuxuryPerfumeClient products={products} />;
+  return <><PageSchemas slug="luxury-perfume" /><LuxuryPerfumeClient products={products} /></>;
 }

@@ -120,6 +120,55 @@ export async function fetchSeoMeta(slug: string): Promise<SeoMeta | null> {
   }
 }
 
+// Plugin-agnostic SEO fetcher — works with Rank Math, Yoast, or any SEO plugin.
+// Parses the rendered WordPress page HTML for meta tags and JSON-LD schemas (HFCM).
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function fetchPageSeo(slug: string, type: 'page' | 'product' = 'page'): Promise<any> {
+  try {
+    const pageUrl = type === 'product'
+      ? `${WP_URL}/product/${slug}/`
+      : slug === 'home' ? `${WP_URL}/` : `${WP_URL}/${slug}/`;
+    const res = await fetch(pageUrl, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; NextJS/15)' },
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return null;
+    const html = await res.text();
+
+    const extract = (pattern: RegExp): string => {
+      const m = html.match(pattern);
+      return m ? m[1].replace(/&amp;/g, '&').replace(/&#039;/g, "'").replace(/&quot;/g, '"') : '';
+    };
+
+    const ogImageUrl = extract(/<meta\s+property=["']og:image["']\s+content=["']([^"']*)["']/);
+
+    // Extract JSON-LD schemas (from HFCM, Rank Math, or any plugin)
+    const schemas: string[] = [];
+    const schemaRegex = /<script\s+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+    let schemaMatch;
+    while ((schemaMatch = schemaRegex.exec(html)) !== null) {
+      schemas.push(schemaMatch[1].trim());
+    }
+
+    return {
+      title: extract(/<title>([^<]*)<\/title>/),
+      description: extract(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/),
+      canonical: extract(/<link\s+rel=["']canonical["']\s+href=["']([^"']*)["']/),
+      og_title: extract(/<meta\s+property=["']og:title["']\s+content=["']([^"']*)["']/),
+      og_description: extract(/<meta\s+property=["']og:description["']\s+content=["']([^"']*)["']/),
+      og_image: ogImageUrl ? [{ url: ogImageUrl }] : undefined,
+      og_site_name: extract(/<meta\s+property=["']og:site_name["']\s+content=["']([^"']*)["']/),
+      focuskw: extract(/<meta\s+name=["']keywords["']\s+content=["']([^"']*)["']/),
+      schemas,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/** @deprecated Use fetchPageSeo instead */
+export const fetchPageYoastSeo = fetchPageSeo;
+
 export interface WPPage {
   id: number;
   slug: string;

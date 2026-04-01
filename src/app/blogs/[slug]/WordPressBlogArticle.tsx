@@ -2,6 +2,10 @@
 
 import React from 'react';
 import Link from 'next/link';
+
+function slugify(text: string): string {
+  return text.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
 import type { BlogPost } from '../../../../lib/wordpress-blog';
 
 interface Props {
@@ -30,7 +34,7 @@ export default function WordPressBlogArticle({ post }: Props) {
             {post.tags.map((tag) => (
               <Link
                 key={tag}
-                href={`/blogs?tag=${encodeURIComponent(tag)}`}
+                href={`/blogs/tagged/${slugify(tag)}`}
                 className="inline-block bg-rose-100 text-rose-600 px-3 py-1 rounded-full text-xs font-medium border border-rose-200 hover:bg-rose-200 transition-colors"
               >
                 {tag}

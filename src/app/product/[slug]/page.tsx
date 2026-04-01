@@ -1,7 +1,9 @@
 // app/products/[slug]/page.tsx (Server Component)
 import type { Metadata, ResolvingMetadata } from 'next'
 import ProductClient from './product-client'
+import PageSchemas from '../../../../components/PageSchemas'
 import { fetchProducts } from '../../../../lib/woocommerceApi'
+import { fetchPageSeo } from '../../../../lib/wordpress-blog'
 
 // ✅ Updated: Make params a Promise
 type Props = { 
@@ -71,21 +73,6 @@ async function getProductBySlug(slug: string) {
   return products.find(p => p.slug === slug || String(p.id) === slug)
 }
 
-// Fetch Yoast SEO data from WordPress REST API
-async function fetchYoastSeo(slug: string) {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://cms.edaperfumes.com'}/wp-json/wp/v2/product?slug=${slug}&_fields=yoast_head_json`,
-      { cache: 'no-store' }
-    )
-    if (!res.ok) return null
-    const data = await res.json()
-    return data?.[0]?.yoast_head_json ?? null
-  } catch {
-    return null
-  }
-}
-
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
@@ -93,7 +80,7 @@ export async function generateMetadata(
   const { slug } = await params
   const [product, yoast] = await Promise.all([
     getProductBySlug(slug),
-    fetchYoastSeo(slug),
+    fetchPageSeo(slug, 'product'),
   ])
 
   if (!product) {
@@ -171,6 +158,28 @@ export async function generateMetadata(
   }
 }
 
+function buildProductSchema(product: ProductNormalized) {
+  const desc = (product.short_description || product.description || '')
+    .replace(/<[^>]+>/g, '').trim()
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    image: product.images.map(img => img.src),
+    description: desc || `Shop ${product.name} at EDA Perfumes.`,
+    brand: { '@type': 'Brand', name: 'EDA Perfumes' },
+    url: `https://www.edaperfumes.com/product/${product.slug}`,
+    offers: {
+      '@type': 'Offer',
+      url: `https://www.edaperfumes.com/product/${product.slug}`,
+      priceCurrency: 'INR',
+      price: product.price,
+      availability: 'https://schema.org/InStock',
+      seller: { '@type': 'Organization', name: 'EDA Perfumes' },
+    },
+  })
+}
+
 export default async function Page({ params }: Props) {
   const { slug } = await params
   const [product, products] = await Promise.all([
@@ -178,10 +187,18 @@ export default async function Page({ params }: Props) {
     getAllProducts(),
   ])
   return (
-    <ProductClient
-      initialProduct={product}
-      allProductsInitial={products}
-      slug={slug}
-    />
+    <>
+      {product && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: buildProductSchema(product) }}
+        />
+      )}
+      <ProductClient
+        initialProduct={product}
+        allProductsInitial={products}
+        slug={slug}
+      />
+    </>
   )
 }
