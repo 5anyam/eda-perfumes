@@ -9,15 +9,18 @@ export async function generateMetadata(): Promise<Metadata> {
   const yoast = await fetchPageSeo('home')
 
   const brand = 'EDA Perfumes'
-  const fallbackTitle = 'EDA Perfumes Luxury Long Lasting Unisex Fragrances'
-  const fallbackDescription = 'Discover EDA Perfumes luxury unisex fragrances crafted with premium ingredients and long lasting EDP concentration. Shop elegant scents for every occasion.'
+  const fallbackTitle = 'EDA Perfumes Luxury Long-Lasting Unisex Fragrances'
+  const fallbackDescription = 'Discover EDA Perfumes luxury unisex fragrances with long-lasting premium scents for men and women crafted for confidence, and everyday wear across every occasion.'
   const fallbackCanonical = 'https://www.edaperfumes.com/'
 
-  const title = yoast?.title || fallbackTitle
+  // Filter incomplete Rank Math templates (e.g. 'Eda Perfumes -' when tagline is empty)
+  const rawTitle = yoast?.title?.trim() || ''
+  const validTitle = rawTitle && !rawTitle.endsWith(' -') && !rawTitle.endsWith('- ') && rawTitle !== brand
+  const title = validTitle ? rawTitle : fallbackTitle
   const description = yoast?.description || fallbackDescription
   const canonical = yoast?.canonical || fallbackCanonical
 
-  const ogTitle = yoast?.og_title || title
+  const ogTitle = yoast?.og_title?.trim() || title
   const ogDescription = yoast?.og_description || description
   const ogImage = yoast?.og_image?.[0]?.url || '/eda-perfumes-logo.jpeg'
 
