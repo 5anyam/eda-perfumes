@@ -2,41 +2,63 @@
 
 import Slider from 'react-slick';
 import Image from 'next/image';
-import { Star } from 'lucide-react';
+import { Star, Quote, ShieldCheck } from 'lucide-react';
 
 const testimonials = [
   {
     name: 'Priya Sharma',
-    quote: "Bite Me is absolutely intoxicating. The scent is seductive yet elegant - perfect for evening occasions. It lasts all night and makes me feel incredibly confident.",
+    quote: "Bought Bite Me on a whim and honestly, I'm obsessed. Wore it to a dinner party and got compliments the entire night. The dry-down is gorgeous — warm, slightly spicy, stays close to the skin. Already on my second bottle.",
     image: '/users/parul.avif',
     rating: 5,
     perfume: 'Bite Me',
-    location: 'Mumbai'
+    location: 'Mumbai',
+    date: '2 weeks ago',
   },
   {
-    name: 'Arjun Khanna',
-    quote: "Dark Knight has become my signature scent. It's bold, masculine, and mysterious. My colleagues always ask what fragrance I'm wearing.",
-    image: '/users/anil-tyagi.jpeg',
+    name: 'Dr. Abhinav Rana',
+    quote: "As someone who's tried dozens of ouds, Oudh Shukran genuinely surprised me. It's not synthetic or overpowering — there's a smoothness to it that works even in the office. Solid 8+ hours of longevity on my skin.",
+    image: '/users/dr-abhinav-rana.jpeg',
     rating: 5,
-    perfume: 'Dark Knight',
-    location: 'Delhi'
+    perfume: 'Oudh Shukran',
+    location: 'Delhi',
+    date: '1 month ago',
   },
   {
-    name: 'Kavya Patel',
-    quote: "Midnight Desire is pure elegance in a bottle. The fragrance is sophisticated and alluring. I feel more confident and captivating when I wear it.",
+    name: 'Savita Mehra',
+    quote: "Nude Poison is that effortlessly elegant scent I was looking for. Not too sweet, not too strong — just the right amount of sophistication. My husband noticed it immediately. This is my everyday go-to now.",
     image: '/users/savita.webp',
     rating: 5,
-    perfume: 'Midnight Desire',
-    location: 'Bangalore'
+    perfume: 'Nude Poison',
+    location: 'Jaipur',
+    date: '3 weeks ago',
   },
   {
-    name: 'Rohit Singh',
-    quote: "Lusty Nights is incredible. The blend of spicy and woody notes is perfect. Great longevity and projection.",
+    name: 'Ankit Verma',
+    quote: "Lusty Nights lives up to its name. The woody base with that spicy kick is perfect for evenings out. I get asked what I'm wearing almost every time. Projection is insane for the first 3-4 hours, then it settles beautifully.",
     image: '/users/ankit.jpeg',
     rating: 5,
     perfume: 'Lusty Nights',
-    location: 'Pune'
-  }
+    location: 'Pune',
+    date: '1 week ago',
+  },
+  {
+    name: 'Vanshika Kapoor',
+    quote: "Bad Habits is dangerously addictive! It's bold and unapologetic — exactly the kind of fragrance that makes you feel powerful. Lasted through a full workday plus evening drinks. Worth every rupee.",
+    image: '/users/vanshika.jpeg',
+    rating: 5,
+    perfume: 'Bad Habits',
+    location: 'Chandigarh',
+    date: '5 days ago',
+  },
+  {
+    name: 'Anil Tyagi',
+    quote: "Picked up the Guilty Premium pocket perfume for travel. Perfect size, and the scent punches way above its price. Clean, fresh, and versatile. Now I carry it everywhere — gym bag, office drawer, you name it.",
+    image: '/users/anil-tyagi.jpeg',
+    rating: 4,
+    perfume: 'Guilty Premium',
+    location: 'Lucknow',
+    date: '2 months ago',
+  },
 ];
 
 const TestimonialsCarousel = () => {
@@ -45,7 +67,7 @@ const TestimonialsCarousel = () => {
     infinite: true,
     speed: 600,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 5000,
     slidesToShow: 3,
     slidesToScroll: 1,
     arrows: false,
@@ -57,123 +79,158 @@ const TestimonialsCarousel = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-        }
+        },
       },
       {
         breakpoint: 768,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-        }
-      }
-    ]
+        },
+      },
+    ],
   };
 
-  const StarRating = ({ rating }: { rating: number }) => {
-    return (
-      <div className="flex justify-center gap-1 mb-4">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`w-3.5 h-3.5 ${
-              i < rating ? 'text-gray-900 fill-gray-900' : 'text-gray-300'
-            }`}
-          />
-        ))}
-      </div>
-    );
-  };
+  const StarRating = ({ rating }: { rating: number }) => (
+    <div className="flex gap-0.5">
+      {[...Array(5)].map((_, i) => (
+        <Star
+          key={i}
+          className={`w-4 h-4 ${
+            i < rating
+              ? 'text-amber-400 fill-amber-400'
+              : 'text-gray-200 fill-gray-200'
+          }`}
+        />
+      ))}
+    </div>
+  );
 
   return (
-    <section className="bg-white py-20 px-4">
-      <div className="max-w-7xl mx-auto">
+    <section className="relative bg-white py-20 px-4 overflow-hidden">
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-4 tracking-wide">
-            Customer Reviews
-          </h2>
-          <div className="w-16 h-px bg-gray-300 mx-auto mb-4"></div>
-          <p className="text-gray-600 text-sm font-light max-w-2xl mx-auto">
-            Discover why customers choose our fragrances
+        <div className="text-center mb-14">
+          <p className="text-amber-600 text-xs font-semibold tracking-[0.2em] uppercase mb-3">
+            Testimonials
           </p>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            What Our Customers Say
+          </h2>
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <div className="w-8 h-px bg-amber-400" />
+            <div className="w-2 h-2 rounded-full bg-amber-400" />
+            <div className="w-8 h-px bg-amber-400" />
+          </div>
+          <div className="flex items-center justify-center gap-2 text-gray-500 text-sm">
+            <div className="flex gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+              ))}
+            </div>
+            <span className="font-medium text-gray-700">4.9/5</span>
+            <span>from 2,500+ reviews</span>
+          </div>
         </div>
 
         {/* Testimonials Carousel */}
         <div className="testimonials-slider">
           <Slider {...settings}>
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="px-3">
-                <div className="bg-white border border-gray-200 p-8 min-h-[380px] flex flex-col hover:shadow-md transition-shadow duration-300">
-                  
-                  {/* Profile Section */}
-                  <div className="flex flex-col items-center mb-6">
-                    <div className="w-16 h-16 rounded-full bg-gray-200 mb-4 overflow-hidden">
-                      <Image
-                        src={testimonial.image}
-                        alt={testimonial.name}
-                        width={64}
-                        height={64}
-                        className="object-cover w-full h-full"
-                      />
-                    </div>
-                    
-                    <h3 className="text-gray-900 font-light text-base mb-1">
-                      {testimonial.name}
-                    </h3>
-                    <p className="text-gray-500 text-xs mb-2 font-light">
-                      {testimonial.location}
-                    </p>
-                    <div className="text-gray-600 text-xs font-light tracking-wide">
-                      {testimonial.perfume}
-                    </div>
+              <div key={index} className="px-3 pb-4">
+                <div className="group bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 p-7 min-h-[370px] flex flex-col transition-all duration-500 relative overflow-hidden">
+                  {/* Accent top border */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  {/* Quote icon */}
+                  <div className="absolute top-5 right-5 opacity-[0.06] group-hover:opacity-[0.1] transition-opacity duration-500">
+                    <Quote className="w-16 h-16 text-gray-900" />
                   </div>
 
-                  {/* Rating */}
-                  <div className="mb-6">
+                  {/* Rating + Product tag */}
+                  <div className="flex items-center justify-between mb-5">
                     <StarRating rating={testimonial.rating} />
+                    <span className="text-[11px] font-medium bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full border border-amber-100">
+                      {testimonial.perfume}
+                    </span>
                   </div>
 
                   {/* Quote */}
-                  <blockquote className="text-gray-700 text-sm leading-relaxed flex-1 font-light text-center">
+                  <blockquote className="text-gray-600 text-[13.5px] leading-relaxed flex-1 mb-6 relative z-10">
                     {testimonial.quote}
                   </blockquote>
+
+                  {/* Divider */}
+                  <div className="w-full h-px bg-gray-100 mb-5" />
+
+                  {/* Profile Section */}
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-11 h-11 rounded-full overflow-hidden ring-2 ring-amber-100 ring-offset-2 flex-shrink-0">
+                      <Image
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        width={44}
+                        height={44}
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <h3 className="text-gray-900 font-semibold text-sm truncate">
+                          {testimonial.name}
+                        </h3>
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
+                      </div>
+                      <p className="text-gray-400 text-xs">
+                        {testimonial.location} &middot; {testimonial.date}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
           </Slider>
         </div>
 
-        {/* Bottom Stats */}
-        <div className="mt-16 text-center">
-          <div className="inline-flex items-center gap-4 border border-gray-200 px-8 py-4">
-            <div className="flex -space-x-2">
-              {testimonials.slice(0, 3).map((testimonial, index) => (
+        {/* Bottom trust bar */}
+        <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
+          <div className="flex items-center gap-2.5">
+            <div className="flex -space-x-2.5">
+              {testimonials.slice(0, 5).map((testimonial, index) => (
                 <Image
                   key={index}
                   src={testimonial.image}
                   alt={testimonial.name}
-                  width={32}
-                  height={32}
-                  className="w-8 h-8 rounded-full border-2 border-white object-cover"
+                  width={36}
+                  height={36}
+                  className="w-9 h-9 rounded-full border-[2.5px] border-white object-cover shadow-sm"
                 />
               ))}
+              <div className="w-9 h-9 rounded-full border-[2.5px] border-white bg-amber-50 flex items-center justify-center shadow-sm">
+                <span className="text-amber-600 text-[10px] font-bold">+2k</span>
+              </div>
             </div>
-            <div className="text-left">
-              <p className="text-gray-900 font-light text-sm">
-                Join 5,000+ satisfied customers
-              </p>
-            </div>
+            <p className="text-gray-700 text-sm font-medium">
+              Loved by <span className="text-amber-600 font-bold">2,500+</span> customers
+            </p>
+          </div>
+
+          <div className="hidden sm:block w-px h-8 bg-gray-200" />
+
+          <div className="flex items-center gap-2 text-gray-500 text-xs">
+            <ShieldCheck className="w-4 h-4 text-emerald-500" />
+            <span>All reviews from verified purchases</span>
           </div>
         </div>
       </div>
 
       <style jsx>{`
         .testimonials-slider .custom-dots {
-          bottom: -60px;
+          bottom: -50px;
           display: flex !important;
           justify-content: center;
           align-items: center;
-          gap: 8px;
+          gap: 6px;
         }
         .testimonials-slider .custom-dots li {
           margin: 0;
@@ -181,8 +238,8 @@ const TestimonialsCarousel = () => {
           height: auto;
         }
         .testimonials-slider .custom-dots li button {
-          width: 10px;
-          height: 10px;
+          width: 8px;
+          height: 8px;
           border-radius: 50%;
           background: #d1d5db;
           border: none;
@@ -193,12 +250,12 @@ const TestimonialsCarousel = () => {
           display: none;
         }
         .testimonials-slider .custom-dots li.slick-active button {
-          background: #111827;
+          background: #f59e0b;
           width: 24px;
           border-radius: 5px;
         }
         .testimonials-slider .custom-dots li button:hover {
-          background: #6b7280;
+          background: #9ca3af;
         }
       `}</style>
     </section>

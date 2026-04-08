@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { 
+import Link from 'next/link';
+import {
   Crown, Shield, Star, Gift, Clock, Award
 } from 'lucide-react';
 
@@ -148,9 +149,9 @@ export default function AboutUsSection() {
             <p className="text-gray-600 mb-8 font-light">
               Explore our collection and find the fragrance that speaks to you.
             </p>
-            <button className="inline-flex items-center gap-2 px-8 py-3 text-sm font-light tracking-wide text-white bg-black hover:bg-gray-800 transition-colors duration-300 rounded-sm">
+            <Link href="/shop" className="inline-flex items-center gap-2 px-8 py-3 text-sm font-light tracking-wide text-white bg-black hover:bg-gray-800 transition-colors duration-300 rounded-sm">
               Explore Collection
-            </button>
+            </Link>
           </div>
         </div>
     </section>
