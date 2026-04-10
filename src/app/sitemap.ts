@@ -31,49 +31,42 @@ async function fetchAllProducts(): Promise<{ slug: string; modified: string }[]>
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date().toISOString();
 
-  // Static pages (manually listed)
+  // Static pages
   const staticPages: MetadataRoute.Sitemap = [
     { url: `${BASE_URL}/`, lastModified: now, changeFrequency: 'daily', priority: 1.00 },
 
-    // Special offers
+    // Shop & collections
+    { url: `${BASE_URL}/shop`, lastModified: now, changeFrequency: 'daily', priority: 0.90 },
+    { url: `${BASE_URL}/combos`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${BASE_URL}/luxury-perfume`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
+
+    // Special offers & promos
     { url: `${BASE_URL}/buy-two-get-free`, lastModified: now, changeFrequency: 'weekly', priority: 0.90 },
     { url: `${BASE_URL}/buy-three-get-gifts`, lastModified: now, changeFrequency: 'weekly', priority: 0.90 },
     { url: `${BASE_URL}/buy-one-get-one-free`, lastModified: now, changeFrequency: 'weekly', priority: 0.90 },
-
-    // Static pages
-    { url: `${BASE_URL}/combos`, lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
-    { url: `${BASE_URL}/shop`, lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
-    { url: `${BASE_URL}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
-    { url: `${BASE_URL}/cart`, lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
-    { url: `${BASE_URL}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
-    { url: `${BASE_URL}/privacy-policy`, lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
-    { url: `${BASE_URL}/terms-and-conditions`, lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
-    { url: `${BASE_URL}/returns-and-refunds-policy`, lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
-    { url: `${BASE_URL}/disclaimer`, lastModified: now, changeFrequency: 'monthly', priority: 0.50 },
-    { url: `${BASE_URL}/login`, lastModified: now, changeFrequency: 'monthly', priority: 0.50 },
-    { url: `${BASE_URL}/search`, lastModified: now, changeFrequency: 'monthly', priority: 0.50 },
-
-    // Blog
-    { url: `${BASE_URL}/blogs`, lastModified: now, changeFrequency: 'weekly', priority: 0.80 },
-    { url: `${BASE_URL}/blogs/art-of-wearing-seductive-fragrance-with-confidence`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
-    { url: `${BASE_URL}/blogs/how-to-choose-perfume-based-on-your-personality`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
-    { url: `${BASE_URL}/blogs/craft-a-mysterious-persona-through-scent`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
-    { url: `${BASE_URL}/blogs/arabic-attar-perfume-for-men-for-eid-2026`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
-    { url: `${BASE_URL}/blogs/eau-de-parfum-fragrances-for-romantic-evenings`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
-    { url: `${BASE_URL}/blogs/couple-perfume-set-fragrances-for-special-moments`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
-    { url: `${BASE_URL}/blogs/elevate-with-top-brands-of-perfume-for-women-eda-perfumes`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
-    { url: `${BASE_URL}/blogs/woody-perfume-for-men-for-a-lasting-afterglow`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
-    { url: `${BASE_URL}/blogs/from-ordinary-to-magnetic-best-perfume-for-men-under-1000`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
-    { url: `${BASE_URL}/blogs/bottling-main-character-energy-with-luxury-perfume-gift-sets`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
-    { url: `${BASE_URL}/blogs/wear-your-invisible-crown-with-guilty-premium-perfume-for-men`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
-    { url: `${BASE_URL}/blogs/arabic-attar-perfumes-for-ramadan-evenings`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
-    { url: `${BASE_URL}/blogs/perfume-set-for-men-to-command-a-room`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
-
-    // Luxury perfume
-    { url: `${BASE_URL}/luxury-perfume`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
-
-    // Eid offers
     { url: `${BASE_URL}/eid-offers`, lastModified: now, changeFrequency: 'weekly', priority: 0.90 },
+    { url: `${BASE_URL}/valentine-gift-pack`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${BASE_URL}/couple-perfume-set`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${BASE_URL}/eau-de-parfum`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${BASE_URL}/long-lasting-perfume-for-men-and-women`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${BASE_URL}/best-perfume-for-men`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
+
+    // Core pages
+    { url: `${BASE_URL}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+    { url: `${BASE_URL}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+    { url: `${BASE_URL}/cart`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/checkout`, lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+
+    // Blog index
+    { url: `${BASE_URL}/blogs`, lastModified: now, changeFrequency: 'weekly', priority: 0.80 },
+
+    // Legal & utility
+    { url: `${BASE_URL}/privacy-policy`, lastModified: now, changeFrequency: 'monthly', priority: 0.50 },
+    { url: `${BASE_URL}/terms-and-conditions`, lastModified: now, changeFrequency: 'monthly', priority: 0.50 },
+    { url: `${BASE_URL}/returns-and-refunds-policy`, lastModified: now, changeFrequency: 'monthly', priority: 0.50 },
+    { url: `${BASE_URL}/disclaimer`, lastModified: now, changeFrequency: 'monthly', priority: 0.40 },
+    { url: `${BASE_URL}/login`, lastModified: now, changeFrequency: 'monthly', priority: 0.30 },
+    { url: `${BASE_URL}/search`, lastModified: now, changeFrequency: 'monthly', priority: 0.40 },
   ];
 
   // Dynamic product pages (auto-fetched from WooCommerce)
@@ -85,31 +78,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.64,
   }));
 
-  // Dynamic blog pages from WordPress (merged with static blog entries above)
+  // Dynamic blog pages from WordPress (auto-fetched, no hardcoding needed)
   const wpBlogs = await fetchAllBlogSlugs();
-  const staticBlogSlugs = new Set([
-    'art-of-wearing-seductive-fragrance-with-confidence',
-    'how-to-choose-perfume-based-on-your-personality',
-    'craft-a-mysterious-persona-through-scent',
-    'arabic-attar-perfume-for-men-for-eid-2026',
-    'eau-de-parfum-fragrances-for-romantic-evenings',
-    'couple-perfume-set-fragrances-for-special-moments',
-    'elevate-with-top-brands-of-perfume-for-women-eda-perfumes',
-    'woody-perfume-for-men-for-a-lasting-afterglow',
-    'from-ordinary-to-magnetic-best-perfume-for-men-under-1000',
-    'bottling-main-character-energy-with-luxury-perfume-gift-sets',
-    'wear-your-invisible-crown-with-guilty-premium-perfume-for-men',
-    'arabic-attar-perfumes-for-ramadan-evenings',
-    'perfume-set-for-men-to-command-a-room',
-  ]);
-  const wpBlogPages: MetadataRoute.Sitemap = wpBlogs
-    .filter((b) => !staticBlogSlugs.has(b.slug))
-    .map((b) => ({
-      url: `${BASE_URL}/blogs/${b.slug}`,
-      lastModified: b.modified,
-      changeFrequency: 'monthly',
-      priority: 0.70,
-    }));
+  const wpBlogPages: MetadataRoute.Sitemap = wpBlogs.map((b) => ({
+    url: `${BASE_URL}/blogs/${b.slug}`,
+    lastModified: b.modified,
+    changeFrequency: 'monthly',
+    priority: 0.70,
+  }));
 
   return [...staticPages, ...productPages, ...wpBlogPages];
 }
