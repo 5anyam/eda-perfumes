@@ -15,7 +15,7 @@ export default function StickyCheckoutBar() {
   if (!isCartLoaded || items.length === 0) return null;
 
   // On offer pages, only enable checkout when the offer bundle is complete (has free items in cart)
-  const offerPaths = ['/eid-offers', '/buy-one-get-one-free', '/buy-two-get-free', '/buy-three-get-gifts'];
+  const offerPaths = ['/buy-one-get-one-free', '/buy-two-get-free', '/buy-three-get-gifts'];
   const isOfferPage = offerPaths.some(p => pathname.startsWith(p));
   const hasCompletedOffer = items.some(item => parseFloat(item.price) === 0);
   const isCheckoutDisabled = isOfferPage && !hasCompletedOffer;

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { X, Tag } from 'lucide-react';
 
-const HIDDEN_PATHS = ['/eid-offers', '/buy-one-get-one-free', '/buy-two-get-free', '/buy-three-get-gifts'];
+const HIDDEN_PATHS = ['/buy-one-get-one-free', '/buy-two-get-free', '/buy-three-get-gifts'];
 
 export default function AnnouncementBar() {
   const pathname = usePathname();

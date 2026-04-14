@@ -284,10 +284,10 @@ export default function BlogArticle() {
           {/* CTA */}
           <div className="text-center mt-8 sm:mt-10">
             <Link
-              href="/eid-offers"
+              href="/shop"
               className="inline-block px-6 sm:px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-rose-500 to-pink-600 text-white font-semibold rounded-full hover:from-rose-600 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl"
             >
-              Explore Eid Special Offers
+              Explore Our Collection
             </Link>
           </div>
         </article>

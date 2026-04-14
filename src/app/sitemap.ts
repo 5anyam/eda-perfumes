@@ -44,7 +44,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/buy-two-get-free`, lastModified: now, changeFrequency: 'weekly', priority: 0.90 },
     { url: `${BASE_URL}/buy-three-get-gifts`, lastModified: now, changeFrequency: 'weekly', priority: 0.90 },
     { url: `${BASE_URL}/buy-one-get-one-free`, lastModified: now, changeFrequency: 'weekly', priority: 0.90 },
-    { url: `${BASE_URL}/eid-offers`, lastModified: now, changeFrequency: 'weekly', priority: 0.90 },
     { url: `${BASE_URL}/valentine-gift-pack`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
     { url: `${BASE_URL}/couple-perfume-set`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
     { url: `${BASE_URL}/eau-de-parfum`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
