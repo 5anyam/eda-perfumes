@@ -10,6 +10,7 @@ import { Suspense } from 'react';
 import Whatsapp from '../../components/Whatsapp';
 import CartDrawer from '../../components/CartDrawer';
 import StickyCheckoutBar from '../../components/StickyCheckoutBar';
+import SiteChrome from '../../components/SiteChrome';
 
 
 export const metadata = {
@@ -238,15 +239,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <ReactQueryProvider>
           <CartProvider>
-            <AnnouncementBar />
-            <Header />
-            <main role="main">
+            <SiteChrome
+              top={
+                <>
+                  <AnnouncementBar />
+                  <Header />
+                </>
+              }
+              bottom={
+                <>
+                  <Footer />
+                  <Whatsapp />
+                  <CartDrawer />
+                  <StickyCheckoutBar />
+                </>
+              }
+            >
               {children}
-            </main>
-            <Footer />
-            <Whatsapp/>
-            <CartDrawer />
-            <StickyCheckoutBar />
+            </SiteChrome>
 
 
             {/* Facebook Pixel Route Tracking */}

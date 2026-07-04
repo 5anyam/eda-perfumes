@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import HomeClient from './HomeClient';
+import ComingSoon from '../../components/ComingSoon';
 import PageSchemas from '../../components/PageSchemas';
-import { fetchWPPageOptions, fetchPageSeo } from '../../lib/wordpress-blog';
+import { fetchPageSeo } from '../../lib/wordpress-blog';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,7 +47,6 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function HomePage() {
-  const options = await fetchWPPageOptions('home');
-  return <><PageSchemas slug="home" /><HomeClient options={options} /></>;
+export default function HomePage() {
+  return <><PageSchemas slug="home" /><ComingSoon /></>;
 }
